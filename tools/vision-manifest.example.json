@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "runtime": {
+    "kind": "llama-mtmd-cli",
+    "identity": "OWNER_PROVISIONED_LLAMA_CPP_BUILD",
+    "version": "EXACT_COMMIT_OR_RELEASE",
+    "path": "/absolute/path/to/llama-mtmd-cli",
+    "sha256": "REPLACE_WITH_VERIFIED_SHA256",
+    "license": "RECORD_RUNTIME_LICENSE",
+    "provenance": "RECORD_SOURCE_URL_AND_BUILD_RECEIPT"
+  },
+  "model": {
+    "identity": "EXACT_MODEL_REPOSITORY_AND_REVISION",
+    "quantization": "EXACT_QUANTIZATION",
+    "path": "/absolute/path/to/model.gguf",
+    "sha256": "REPLACE_WITH_VERIFIED_SHA256",
+    "license": "RECORD_MODEL_LICENSE",
+    "provenance": "RECORD_APPROVED_SOURCE_URL"
+  },
+  "projector": {
+    "identity": "EXACT_MATCHING_PROJECTOR_REVISION",
+    "path": "/absolute/path/to/mmproj.gguf",
+    "sha256": "REPLACE_WITH_VERIFIED_SHA256",
+    "license": "RECORD_PROJECTOR_LICENSE",
+    "provenance": "RECORD_APPROVED_SOURCE_URL"
+  },
+  "resources": {"minimumRAMGiB": 8, "threads": 4}
+}

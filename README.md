@@ -1,10 +1,25 @@
-# SOCCERWEB
+<p align="center">
+  <img src="docs/assets/soccerweb-banner.svg" alt="SOCCERWEB — The beautiful game. Pure web standards." width="100%">
+</p>
 
-**New:** [GOALPOSTS arcade mode](docs/GOALPOSTS.md) · [USB SNES controller test & calibration](docs/CONTROLLERS.md).
+<p align="center">
+  <a href="https://qsolkcb.github.io/Soccerweb/"><strong>Play SOCCERWEB</strong></a> ·
+  <a href="docs/CONTROLS.md">Controls</a> ·
+  <a href="docs/CONTROLLERS.md">USB SNES setup</a> ·
+  <a href="docs/TOURNAMENT-LAB-001.md">Tournament Lab</a> ·
+  <a href="LICENSE">Apache-2.0</a>
+</p>
 
-**The beautiful game. Pure web standards.** An original QSOL–IMC arcade football game inspired by the responsiveness, banana shots, indoor walls and weather of classic overhead football.
+Curl a shot around the keeper. Bounce a pass off the indoor wall. Chase a goal that refuses to stay put. **SOCCERWEB** is an original QSOL–IMC arcade football game built for quick matches, local rivalries and one-more-goal afternoons.
 
-Native HTML, CSS, JavaScript modules, Canvas 2D and Web Audio. No game engine, npm dependencies, build tool, backend, account, telemetry, external fonts or runtime network service. Apache-2.0.
+**Open the page. Pick your club. Play.** Native HTML, CSS, JavaScript modules, Canvas 2D and Web Audio—no game engine, npm build, account, backend, telemetry, external fonts or runtime network service. After a successful first load, the service worker keeps the game available offline.
+
+| Take to the pitch | Change the rules | Bring a friend |
+| --- | --- | --- |
+| Outdoor **11 v 11**, rain and curling shots | Indoor **6 v 6**, quick feet and rebounding walls | Two players, independent keyboard or controller layouts |
+| Eight fictional clubs, three AI levels, Cup and Challenge | **GOALPOSTS:** three stages of moving and resizing targets | Common USB SNES preset, live button/axis testing and saved remapping |
+
+**For the curious:** the new [Tournament Lab](docs/TOURNAMENT-LAB-001.md) runs reproducible AI fixtures, turns telemetry into a review queue, and samples real browser frames. It is a developer tool; ordinary play needs none of its tooling. Local vision review is optional and disabled by default.
 
 ## Play locally
 
@@ -30,7 +45,7 @@ Select your club, choose a ground and press **LET’S PLAY**, or open **Practice
 
 The controls can be remapped independently in **Settings**. Turn before releasing a shot to aim. During flight, use left/right or curve buttons for aftertouch. To play a long lofted pass, charge the kick button and press the dedicated pass button before releasing. Meet an aerial ball for a volley; kick while moving away from the opposition goal for an overhead attempt. See [the control guide](docs/CONTROLS.md).
 
-## Included modes and systems
+## Inside the clubhouse
 
 - Outdoor 11-versus-11 with throw-ins, corners, goal kicks, two halves and full time.
 - Indoor 6-versus-6 with a smaller pitch, faster movement and rebounding walls.
@@ -45,6 +60,19 @@ The controls can be remapped independently in **Settings**. Turn before releasin
 - Six original layered music themes and impact-sensitive synthesized effects, with independent volume controls.
 - Automatic slow-motion goal replays and export/import of complete tick-indexed input replays.
 - Local settings and competition progress; service-worker caching for offline use after the first successful load.
+
+## The game plays itself. The evidence tells the story.
+
+The [Tournament Lab](docs/TOURNAMENT-LAB-001.md) uses the same deterministic football simulation as the game. Its 96 / 1,000 / 10,000-fixture presets support mirrored teams, seeded weather, safe resume and independent CPU shards. Open the resulting `index.html` locally to explore results, possession, side bias and reproducible anomaly candidates.
+
+```sh
+mkdir -p work
+node tools/tournament_lab.mjs --out work/tournament-quick --verify
+# An explicit, bounded 1,000-match sweep:
+node tools/tournament_lab.mjs --preset medium --budget-seconds 1200 --out work/tournament-1000
+```
+
+The [lab guide](docs/TOURNAMENT-LAB-001.md) records executed counts, throughput, limitations and commands for sparse Chromium/Firefox captures. A 10,000-fixture preset is a supported limit, not a claim that it has been benchmarked. No model downloads, GPU jobs or remote inference happen automatically.
 
 ## Verification
 
@@ -72,7 +100,7 @@ Linux hosts may also need `python -m playwright install --with-deps chromium fir
 
 [`.github/workflows/pages.yml`](.github/workflows/pages.yml) tests every PR. A push of relevant game files to `main`, or a manual run on `main`, deploys the static artifact **only after both regression and real-browser checks pass**. Feature-branch runs and pull requests cannot deploy. Pages must use **GitHub Actions** as its source (already configured for this repository).
 
-The configured destination is `https://qsolkcb.github.io/Soccerweb/`. This is a deployment target, not a claim that this unmerged feature branch is live there. The PR must be reviewed and merged by the owner before the default-branch workflow can deploy it.
+The play link opens the version deployed from verified `main`. Feature-branch changes appear only after owner review, merge and a successful deployment. Tournament scripts, models, raw evidence and the README banner are development/documentation assets; they are excluded from the packaged game.
 
 The worker precaches only local runtime assets, retains a coherent app version, and removes only this repository's old caches. New workers wait until older tabs close; reopen the game to activate an update. Bump the cache version in `sw.js` whenever runtime files change. Browser installation UI varies; cached play does not require installation.
 

@@ -1,0 +1,82 @@
+name: Tournament lab (owner, protected main only)
+on:
+  workflow_dispatch:
+    inputs:
+      preset:
+        description: Explicit CPU sweep size (large means 10000 total fixtures)
+        type: choice
+        options: [medium, large]
+        default: medium
+        required: true
+      budget_seconds:
+        description: Wall budget per shard, excluding setup and report upload
+        type: choice
+        options: ['600', '1200', '1800']
+        default: '1200'
+        required: true
+permissions:
+  contents: read
+concurrency:
+  group: tournament-lab-owner
+  cancel-in-progress: false
+jobs:
+  sweep:
+    # No PR event, untrusted ref, persistent self-hosted runner, secrets, write or deploy.
+    # main currently has no protection; this intentionally stays gated until owner configures it.
+    if: github.repository == 'QSOLKCB/Soccerweb' && github.actor == 'EmergentMonk' && github.ref == 'refs/heads/main' && github.ref_protected
+    runs-on: ubuntu-24.04
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        shard: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Bounded native AI sweep
+        env:
+          LAB_PRESET: ${{ inputs.preset }}
+          LAB_BUDGET: ${{ inputs.budget_seconds }}
+          LAB_SHARD: ${{ matrix.shard }}
+        run: |
+          case "$LAB_PRESET" in medium|large) ;; *) exit 1;; esac
+          case "$LAB_BUDGET" in 600|1200|1800) ;; *) exit 1;; esac
+          mkdir -p work
+          node tools/tournament_lab.mjs --preset "$LAB_PRESET" --budget-seconds "$LAB_BUDGET" --shard-count 4 --shard-index "$LAB_SHARD" --out work/lab --verify
+      - name: Enforce per-shard artifact size
+        if: always()
+        id: size
+        run: test "$(du -sm work/lab | cut -f1)" -le 128
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always() && steps.size.outcome == 'success'
+        with:
+          name: tournament-shard-${{ matrix.shard }}
+          path: work/lab/
+          retention-days: 7
+          compression-level: 9
+  merge:
+    needs: sweep
+    if: always() && needs.sweep.result != 'skipped' && needs.sweep.result != 'cancelled'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          pattern: tournament-shard-*
+          path: work/shards
+      - name: Canonical merge (partial or failed shards cannot become PASS)
+        run: node tools/tournament_lab.mjs merge --inputs work/shards/tournament-shard-0,work/shards/tournament-shard-1,work/shards/tournament-shard-2,work/shards/tournament-shard-3 --out work/merged
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: tournament-merged
+          path: work/merged/
+          retention-days: 7
+          compression-level: 9

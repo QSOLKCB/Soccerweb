@@ -6,7 +6,7 @@ import vm from 'node:vm';
 const root=new URL('../',import.meta.url);
 function files(dir){return fs.readdirSync(dir,{withFileTypes:true}).flatMap(e=>e.isDirectory()&&!['.git','work','.openai'].includes(e.name)?files(path.join(dir,e.name)):e.isFile()?[path.join(dir,e.name)]:[]);}
 test('all runtime imports resolve locally and work under a Pages subpath',()=>{
-  for(const file of files(root.pathname).filter(f=>f.endsWith('.mjs')&&!f.includes('/tests/'))){
+  for(const file of files(root.pathname).filter(f=>f.endsWith('.mjs')&&!f.includes('/tests/')&&!f.includes('/tools/'))){
     const src=fs.readFileSync(file,'utf8');for(const [,ref]of src.matchAll(/(?:from\s+|new URL\()['"]([^'"]+)['"]/g)){
       assert.ok(ref.startsWith('.'),`External runtime import: ${ref}`);assert.ok(fs.existsSync(path.resolve(path.dirname(file),ref)),`${file}: ${ref}`);
       const url=new URL(ref,'https://example.github.io/Soccerweb/'+path.relative(root.pathname,file));assert.ok(url.pathname.startsWith('/Soccerweb/'));
@@ -17,8 +17,9 @@ test('all runtime imports resolve locally and work under a Pages subpath',()=>{
 });
 test('offline precache covers every executable runtime module and HTML asset',()=>{
   const source=fs.readFileSync(new URL('sw.js',root),'utf8');const refs=[...source.matchAll(/'\.\/([^']*)'/g)].map(m=>m[1]);
+  assert.ok(refs.every(ref=>!ref.startsWith('tools/')&&!ref.startsWith('docs/')), 'Development lab and README art must not enter runtime cache');
   for(const ref of refs)if(ref)assert.ok(fs.existsSync(new URL(ref,root)),`Missing cache asset ${ref}`);
-  for(const file of files(root.pathname).filter(f=>f.endsWith('.mjs')&&!f.includes('/tests/')))assert.ok(refs.includes(path.relative(root.pathname,file)),`Uncached module ${file}`);
+  for(const file of files(root.pathname).filter(f=>f.endsWith('.mjs')&&!f.includes('/tests/')&&!f.includes('/tools/')))assert.ok(refs.includes(path.relative(root.pathname,file)),`Uncached module ${file}`);
   for(const file of ['index.html','style.css','icon.svg','manifest.webmanifest'])assert.ok(refs.includes(file));
   const manifest=JSON.parse(fs.readFileSync(new URL('manifest.webmanifest',root),'utf8'));assert.equal(manifest.scope,'./');assert.equal(manifest.start_url,'./');
 });
