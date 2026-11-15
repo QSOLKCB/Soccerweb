@@ -129,3 +129,27 @@ test('a report write failure retains diagnostics and cannot leave a PASS receipt
  assert.equal(spawnSync(process.execPath,args).status,0);fs.unlinkSync(path.join(out,'analysis.json'));fs.mkdirSync(path.join(out,'analysis.json'));
  assert.equal(spawnSync(process.execPath,[...args,'--resume']).status,1);const receipt=readJSON(path.join(out,'receipt.json'));assert.equal(receipt.status,'FAIL');assert.ok(receipt.diagnostic);assert.equal(loadRun(out).rows.length,4);
 });
+test('regenerating a completed individual shard report preserves assignment and PASS',t=>{
+ const dir=temp(t),input=path.join(dir,'input'),out=path.join(dir,'report');const manifest=shard(input,1,2);
+ const receipt={schema:1,source,status:'PASS',fixtures:2,expected:2,journalSHA256:digest(fs.readFileSync(path.join(input,'fixtures.ndjson')))};atomic(path.join(input,'receipt.json'),receipt);
+ const result=spawnSync(process.execPath,['tools/tournament_lab.mjs','report','--inputs',input,'--out',out],{encoding:'utf8'});assert.equal(result.status,0,result.stderr);
+ assert.deepEqual(readJSON(path.join(out,'manifest.json')),manifest);assert.equal(loadReceipt(out).status,'PASS');assert.match(fs.readFileSync(path.join(out,'index.html'),'utf8'),/2\/2 assigned fixtures completed \(4 scheduled overall; shard 2\/2\)/);
+});
+test('capture planning rejects missing, partial and failed native verification receipts',t=>{
+ const dir=temp(t),out=path.join(dir,'run');
+ assert.equal(spawnSync(process.execPath,['tools/tournament_lab.mjs','--out',out,'--max-fixtures','4','--seconds','20','--verify']).status,0);
+ const command=['tools/tournament_capture_plan.mjs',out,'2','1'],file=path.join(out,'receipt.json'),receipt=readJSON(file);
+ assert.equal(spawnSync(process.execPath,command).status,0);
+ fs.unlinkSync(file);assert.equal(spawnSync(process.execPath,command).status,1);
+ atomic(file,{...receipt,status:'PARTIAL'});assert.equal(spawnSync(process.execPath,command).status,1);
+ atomic(file,{...receipt,verification:[]});assert.equal(spawnSync(process.execPath,command).status,1);
+ atomic(file,{...receipt,status:'FAIL',verification:receipt.verification.map(v=>({...v,status:'FAIL'}))});assert.equal(spawnSync(process.execPath,command).status,1);
+});
+test('a clean checkout resumes with its own unignored output without changing code provenance',t=>{
+ const dir=temp(t),repo=path.join(dir,'repo');fs.mkdirSync(repo);
+ for(const folder of ['game','ai','simulation','modes','replay','render','tools'])fs.cpSync(new URL('../'+folder,import.meta.url),path.join(repo,folder),{recursive:true});
+ const git=(...args)=>execFileSync('git',args,{cwd:repo,stdio:'ignore'});git('init');git('add','.');git('-c','user.name=Lab Test','-c','user.email=lab@example.invalid','commit','-m','Clean test source');
+ const args=['tools/tournament_lab.mjs','--out','results','--max-fixtures','4','--seconds','20'];
+ const first=spawnSync(process.execPath,args,{cwd:repo,encoding:'utf8'});assert.equal(first.status,0,first.stderr);const manifest=readJSON(path.join(repo,'results/manifest.json'));assert.equal(manifest.source.dirty,false);
+ const resumed=spawnSync(process.execPath,[...args,'--resume'],{cwd:repo,encoding:'utf8'});assert.equal(resumed.status,0,resumed.stderr);assert.deepEqual(readJSON(path.join(repo,'results/manifest.json')).source,manifest.source);
+});

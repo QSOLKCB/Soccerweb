@@ -62,7 +62,15 @@ function lock(dir){
  fs.writeFileSync(file,JSON.stringify({pid:process.pid,host:os.hostname()}),{flag:'wx'});return()=>fs.unlinkSync(file);
 }
 export async function execute(o){
- if(o.command!=='run'){
+ if(o.command==='report'){
+  const {manifest,rows}=loadRun(o.inputs[0]),receipt=loadReceipt(o.inputs[0]);
+  fs.mkdirSync(o.out,{recursive:false});atomic(path.join(o.out,'manifest.json'),manifest);
+  atomic(path.join(o.out,'fixtures.ndjson'),rows.map(r=>JSON.stringify(r)+'\n').join(''));
+  writeReport(o.out,manifest,rows,receipt.status);
+  atomic(path.join(o.out,'receipt.json'),{...receipt,report:{source:source(),inputJournalSHA256:receipt.journalSHA256}});
+  return receipt.status==='PASS'?0:receipt.status==='FAIL'?1:2;
+ }
+ if(o.command==='merge'){
   const merged=mergeRuns(o.inputs),receipts=o.inputs.map(d=>loadReceipt(d));fs.mkdirSync(o.out,{recursive:false});
   atomic(path.join(o.out,'manifest.json'),merged.manifest);
   atomic(path.join(o.out,'fixtures.ndjson'),merged.rows.map(r=>JSON.stringify(r)+'\n').join(''));

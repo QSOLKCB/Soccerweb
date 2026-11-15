@@ -17,9 +17,9 @@ export function atomic(file,value){
 export function source(){
  const git=(...args)=>execFileSync('git',args,{cwd:ROOT,encoding:'utf8'}).trim();
  const files=[];
- for(const dir of ['game','ai','simulation','modes','replay','render','tools'])for(const f of fs.readdirSync(path.join(ROOT,dir)))if(/\.(mjs|py|html)$/.test(f))files.push(`${dir}/${f}`);
+ for(const dir of ['game','ai','simulation','modes','replay','render','tools'])for(const f of fs.readdirSync(path.join(ROOT,dir)))if(/\.(mjs|py|html)$/.test(f)&&fs.statSync(path.join(ROOT,dir,f)).isFile())files.push(`${dir}/${f}`);
  files.sort();
- return {sha:git('rev-parse','HEAD'),dirty:!!git('status','--porcelain'),codeSHA256:digest(files.map(f=>[f,digest(fs.readFileSync(path.join(ROOT,f)))]))};
+ return {sha:git('rev-parse','HEAD'),dirty:!!git('status','--porcelain','--untracked-files=all','--',...files),codeSHA256:digest(files.map(f=>[f,digest(fs.readFileSync(path.join(ROOT,f)))]))};
 }
 export function validateSource(s){if(!s||!/^[a-f0-9]{40}$/.test(s.sha)||!/^[a-f0-9]{64}$/.test(s.codeSHA256)||typeof s.dirty!=='boolean')throw Error('Invalid source provenance');}
 export function validateRow(row,expected,provenance){

@@ -47,7 +47,7 @@ The default quick preset is **exactly** the old 96-fixture season order: outdoor
 
 Expanded schedules repeat the ground/difficulty/seed grid, alternate clear/rain by cycle, rotate the opposition after each clear/rain pair, and increment seeds after all seven opponents. Each adjacent even/odd ID is a mirrored pair with identical ground, difficulty, weather and seed. Indoor rain is a recorded config stratum, not a claim that indoor physics uses rain. Arbitrary even prefixes may weight some strata unevenly; the report exposes denominators. Shards can split pairs; paired-bias analysis uses complete pairs only. Fixture order depends on configuration, never worker speed or completion order. Parallelism is explicit independent CPU processes/shards, without a thread pool or npm worker package.
 
-`manifest.json` records schema 1, simulation/replay 5, canonical options, shard, schedule SHA256 and source provenance. Provenance includes Git HEAD, dirty-tree status and a SHA256 over sorted simulation, AI, mode, replay, renderer and lab source-file digests. The code digest makes a dirty run distinguishable; release evidence should use a clean checkout. Git SHA alone is not a claim about uncommitted code.
+`manifest.json` records schema 1, simulation/replay 5, canonical options, shard, schedule SHA256 and source provenance. Provenance includes Git HEAD, dirty status for fingerprinted executable files, and a SHA256 over sorted simulation, AI, mode, replay, renderer and lab source-file digests. The code digest makes modified lab code distinguishable; release evidence should use a clean checkout. Generated output and unrelated documentation files do not affect this code-specific dirty flag, so an unignored output directory cannot invalidate its own resume. Git SHA alone is not a claim about uncommitted code.
 
 `fixtures.ndjson` holds one sealed JSON row per attempted completed/failed fixture:
 
@@ -68,7 +68,7 @@ node tools/tournament_lab.mjs merge --inputs work/s1,work/s0 --out work/merged
 node tools/tournament_lab.mjs report --inputs work/merged --out work/report-copy
 ```
 
-Independent shards may run concurrently. Merge sorts by fixture ID and rejects duplicate shards/fixtures, mismatched code/config/shard counts, corruption and false PASS receipts. Missing fixtures, failed shards and incomplete verification cannot be promoted to PASS. Raw per-shard receipts remain nested in the merged receipt, preserving each environment and timing. Parallel wall time is not the sum of shard times; inspect individual sessions. To merge an interrupted process whose receipt lags, resume it first to reconcile its journal and receipt.
+Independent shards may run concurrently. Merge sorts by fixture ID and rejects duplicate shards/fixtures, mismatched code/config/shard counts, corruption and false PASS receipts. Missing fixtures, failed shards and incomplete verification cannot be promoted to PASS. Raw per-shard receipts remain nested in the merged receipt, preserving each environment and timing. Parallel wall time is not the sum of shard times; inspect individual sessions. To merge an interrupted process whose receipt lags, resume it first to reconcile its journal and receipt. The separate `report` command preserves an individual shard’s assignment, denominator and status; it does not turn that shard into a partial whole-tournament merge.
 
 ## What the report means
 
@@ -104,13 +104,13 @@ python tools/tournament_capture.py --run work/quick --out work/quick-chromium --
 python tools/tournament_capture.py --run work/quick --out work/quick-firefox --limit 2 --controls 1 --browser firefox
 ```
 
-Capture validates receipts against the current checkout. At most **8 fixtures × 3 PNGs**, 32 MiB total, 240-second loop budget; a workflow supplies an additional job timeout. It chooses priority anomalies plus SHA256-ranked pseudorandom controls, reproducibly and without replacement. Each event window samples trigger−30, trigger, trigger+30 ticks, clamped to the match. Limited samples cannot establish whole-game visual correctness.
+Capture validates the run receipt against the current checkout and requires PASS, including every requested representative verification. Missing, partial, failed or inconsistent receipts are rejected before opening a browser. At most **8 fixtures × 3 PNGs**, 32 MiB total, 240-second loop budget; a workflow supplies an additional job timeout. It chooses priority anomalies plus SHA256-ranked pseudorandom controls, reproducibly and without replacement. Each event window samples trigger−30, trigger, trigger+30 ticks, clamped to the match. Limited samples cannot establish whole-game visual correctness.
 
 The narrow read-only harness re-simulates production AI from config with no injected score, position or outcome, uses production `Renderer.draw`, and warms the camera/trail for 120 ticks before each sample. It asserts rendering did not mutate the simulation and compares the final state hash/tick with the native receipt in each browser. Images are **genuine rendered Canvas screenshots**, not authored state snapshots or real-time clips. The inspection page omits app HUD, menus and audio and does not measure RAF smoothness. Existing full app browser tests still cover those flows. This adapter cannot assess HUD occlusion or physical displays.
 
 `report.json`, `plan.json` and the portable `index.html` include source, fixture checksum, tick/active-time mapping, viewport, DPR, browser/version, camera/ball projection, image size/SHA256 and page errors. The non-VLM baseline asserts sampled Canvas color diversity/variance to reject blank output, reports downsampled channel-change fraction between frames, and records known ball/camera geometry. Pixel-change statistics are diagnostic, not proof of a freeze or animation bug. No cross-browser bit-identical rasterization is assumed.
 
-## Optional local vision: disabled unless provisioned
+## Optional local vision: adapter scaffold, disabled unless provisioned
 
 ```sh
 # This works without a model or browser evidence and explicitly records SKIPPED:
@@ -118,6 +118,8 @@ node tools/vision_audit.mjs --out work/vision-skipped
 # Only after the owner has approved/provisioned a trusted local runtime and model:
 node tools/vision_audit.mjs --captures work/quick-chromium --out work/local-audit --config /absolute/path/to/approved-local-manifest.json
 ```
+
+This tier delivers the manifest-validated adapter and mocked tests. A concrete selected/pinned model/runtime/projector combination and temporal multi-frame vision review are **deferred**; the delivered example cannot enable real inference reproducibly by itself. Moving GOALPOSTS geometry and goalkeeper freezing are not evaluated by this still-image regulation-match adapter. The issue permits verified lower tiers when provisioning is unavailable; simulation and sampled-browser evidence are the completed tiers.
 
 No remote API, HTTP inference endpoint, automatic downloads, weights or GPU runner is included. The adapter executes an explicitly pinned **installed llama.cpp `llama-mtmd-cli`** directly without a shell. Start from `tools/vision-manifest.example.json`; it is intentionally invalid until the owner supplies exact identities/revisions, quantization, runtime version, absolute paths, SHA256 digests, licenses and provenance for runtime, model and matching vision projector. File hashes are streamed and checked before invocation; missing provisioning or insufficient declared available RAM returns SKIPPED. Hash/license/provenance configuration errors return an auditable ERROR.
 
@@ -144,6 +146,6 @@ Future GPU setup requires explicit owner approval **before** installation or reg
 
 The unchanged 96-fixture post-#7 baseline completed in **40.08 seconds** wall / **41.17 seconds** CPU on the local Linux host (Node 24.22.1, AMD EPYC 9V74 virtual CPU, five logical CPUs, roughly 17.6 GiB RAM). Peak child-process RSS was **73,524 KiB**. Every fixture reached full time. The first new-runner comparison matched **all legacy fields and hashes exactly**, before adding analytics.
 
-[Golden report](evidence/tournament-lab/golden-season.json) · [baseline measurement](evidence/tournament-lab/baseline-measurement.json). **The measured 1,000-fixture run passed:** 8,879,500 ticks in 432.028 seconds, 2.315 fixtures/s, 20,553 ticks/s, 101,872 KiB peak RSS including report generation, and 12/12 exact reruns. [The evidence record](evidence/tournament-lab/README.md) preserves the full raw run bundle, exact source boundaries, checksums, 129 passing native tests, and genuine Chromium/Firefox capture receipts. A supported 10,000-fixture preset is not an executed performance result.
+[Golden report](evidence/tournament-lab/golden-season.json) · [baseline measurement](evidence/tournament-lab/baseline-measurement.json). **The measured 1,000-fixture run passed:** 8,879,500 ticks in 432.028 seconds, 2.315 fixtures/s, 20,553 ticks/s, 101,872 KiB peak RSS including report generation, and 12/12 exact reruns. [The evidence record](evidence/tournament-lab/README.md) preserves the full raw run bundle, exact source boundaries, checksums, 132 passing native tests (with separate source receipts for the initial run and review fixes), and genuine Chromium/Firefox capture receipts. A supported 10,000-fixture preset is not an executed performance result.
 
 **10,000-fixture performance run, real VLM inference, GPU performance, human play/listening, physical USB SNES hardware, Safari and laptop profiling: NOT RUN.** Browser verification uses genuine hosted Chromium/Firefox with virtual inputs where appropriate. No claim of human fun or fairness follows from a green automated run.
