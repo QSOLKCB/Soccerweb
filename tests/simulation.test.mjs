@@ -26,7 +26,7 @@ test('fixed timestep determinism and recorded tick inputs', () => {
     return { s, data: r.export(s) };
   };
   const a = run(), b = run(); assert.equal(stateHash(a.s), stateHash(b.s));
-  assert.equal(stateHash(a.s), '7313d98c', 'Release v2 numerical regression fixture');
+  assert.equal(stateHash(a.s), '300d8ed7', 'Release v3 numerical regression fixture');
   const replay = verifyReplay(JSON.parse(JSON.stringify(a.data))); assert.equal(stateHash(replay), stateHash(a.s));
   console.log(`Replay evidence: 4000 ticks, seed 731, final hash ${stateHash(a.s)}, ${a.data.checkpoints.length} verified checkpoints`);
 });
@@ -67,7 +67,7 @@ test('ground bounce loses vertical energy and friction slows the ball', () => {
 test('goalkeepers catch controlled shots and rebound hard shots', () => {
   for (const speed of [7, 15]) {
     const s = isolated(), p = s.players[11]; p.x = s.w / 2; p.y = 22 * Q;
-    Object.assign(s.ball, { x: p.x, y: p.y + speed * Q, vy: -speed * Q, last: 0 }); ballPhysics(s);
+    Object.assign(s.ball, { x: p.x, y: p.y + speed * Q, vy: -speed * Q, last: 0, kind: 'shot' }); ballPhysics(s);
     assert.equal(s.stats.saves[1], 1);
     if (speed === 7) assert.equal(s.ball.owner, p.id); else assert.ok(s.ball.vy > 0);
   }
@@ -90,7 +90,7 @@ test('wet turf retains more ball speed than dry turf', () => {
   ballPhysics(a); ballPhysics(b); assert.ok(b.ball.vx > a.ball.vx);
 });
 test('AI match reaches valid full time and produces real football actions', () => {
-  const s = createState({ humans: [false, false], seed: 1988, seconds: 120 });
+  const s = createState({ humans: [false, false], seed: 42, seconds: 120 });
   while (s.phase !== 'fulltime' && s.tick < 20000) step(s);
   assert.equal(s.phase, 'fulltime'); assert.equal(s.elapsed, 7200); assert.equal(s.half, 2);
   assert.ok(s.stats.shots[0] + s.stats.shots[1] > 0); assert.ok(s.stats.passes[0] > 0); assert.ok(s.score[0] + s.score[1] > 0);
@@ -104,7 +104,7 @@ test('paused host makes no simulation calls; full time is immutable', () => {
 test('replay rejects malformed input, bad checksums and unsupported versions', () => {
   const s = createState(), r = new Recorder(s); step(s); r.record(s, empty()); const data = r.export(s);
   assert.throws(() => validateReplay({...data, version: 99}));
-  assert.throws(() => validateReplay({...data, version: 1}), /Unsupported/, 'Reject recordings from the old scoring rules');
+  for(const version of [1,2])assert.throws(() => validateReplay({...data, version}), /Unsupported/, 'Reject recordings from earlier simulation rules');
   assert.throws(() => validateReplay({...data, frames: [[[99,0,0,0],[0,0,0,0]]]}));
   assert.throws(() => verifyReplay({...data, finalHash: 'deadbeef'}));
 });

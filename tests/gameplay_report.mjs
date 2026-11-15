@@ -19,7 +19,7 @@ for(const indoor of [false,true])for(const difficulty of [1,2,3])for(const seed 
       }
     }
   }
-  matches.push({indoor,difficulty,seed,score:s.score,shots:s.stats.shots,passes:s.stats.passes,saves:s.stats.saves,
+  matches.push({indoor,difficulty,seed,score:s.score,shots:s.stats.shots,passes:s.stats.passes,completedPasses:s.stats.completedPasses,saves:s.stats.saves,
     crowdedTeammatePairsPerSample:Number((crowdedPairs/Math.max(1,samples)).toFixed(3)),
     shortPossessionPercent:Math.round(shortPossessions/Math.max(1,owners)*100),phase:s.phase,ticks:s.tick,hash:stateHash(s)});
 }
