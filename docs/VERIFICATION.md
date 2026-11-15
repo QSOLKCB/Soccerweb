@@ -4,17 +4,21 @@ Date: 15 November 2026. This record distinguishes executed automation from unper
 
 ## Executed locally
 
-`node --test tests/*.test.mjs`: **33 passed, 0 failed**.
+`node --test tests/*.test.mjs`: **45 passed, 0 failed**.
 
 Coverage includes fixed-step determinism, identical replay inputs, malformed replays/checksums, power/trajectory, banana curvature, chips/long passes, volleys/overhead contact, swept goals, high balls, throw-ins/corners/goal kicks, indoor rebounds, ground bounce/friction, goalkeeper catches/rebounds, physical dribbling, switching, tackles, weather, full AI match progression, clocks/halftime/golden goal, equal diagonal speed, host pause semantics, independent keyboards, two simulated gamepads, blur/disconnect handling, remapping, Cup completion, Challenge progression, corrupted saves, audio event generation/reference PCM, relative static paths, offline precache coverage and an executed service-worker cache harness.
 
-- Replay numerical fixture: **seed 731, outdoor rain, 4,000 tick-indexed input frames, 13 checkpoints, final hash `e16bc335`**. Two independent runs agree. JSON export/import resimulation verifies every checkpoint and the final hash. The final hash is pinned as the v1 regression baseline.
+- Replay numerical fixture: **seed 731, outdoor rain, 4,000 tick-indexed input frames, 13 checkpoints, final hash `7313d98c`**. Two independent runs agree. JSON export/import resimulation verifies every checkpoint and the final hash. The final hash is pinned as the v2 regression baseline.
 - Integer audio reference: **32,000 mono signed-16-bit samples at 16 kHz; hash `789c1fd6`**. Repeated generation agrees and output is non-silent and bounded. This reference is distinct from the complete live Web Audio mix.
 - `python3 tests/package.py`: passed; packaged 19 local files plus `.nojekyll`.
 - `python3 -m py_compile tests/browser_smoke.py tests/package.py`: passed. Compilation alone is not a browser test.
 - Module syntax checks for the browser host, renderer, input, audio and competition modules passed.
 
 A separate 12-match, 120-active-second AI sweep covered both grounds, outdoor clear/rain, Club/Elite, seeds 1988/42. Every match reached full time. Outdoor results included wins, losses and draws; indoor scores ranged from 0–2 to 5–6. Several Elite outdoor games were 0–0, including one with no shots. This is evidence for further attacking/pressing balance work, not evidence of a tuned difficulty curve.
+
+The review regressions exercise the real browser host with deferred fixture completion and a stub DOM: stale successes/errors are ignored after returning home, starting Quick Match, or starting a new cup (including its newer results screen). Current successes still persist and current failures offer retry. Frame tests cover both inner posts and the crossbar at both goal ends, plus adjacent clear goals. Input tests verify that overlays release navigation keys while keeping pause shortcuts and suppressing gamepad gameplay actions.
+
+The nine selected regression cases failed against an isolated copy of the pre-fix implementation; all pass with the fixes. Replay tests also reject the older v1 scoring format. The Chromium suite now additionally navigates and activates pause/results controls with Tab, Enter and Space and resumes with Escape/P; consult the current PR check for that extended browser run.
 
 ## Browser CI
 

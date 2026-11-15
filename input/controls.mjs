@@ -6,11 +6,12 @@ export const DEFAULT_MAPS = [
 export const keyLabel = code => ({Space:'Space',Tab:'Tab',Enter:'Enter',ShiftRight:'R Shift',ControlRight:'R Ctrl',Backslash:'\\',BracketLeft:'[',BracketRight:']',ArrowUp:'↑',ArrowDown:'↓',ArrowLeft:'←',ArrowRight:'→'}[code]||code.replace('Key','').replace('Digit',''));
 export class Controls {
   constructor(onPause, maps = DEFAULT_MAPS) {
-    this.keys=new Set();this.maps=structuredClone(maps);this.active=false;this.onPause=onPause;this.capture=null;
+    this.keys=new Set();this.maps=structuredClone(maps);this.active=false;this.gameplayEnabled=true;this.onPause=onPause;this.capture=null;
     window.addEventListener('keydown',e=>{
       if(this.capture){e.preventDefault();const cb=this.capture;this.capture=null;cb(e.code);return;}
       if(!this.active)return;
       if(e.code==='Escape'||e.code==='KeyP'){e.preventDefault();if(!e.repeat)onPause();return;}
+      if(!this.gameplayEnabled)return;
       if(this.maps.some(m=>Object.values(m).includes(e.code))){e.preventDefault();this.keys.add(e.code);}
     });
     window.addEventListener('keyup',e=>this.keys.delete(e.code));
@@ -20,9 +21,11 @@ export class Controls {
     this.padPause=false;
   }
   clear(){this.keys.clear();}
+  setGameplayEnabled(enabled){this.gameplayEnabled=enabled;this.clear();}
   sample(){
     const pads=navigator.getGamepads?Array.from(navigator.getGamepads()).filter(Boolean):[];
     const pause=pads.some(p=>p.buttons[9]?.pressed);if(pause&&!this.padPause&&this.active)this.onPause();this.padPause=pause;
+    if(!this.active||!this.gameplayEnabled)return [{...EMPTY},{...EMPTY}];
     return this.maps.map((m,t)=>{
       const down=a=>this.keys.has(m[a]),p=pads[t],button=n=>!!p?.buttons[n]?.pressed;
       const axis=n=>Math.abs(p?.axes[n]||0)>.28?Math.sign(p.axes[n]):0;

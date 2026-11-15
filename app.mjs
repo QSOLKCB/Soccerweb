@@ -10,6 +10,7 @@ const $=id=>document.getElementById(id);
 const audio=new AudioEngine(),controls=new Controls(togglePause),renderer=new Renderer($('game')),preview=new Renderer($('preview'));
 let saved=readSaved('soccerweb.preferences.v1',{}),competition=readSaved('soccerweb.competition.v1',null);
 if(!saved||typeof saved!=='object')saved={};if(!validCompetition(competition))competition=null;
+let matchRun=0;
 let mode='quick',state=null,previous=null,recorder=null,playing=false,paused=false,finished=false,activeCompetition=null;
 let demo=createState({humans:[false,false],seed:1988,seconds:120,difficulty:2}),demoPrev=demo;
 let accumulator=0,last=0,demoAccumulator=0,goalFrames=[],goalPlayback=null,verifiedReplay=null,playback=null,playbackIndex=0,toastTimer;
@@ -48,7 +49,8 @@ $('sound-toggle').onclick=async()=>{if(!audio.ctx){muted=false;await audio.start
 function matchConfig(){return {seed:Number($('seed').value),indoor:$('ground').value==='indoor',weather:$('weather').value,seconds:Number($('duration').value),difficulty:Number($('difficulty').value),teams:[Number($('home-team').value),Number($('away-team').value)],humans:[true,mode==='local'],aftertouch:Number($('aftertouch').value),auto:$('selection').value==='auto'};}
 function updateContinue(){ $('continue').hidden=!competition||competition.complete; }
 function enterMatch(s,label){
-  state=s;previous=structuredClone(s);recorder=new Recorder(s);playing=true;paused=false;finished=false;controls.clear();controls.active=true;
+  matchRun++;
+  state=s;previous=structuredClone(s);recorder=new Recorder(s);playing=true;paused=false;finished=false;controls.setGameplayEnabled(true);controls.active=true;
   accumulator=0;goalFrames=[];goalPlayback=null;renderer.reset();$('menu').hidden=true;$('match').hidden=false;$('pause-overlay').hidden=true;$('result-overlay').hidden=true;$('replay-tag').hidden=true;
   $('match-kind').textContent=label;$('record-status').textContent=playback?'▶ VERIFIED PLAYBACK':'● RECORDING';
   $('game').focus();audio.start();applyOptions();$('sound-toggle').innerHTML=muted?'♫ <span>SOUND OFF</span>':'♫ <span>SOUND ON</span>';
@@ -64,12 +66,12 @@ function startMatch({continueCup=false,demoMode=false}={}){
 }
 $('kickoff').onclick=()=>startMatch();$('continue').onclick=()=>startMatch({continueCup:true});$('watch-demo').onclick=()=>startMatch({demoMode:true});
 function togglePause(force=false){
-  if(!playing||finished)return;if(force&&paused)return;paused=force||!paused;controls.clear();accumulator=0;$('pause-overlay').hidden=!paused;$('pause-button').textContent=paused?'▶ RESUME':'Ⅱ PAUSE';
+  if(!playing||finished)return;if(force&&paused)return;paused=force||!paused;controls.setGameplayEnabled(!paused);accumulator=0;$('pause-overlay').hidden=!paused;$('pause-button').textContent=paused?'▶ RESUME':'Ⅱ PAUSE';
   if(paused)$('resume').focus();else $('game').focus();
 }
 $('pause-button').onclick=()=>togglePause();$('resume').onclick=()=>togglePause();
 $('exit-match').onclick=()=>togglePause(true);
-function home(){playing=false;paused=false;controls.active=false;controls.clear();state=null;goalPlayback=null;playback=null;activeCompetition=null;$('match').hidden=true;$('menu').hidden=false;updateContinue();audio.setMode('menu');preview.reset();$('kickoff').focus();}
+function home(){matchRun++;playing=false;paused=false;controls.active=false;controls.setGameplayEnabled(false);state=null;goalPlayback=null;playback=null;activeCompetition=null;$('match').hidden=true;$('menu').hidden=false;updateContinue();audio.setMode('menu');preview.reset();$('kickoff').focus();}
 $('pause-quit').onclick=home;$('result-home').onclick=home;
 function exportReplay(){
   if(!state||!recorder)return;const data=playback||recorder.export(state),blob=new Blob([JSON.stringify(data)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
@@ -90,20 +92,24 @@ function updateHUD(){
   else banner.textContent='';
 }
 async function showResult(replayEnd=false){
-  finished=true;controls.clear();$('result-overlay').hidden=false;$('result-label').textContent=replayEnd?'REPLAY COMPLETE':'FULL TIME';
+  const resultRun=matchRun;
+  finished=true;controls.active=false;controls.setGameplayEnabled(false);$('result-overlay').hidden=false;$('result-label').textContent=replayEnd?'REPLAY COMPLETE':'FULL TIME';
   const score=state.score;$('result-title').textContent=replayEnd?'EVERY TICK VERIFIED.':score[0]===score[1]?'HONOURS EVEN.':score[0]>score[1]?'THAT’S A WIN.':'NEXT TIME, CHAMP.';
   $('result-score').textContent=`${TEAMS[state.config.teams[0]].short} ${score[0]} — ${score[1]} ${TEAMS[state.config.teams[1]].short}`;
   $('result-stats').replaceChildren();for(const [key,label] of [['shots','SHOTS'],['saves','SAVES'],['passes','PASSES']]){const div=document.createElement('div');div.textContent=state.stats[key].join(' — ');const small=document.createElement('small');small.textContent=label;div.append(small);$('result-stats').append(div);}
   const next=$('result-next');next.disabled=false;next.textContent=replayEnd?'RETURN TO CLUBHOUSE →':'PLAY AGAIN →';next.onclick=replayEnd?home:()=>startMatch();
   if(activeCompetition&&!replayEnd){
-    next.disabled=true;next.textContent='FINISHING OTHER FIXTURES…';
+    next.disabled=true;next.textContent='FINISHING OTHER FIXTURES…';$('result-export').focus();
     try{
-      const completed=await finishFixture(structuredClone(activeCompetition),score,state.config);competition=completed;save('soccerweb.competition.v1',competition);activeCompetition=structuredClone(completed);
+      const completed=await finishFixture(structuredClone(activeCompetition),score,state.config);
+      // Leaving or starting another match invalidates this asynchronous result.
+      if(resultRun!==matchRun)return;
+      competition=completed;save('soccerweb.competition.v1',competition);activeCompetition=structuredClone(completed);
       if(completed.complete){$('result-title').textContent=completed.champion===completed.team?(completed.type==='cup'?'CUP CHAMPIONS!':'CHALLENGE CONQUERED!'):'A RUN TO REMEMBER.';next.textContent='BACK TO CLUBHOUSE →';next.onclick=home;}
       else{next.textContent=`NEXT: ${nextFixture(completed).round} →`;next.onclick=()=>startMatch({continueCup:true});}
-    }catch(e){toast(e.message);next.textContent='RETRY ROUND →';next.onclick=()=>startMatch({continueCup:true});}
+    }catch(e){if(resultRun!==matchRun)return;toast(e.message);next.textContent='RETRY ROUND →';next.onclick=()=>startMatch({continueCup:true});}
     next.disabled=false;
-  }
+  }else next.focus();
 }
 function tick(){
   previous=structuredClone(state);const inputs=playback?playback.frames[playbackIndex].map(unpack):controls.sample();

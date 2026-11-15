@@ -26,7 +26,7 @@ test('fixed timestep determinism and recorded tick inputs', () => {
     return { s, data: r.export(s) };
   };
   const a = run(), b = run(); assert.equal(stateHash(a.s), stateHash(b.s));
-  assert.equal(stateHash(a.s), 'e16bc335', 'Release v1 numerical regression fixture');
+  assert.equal(stateHash(a.s), '7313d98c', 'Release v2 numerical regression fixture');
   const replay = verifyReplay(JSON.parse(JSON.stringify(a.data))); assert.equal(stateHash(replay), stateHash(a.s));
   console.log(`Replay evidence: 4000 ticks, seed 731, final hash ${stateHash(a.s)}, ${a.data.checkpoints.length} verified checkpoints`);
 });
@@ -104,6 +104,7 @@ test('paused host makes no simulation calls; full time is immutable', () => {
 test('replay rejects malformed input, bad checksums and unsupported versions', () => {
   const s = createState(), r = new Recorder(s); step(s); r.record(s, empty()); const data = r.export(s);
   assert.throws(() => validateReplay({...data, version: 99}));
+  assert.throws(() => validateReplay({...data, version: 1}), /Unsupported/, 'Reject recordings from the old scoring rules');
   assert.throws(() => validateReplay({...data, frames: [[[99,0,0,0],[0,0,0,0]]]}));
   assert.throws(() => verifyReplay({...data, finalHash: 'deadbeef'}));
 });
@@ -126,4 +127,21 @@ test('halftime swaps ends and knockout draws continue until a genuine goal',()=>
   s.phase='play';s.elapsed=1199;step(s);assert.equal(s.sudden,true);assert.equal(s.phase,'play');
   s.players.forEach(p=>{p.x=25*Q;p.y=250*Q;});Object.assign(s.ball,{owner:-1,x:s.w/2,y:s.h-Q,vx:0,vy:5*Q,z:0,vz:0});ballPhysics(s);
   assert.deepEqual(s.score,[1,0]);for(let i=0;i<150;i++)step(s);assert.equal(s.phase,'fulltime');
+});
+test('post and crossbar contacts rebound before any goal can be awarded at either end',()=>{
+  for(const end of ['top','bottom'])for(const [offset,z] of [[0,35],[-69,0],[69,0]]){
+    const s=isolated(),bottom=end==='bottom';
+    Object.assign(s.ball,{x:s.w/2+offset*Q,y:bottom?s.h-Q:Q,z:z*Q,vx:0,vy:(bottom?8:-8)*Q,vz:0});
+    ballPhysics(s);
+    assert.deepEqual(s.score,[0,0],`${end}, offset ${offset}, z ${z}`);
+    assert.equal(s.phase,'play');assert.equal(s.events.at(-1).type,'post');
+    assert.ok(bottom?s.ball.vy<0:s.ball.vy>0);
+  }
+});
+test('clear shots just inside the frame still score at either end',()=>{
+  for(const end of ['top','bottom'])for(const [offset,z] of [[0,30],[-66,0],[66,0]]){
+    const s=isolated(),bottom=end==='bottom';
+    Object.assign(s.ball,{x:s.w/2+offset*Q,y:bottom?s.h-Q:Q,z:z*Q,vx:0,vy:(bottom?8:-8)*Q,vz:0});
+    ballPhysics(s);assert.deepEqual(s.score,bottom?[0,1]:[1,0]);assert.equal(s.phase,'goal');
+  }
 });

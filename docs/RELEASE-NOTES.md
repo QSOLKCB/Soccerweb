@@ -8,6 +8,12 @@ Complete outdoor and indoor match flow, CPU and local-human opponents, eight clu
 
 The repository now includes deterministic regression tests, a real-browser CI smoke suite, static packaging, and a Pages deployment workflow that cannot publish a PR branch.
 
+## PR review corrections
+
+- Discard pending fixture successes and errors after leaving or replacing their match, preserving newer competition progress and UI.
+- Resolve post/crossbar contact before awarding a goal; clear shots inside the frame still score at both ends. Replay format is now v2 to make the scoring-rule change explicit.
+- Release gameplay keys on pause/results overlays, focus an enabled result action, and keep paused keyboard/gamepad resume shortcuts. Tab/Enter/Space can navigate and activate the controls.
+
 ## Exact limitations and next pass
 
 1. **Gameplay polish:** this is an engineering release candidate. Automated football actions and mode completion do not establish that the difficulty curve is enjoyable. Extended human playtesting and balance tuning remain necessary.
@@ -17,7 +23,7 @@ The repository now includes deterministic regression tests, a real-browser CI sm
 5. **Devices:** desktop keyboard and standard Gamepad API layouts are supported. Physical controller/disconnection behavior, Safari/Firefox and mobile installation still need a device matrix. No touch game controls, network play or accessibility alternative to real-time Canvas gameplay are provided.
 6. **Visuals:** optional CRT is a scanline overlay, not a phosphor simulator. There is no alternate low-resolution framebuffer/pixel-scaling control. Screen-reader access covers menus, controls and status, not spatial football play.
 7. **Audio:** music events and reference PCM are deterministic. The complete Web Audio mix is not bit-exact across browsers, and the reference PCM does not duplicate the live synth. Human listening/balance review remains outstanding.
-8. **Replays:** format v1 is tied to this simulation release. No seek/scrub editor or backward-compatible migration layer is provided. Hashes are noncryptographic. Long-running live matches are not auto-saved to browser storage.
+8. **Replays:** format v2 is tied to this simulation release. Earlier v1 files are rejected after the goal-frame scoring correction. No seek/scrub editor or backward-compatible migration layer is provided. Hashes are noncryptographic. Long-running live matches are not auto-saved to browser storage.
 9. **Offline/install:** cached browser play is implemented. Install UI and SVG icon support vary by browser. First use must complete asset caching online. New cache activation waits for old tabs to close.
 10. **Release:** the feature branch is prepared for review. The protected/default branch has not been merged and the game has not been deployed from this PR. Review passing CI and manually play both ground types before approving a production release.
 

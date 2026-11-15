@@ -1,6 +1,7 @@
 import { Q, clamp, distance } from '../simulation/math.mjs';
 export const EMPTY = Object.freeze({ x: 0, y: 0, fire: false, pass: false, chip: false, switch: false, curve: 0 });
-export const VERSION = 1;
+// v2 resolves goal-frame collisions before goals; v1 recordings use different scoring rules.
+export const VERSION = 2;
 export function config(options = {}) {
   return { seed: (Number(options.seed) >>> 0) || 1988, indoor: !!options.indoor,
     weather: options.weather === 'rain' ? 'rain' : 'clear', seconds: clamp(Math.trunc(Number(options.seconds) || 120), 20, 720),

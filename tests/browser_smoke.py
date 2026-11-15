@@ -63,7 +63,20 @@ try:
         paused = snapshot(page)
         page.wait_for_timeout(300)
         assert snapshot(page)['hash'] == paused['hash']
-        page.click('#resume')
+        assert page.evaluate('document.activeElement.id') == 'resume'
+        page.keyboard.press('Tab')
+        assert page.evaluate('document.activeElement.id') == 'pause-save'
+        with page.expect_download():
+            page.keyboard.press('Enter')
+        page.keyboard.press('Tab')
+        assert page.evaluate('document.activeElement.id') == 'pause-quit'
+        page.keyboard.press('Escape')
+        assert not snapshot(page)['paused']
+        page.keyboard.press('p')
+        assert snapshot(page)['paused']
+        assert page.evaluate('document.activeElement.id') == 'resume'
+        page.keyboard.press('Space')
+        assert not snapshot(page)['paused']
         page.screenshot(path=str(artifacts / 'match.png'), full_page=True)
         # Complete a live 60-second match with the normal animation/input loop.
         page.wait_for_selector('#result-overlay:not([hidden])', timeout=240000)
@@ -72,13 +85,18 @@ try:
         assert result['state']['elapsed'] == 3600
         assert result['recordedTicks'] == result['state']['tick']
         assert page.locator('#result-score').inner_text()
+        assert page.evaluate('document.activeElement.id') == 'result-next'
+        page.keyboard.press('Tab')
+        assert page.evaluate('document.activeElement.id') == 'result-export'
         with page.expect_download() as download_info:
-            page.click('#result-export')
+            page.keyboard.press('Enter')
         replay_path = artifacts / 'match-replay.json'
         download_info.value.save_as(str(replay_path))
         replay = json.loads(replay_path.read_text())
         assert replay['finalHash'] == result['hash']
-        page.click('#result-home')
+        page.keyboard.press('Tab')
+        assert page.evaluate('document.activeElement.id') == 'result-home'
+        page.keyboard.press('Space')
         page.click('#replays-button')
         page.set_input_files('#replay-file', str(replay_path))
         page.wait_for_selector('#watch-replay:not([hidden])', timeout=60000)
@@ -121,7 +139,7 @@ try:
         assert not errors, errors
         print(json.dumps({'status':'PASS','browser':'Chromium','ticks':result['state']['tick'],
             'replay_hash':result['hash'],'score':result['state']['score'],
-            'checks':['menu rendering','keyboard movement','charged shot','pause/resume','full time',
+            'checks':['menu rendering','keyboard movement','charged shot','pause/resume','keyboard overlay navigation and activation','full time',
                       'replay export/import verification','replay playback','indoor local P2',
                       'saved settings','offline reload and match','GitHub Pages subpath','no JS errors']}, indent=2))
         browser.close()

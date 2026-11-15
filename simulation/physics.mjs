@@ -44,15 +44,15 @@ export function ballPhysics(s) {
     const end = b.y < 0 ? 0 : s.h, den = b.y - old.y;
     const crossX = old.x + Math.trunc((b.x - old.x) * (end - old.y) / den);
     const crossZ = old.z + Math.trunc((b.z - old.z) * (end - old.y) / den);
+    // Resolve frame contact before scoring: the inner post/crossbar regions overlap the goal opening.
+    if (Math.abs(Math.abs(crossX - s.w / 2) - s.goal / 2) < 8 * Q && crossZ < 40 * Q || Math.abs(crossX - s.w / 2) < s.goal / 2 && Math.abs(crossZ - 36 * Q) < 5 * Q) {
+      b.y = clamp(b.y, 2 * Q, s.h - 2 * Q); b.vy = -mul(b.vy, 205); b.owner = -1;
+      s.events.push({ type: 'post' }); return;
+    }
     if (Math.abs(crossX - s.w / 2) < s.goal / 2 - 4 * Q && crossZ < 36 * Q) {
       const scoring = goalY(s, 0) === end ? 0 : 1;
       s.score[scoring]++; s.phase = 'goal'; s.timer = 150; s.restartTeam = 1 - scoring;
       s.events.push({ type: 'goal', team: scoring }); return;
-    }
-    // Posts and crossbar rebound instead of awarding a goal.
-    if (Math.abs(Math.abs(crossX - s.w / 2) - s.goal / 2) < 8 * Q && crossZ < 40 * Q || Math.abs(crossX - s.w / 2) < s.goal / 2 && Math.abs(crossZ - 36 * Q) < 5 * Q) {
-      b.y = clamp(b.y, 2 * Q, s.h - 2 * Q); b.vy = -mul(b.vy, 205); b.owner = -1;
-      s.events.push({ type: 'post' }); return;
     }
   }
   if (s.config.indoor) {

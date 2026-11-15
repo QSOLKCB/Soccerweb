@@ -24,13 +24,15 @@ The simulation imports no DOM, browser clock, rendering or audio code. `step(sta
 - Multiplication/division helpers use `Math.trunc`, i.e. rounding toward zero. `isqrt` uses integer Newton iteration and floors a nonnegative square root. Movement directions are scaled before normalization, preventing the small-vector diagonal-speed error.
 - Frame rendering uses floating-point interpolation/trigonometry, but writes no state. Pass utility uses ordinary bounded IEEE-754 arithmetic, with no transcendental functions or nondeterministic operations. Initial formation fractions are converted to integer coordinates once. This is not a universal all-integer implementation; the authoritative kinematics and state are integer-valued.
 - Xorshift32 has an explicit unsigned seed (zero normalizes to 1988). The simulation owns its RNG state; music and reference PCM never consume it.
-- Ball drag, spin rotation, spring dribbling, gravity, bouncing, tackling and collisions are applied in a specified fixed order. Dribbling changes ball velocity toward a leading-foot target; possession does not teleport the ball. A swept goal-plane test evaluates interpolated crossing position and height. Set pieces intentionally reposition the ball/player during stopped play.
+- Ball drag, spin rotation, spring dribbling, gravity, bouncing, tackling and collisions are applied in a specified fixed order. Dribbling changes ball velocity toward a leading-foot target; possession does not teleport the ball. A swept goal-plane test evaluates interpolated crossing position and height. Post/crossbar contacts resolve before goals, including the inner frame regions that overlap the goal opening. Set pieces intentionally reposition the ball/player during stopped play.
 - Rendering cadence affects how quickly a slow machine catches up, not the result of an identical tick-indexed stream. The host caps a single accumulated wall-time delta at 100 ms; sustained overload slows game time rather than simulating an unbounded backlog. Hidden tabs/focus loss pause the game.
-- Pause and cinematic replay are host states: they do not call `step` or append replay inputs. No elapsed simulation time is silently consumed. The player may resume after a focus-loss pause. Controller disconnection clears keyboard state and requests pause; the currently connected pads are reassigned by enumerated slot.
+- Pause and cinematic replay are host states: they do not call `step` or append replay inputs. No elapsed simulation time is silently consumed. The player may resume after a focus-loss pause. Overlay screens release gameplay key interception and clear held inputs; paused matches retain Escape/P and gamepad Start shortcuts. Results focus an enabled action so Tab/Enter/Space work without a mouse. Controller disconnection clears keyboard state and requests pause; the currently connected pads are reassigned by enumerated slot.
 
 The reproducibility promise is **same release/version + normalized config/seed + the same tick-indexed input = the same final authoritative state**. Regression tests and browser re-import test this promise. Cross-browser CPU/audio bit identity is not claimed without cross-browser evidence. Changing numerical rules requires a replay format/version migration or explicit incompatibility; preserve fixtures before doing so.
 
-## Input and replay format v1
+## Input and replay format v2
+
+Version 2 changes frame-hit scoring precedence. Version 1 files are explicitly rejected because their scores and knockout results can differ; they are not silently replayed under the new rules.
 
 One frame contains two arrays: `[horizontal, vertical, buttons, curve]`. Axes and curve are integers in -1..1. Button bits: kick=1, pass=2, chip=4, switch=8. Entries are indexed by tick; there is no wall-clock timestamp. Input arrays include both teams even when one is AI-controlled. AI is rerun, not recorded as canned positions.
 
@@ -42,7 +44,7 @@ Imports are limited to 12 MB in the UI and 120,000 frames by the verifier. Schem
 
 Outfield shape uses the stored formation and a ball-relative shift. One player chases the predicted ball location while others defend or support. A carrier chooses a forward run, pressured pass or a shot using distance, space and club tactics. Difficulty changes reaction intervals, interception anticipation, shot error and positional shifts; it does not secretly raise outfielder top speed. Keepers track predicted horizontal ball position, dive under threat, catch slower shots or rebound powerful ones.
 
-State phases: `kickoff → play → goal/restart/halftime/fulltime`. Half time switches attacking ends. Knockout draws enter golden-goal play. No random winner is awarded. Other cup games run AI vs AI in this exact simulation, with bounded execution and an explicit retry error on a fixture exceeding 120,000 ticks.
+State phases: `kickoff → play → goal/restart/halftime/fulltime`. Half time switches attacking ends. Knockout draws enter golden-goal play. No random winner is awarded. Asynchronous cup-fixture completion captures a match-run ID. Leaving the match or entering another invalidates that ID; stale successes and errors cannot update competition state, localStorage, or result controls. Other cup games run AI vs AI in this exact simulation, with bounded execution and an explicit retry error on a fixture exceeding 120,000 ticks.
 
 ## Procedural audio
 
