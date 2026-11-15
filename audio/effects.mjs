@@ -7,6 +7,10 @@ export function effectRecipe(event,seed=1988){
   const tone=(freq,end,duration,gain,wave='triangle',at=0,fm=0)=>out.push({kind:'tone',freq,end,duration,gain,wave,at,pan,fm});
   const noise=(duration,gain,cutoff,at=0)=>out.push({kind:'noise',duration,gain,cutoff,at,pan,seed:random(rng)});
   switch(event.type){
+    case 'shift':tone(210,340,.24,.045,'triangle');tone(340,210,.20,.035,'sine',.18);break;
+    case 'revision':tone(440,440,.12,.04);tone(466,466,.16,.035,'triangle',.15);break;
+    case 'nearmiss':tone(330,220,.18,.035,'sine');break;
+    case 'challengewin':for(let i=0;i<5;i++)tone([392,494,587,740,784][i],[392,494,587,740,784][i],.3,.045,'triangle',i*.11);break;
     case 'kick':
       tone(event.kind==='pass'?185:125,43,.12,.15+strength*.09);noise(.045,.025+strength*.035,2100);
       if(event.kind==='chip'||event.kind==='overhead')tone(320,600,.13,.035,'sine',.025);

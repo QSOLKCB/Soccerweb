@@ -1,3 +1,4 @@
+import {advanceGoalposts,finishGoalpostsGoal,setupStage} from '../modes/goalposts.mjs';
 import { Q, clamp, mul, vector, random, distance } from '../simulation/math.mjs';
 import { EMPTY, attack, resetPositions, nearest } from './state.mjs';
 import { aiIntent } from '../ai/team.mjs';
@@ -9,6 +10,7 @@ export function normalizeInput(i = EMPTY) {
 }
 function restart(s) {
   if (s.phase === 'goal') {
+    if(s.goalposts){if(finishGoalpostsGoal(s))return;const g=s.goalposts,keep={clock:g.clock,points:g.points,conceded:g.conceded};setupStage(s);Object.assign(g,keep,{previousClock:keep.clock});return;}
     if (s.sudden) { s.phase = 'fulltime'; s.events.push({ type: 'whistle' }); return; }
     resetPositions(s, s.restartTeam); s.phase = 'kickoff'; s.restartType = 'KICK OFF'; s.timer = 70;
   } else if (s.phase === 'halftime') {
@@ -23,14 +25,19 @@ function restart(s) {
 export function step(s, inputs = [EMPTY, EMPTY]) {
   if (s.phase === 'fulltime') return s;
   const ins = inputs.map(normalizeInput); s.events = []; s.tick++;
+  if(s.goalposts&&s.phase==='stageclear'){
+    if(ins[0].fire&&!s.previous[0].fire){s.goalposts.stage++;setupStage(s);}
+    s.previous=ins;return s;
+  }
   if (s.phase !== 'play') {
     for(const p of s.players){p.charge=0;p.fireMode='idle';p.pending=null;}
     if (--s.timer <= 0) restart(s);
     s.previous = ins; return s;
   }
   s.elapsed++;
-  if (s.half === 1 && s.elapsed >= s.config.seconds * 30) { s.phase = 'halftime'; s.timer = 150; s.events.push({ type: 'whistle' }); return s; }
-  if (s.elapsed >= s.config.seconds * 60 && !s.sudden) {
+  if(s.goalposts&&!advanceGoalposts(s)){s.previous=ins;return s;}
+  if (!s.goalposts && s.half === 1 && s.elapsed >= s.config.seconds * 30) { s.phase = 'halftime'; s.timer = 150; s.events.push({ type: 'whistle' }); return s; }
+  if (!s.goalposts && s.elapsed >= s.config.seconds * 60 && !s.sudden) {
     if (s.config.knockout && s.score[0] === s.score[1]) { s.sudden = true; s.events.push({ type: 'goldengoal' }); }
     else { s.phase = 'fulltime'; s.events.push({ type: 'whistle' }); return s; }
   }

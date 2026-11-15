@@ -54,3 +54,25 @@ test('Start resume leaves gesture cancellation for the next active tick',()=>{
  const pad={axes:[0,0],buttons:Array.from({length:16},(_,i)=>({pressed:i===9||i===0}))};pads([pad]);
  assert.equal(controls.sample()[0].fire,false);const tick=controls.sample();assert.equal(tick[0].cancel,true);assert.equal(tick[0].fire,true);
 });
+
+import {padPreset,readPadProfiles,validPadProfile,bindPadButton,padInput} from '../input/gamepads.mjs';
+test('generic SNES face buttons, shoulders, Select, Start and digital axes map independently',()=>{
+ const {controls,pads,pauses}=setup();controls.padProfiles=[padPreset('snes'),padPreset('standard')];
+ const a={axes:[-1,1],buttons:Array.from({length:16},(_,i)=>({pressed:[1,4,8,9].includes(i)}))},b={axes:[1,-1],buttons:Array.from({length:16},(_,i)=>({pressed:i===1}))};pads([a,b]);
+ const [p1,p2]=controls.sample();assert.equal(p1.fire,true);assert.equal(p1.pass,false);assert.equal(p1.chip,false);assert.equal(p1.switch,true);assert.equal(p1.curve,-1);assert.deepEqual([p1.x,p1.y],[-1,1]);assert.equal(p2.chip,true);assert.equal(p2.fire,false);assert.equal(pauses.length,1);
+});
+test('profile persistence validates bounds and button remapping swaps conflicting assignments',()=>{
+ const snes=padPreset('snes'),custom=bindPadButton(snes,'fire',2);assert.equal(custom.buttons.chip,1);assert.equal(custom.buttons.fire,2);assert.equal(snes.buttons.fire,1);assert.ok(validPadProfile(custom));
+ assert.deepEqual(readPadProfiles({version:1,profiles:[custom,snes]}),[custom,snes]);
+ for(const bad of [{...snes,axes:[0,0]},{...snes,deadzone:Infinity},{...snes,buttons:{...snes.buttons,pause:99}},{...snes,buttons:{...snes.buttons,pass:1}}])assert.equal(validPadProfile(bad),false);
+ assert.deepEqual(readPadProfiles({version:1,profiles:[{},{}]}),[padPreset(),padPreset()]);assert.throws(()=>bindPadButton(snes,'fire',35));
+});
+test('direction-button adapters and alternate axes ignore noise and support diagonals',()=>{
+ const profile=padPreset('snes');profile.movement='buttons';const p={axes:[1,1],buttons:Array.from({length:16},(_,i)=>({pressed:i===12||i===14}))};assert.deepEqual([padInput(p,profile).x,padInput(p,profile).y],[-1,-1]);
+ profile.movement='axes';profile.axes=[2,3];p.buttons=[];p.axes=[1,1,.1,-1];assert.deepEqual([padInput(p,profile).x,padInput(p,profile).y],[0,-1]);
+});
+test('controller menu input is edge-triggered and held confirm cannot spill into gameplay',()=>{
+ const {controls,pads}=setup();controls.padProfiles[0]=padPreset('snes');const p={axes:[0,0],buttons:Array.from({length:16},()=>({pressed:false}))};pads([p]);controls.menuAction(true);
+ p.axes[1]=1;assert.equal(controls.menuAction(true),'down');assert.equal(controls.menuAction(true),null);p.axes[1]=0;controls.menuAction(true);
+ p.buttons[1].pressed=true;assert.equal(controls.menuAction(true),'confirm');assert.equal(controls.sample()[0].fire,false);p.buttons[1].pressed=false;controls.sample();p.buttons[1].pressed=true;assert.equal(controls.sample()[0].fire,true);
+});

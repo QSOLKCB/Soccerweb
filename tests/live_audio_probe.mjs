@@ -11,9 +11,9 @@ export async function captureLive(){
  const transitions=[];let peakVoices=0;
  const interval=setInterval(()=>{engine.update();peakVoices=Math.max(peakVoices,engine.voices.size);},16);
  recorder.start();
- for(const mode of ['menu','outdoor','indoor','goal','victory']){
+ for(const mode of ['menu','outdoor','indoor','goalposts','goal','victory']){
   engine.setMode(mode,mode==='outdoor',1988);transitions.push({mode,at:engine.ctx.currentTime});
-  engine.event({type:mode==='goal'?'goal':mode==='indoor'?'wall':'kick',kind:'shot',speed:12});
+  engine.event({type:mode==='goal'?'goal':mode==='goalposts'?'revision':mode==='indoor'?'wall':'kick',kind:'shot',speed:12});
   await wait(700);engine.event({type:'save',caught:true,speed:8});await wait(500);
  }
  engine.setPaused(true);await engine.transition;const paused=engine.ctx.state,cursor=engine.cursor;await wait(120);

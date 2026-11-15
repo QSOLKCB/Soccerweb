@@ -1,3 +1,11 @@
+# GOALPOSTS / controller extension
+
+`modes/goalposts.mjs` supplies the shared moving goal geometry and fixed-step challenge lifecycle. State initialization is opt-in through `config.mode === 'goalposts'`; static matches have no mode fields. Physics interpolates previous/current geometry at swept crossing time, resolving the frame first. AI and uncached goal rendering consume the same contract. Stage advancement is a recorded fire input, so full-run replays reproduce it. Mode-specific camera fitting is cosmetic. See [GOALPOSTS.md](GOALPOSTS.md) for exact bounds/rounding and v5 compatibility.
+
+`input/gamepads.mjs` validates and normalizes per-player controller profiles. `Controls` combines the resulting logical input with keyboard controls; controller IDs/button indices never enter authoritative state or replays. Host-only calibration and menu focus run from the animation loop. Logical action presses, gesture cancellation and the fixed simulation loop retain their existing boundary. Local controller profiles and GOALPOSTS bests have separate bounded schemas/keys.
+
+---
+
 # Architecture and reproducibility
 
 ## Runtime boundaries
@@ -30,9 +38,9 @@ The simulation imports no DOM, browser clock, rendering or audio code. `step(sta
 
 The reproducibility promise is **same release/version + normalized config/seed + the same tick-indexed input = the same final authoritative state**. Regression tests and browser re-import test this promise. Cross-browser CPU/audio bit identity is not claimed without cross-browser evidence. Changing numerical rules requires a replay format/version migration or explicit incompatibility; preserve fixtures before doing so.
 
-## Input and replay format v4
+## Input and replay format v5
 
-Version 4 changes action gesture/short first-time buffering, control on receipt, contested ownership, keeper catches and indoor AI decisions. Player fire-mode/pending-action fields are authoritative. Versions 1, 2 and 3 are explicitly rejected; no migration or silently changed resimulation is attempted. Version 2 previously corrected goal-frame scoring precedence; that correction is preserved.
+Version 5 adds opt-in GOALPOSTS configuration, geometry clocks, stage state and recorded stage advancement. Normal football preserves the Version 4 action gestures, first-time buffering, receiving, keeper protection and indoor AI decisions. Player fire-mode/pending-action fields remain authoritative. Versions 1–4 are explicitly rejected; no migration or silently changed resimulation is attempted. Version 2 previously corrected goal-frame scoring precedence; that correction is preserved.
 
 One frame contains two arrays: `[horizontal, vertical, buttons, curve]`. Axes and curve are integers in -1..1. Button bits: kick=1, pass=2, chip=4, switch=8, cancel gesture=16. Resume after an overlay emits one cancel bit on the next active tick, recorded like other input; pause itself never mutates authoritative state. Entries are indexed by tick; there is no wall-clock timestamp. Input arrays include both teams even when one is AI-controlled. AI is rerun, not recorded as canned positions.
 
@@ -52,7 +60,7 @@ State phases: `kickoff → play → goal/restart/halftime/fulltime`. Half time s
 
 ## Procedural audio
 
-Five original 32-bar themes (menu/outdoor/indoor/goal/victory) use intro, verse, lift and turnaround sections. Explicit bass, lead, harmony, kick/snare/hat/clap and indoor arpeggio events have seeded fills and a stable tie order. Pure SFX recipes vary envelopes, noise, pitch sweeps and FM with event type and impact speed, using their own seed.
+Six original 32-bar themes (menu/outdoor/indoor/goal/victory/goalposts) use intro, verse, lift and turnaround sections. Explicit bass, lead, harmony, kick/snare/hat/clap and indoor arpeggio events have seeded fills and a stable tie order. Pure SFX recipes vary envelopes, noise, pitch sweeps and FM with event type and impact speed, using their own seed.
 
 The live Web Audio graph uses separate music/SFX buses, stereo panning, shaped gain ramps and a compressor before master gain. Scheduling uses tick buckets, a 120 ms lookahead, a 16-tick catch-up bound and at most 64 simultaneous voice groups; ended sources disconnect. Theme changes release existing music voices. Serialized suspend/resume transitions follow pause and tab visibility. Audio starts after a browser interaction. Actual speaker output remains browser/device dependent and is never authoritative.
 

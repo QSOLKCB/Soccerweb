@@ -1,5 +1,9 @@
 # The touchline manual
 
+**Controller profiles:** Settings → Controller Test & Calibration offers a common USB SNES layout, live D-pad/buttons/axes and local per-player remapping. [Setup guide](CONTROLLERS.md).
+
+**GOALPOSTS:** Select it in the clubhouse; ordinary controls apply. Follow the visible shift warning, score through the gold opening, and use Next stage after clearing an objective. [Rules and aiming guide](GOALPOSTS.md).
+
 ## Start quickly
 
 Choose a team and ground, then **LET’S PLAY**. P1 is the first/left-hand team on the scoreboard. The P1 marker and yellow ring identify your selected player; P2 uses a blue ring. At each kickoff the banner and minimap tell P1's attacking direction. Teams switch ends at halftime.
@@ -54,6 +58,6 @@ Settings offers Follow, Wide tactical and Close cameras; Clean, CRT, Mint and Lo
 
 ## Replays, sound and offline use
 
-Pause or finish a match to export its replay JSON. Open **Replay studio**, import the file and wait for verification. A matching hash enables playback. This works for partial as well as complete v4 recordings. Earlier v1/v2/v3 files are rejected because the simulation changed. A goal automatically triggers a slower visual replay of recent recorded states.
+Pause or finish a match to export its replay JSON. Open **Replay studio**, import the file and wait for verification. A matching hash enables playback. This works for partial as well as complete v5 recordings. Earlier v1/v2/v3/v4 files are rejected because the simulation changed. A goal automatically triggers a slower visual replay of recent recorded states.
 
 Audio requires a click or kickoff to satisfy browser autoplay rules. Menu, outdoor, indoor, goal and victory have separate original themes. Adjust master, music and effects volumes independently; pausing suspends audio, and resuming restarts it. Offline play becomes available after successful asset caching, indicated in the footer. Installation is optional; an offline browser reload also works after caching. Close old tabs and reopen after an update to activate the new cached release.

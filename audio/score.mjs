@@ -1,6 +1,7 @@
 import { random } from '../simulation/math.mjs';
 // Original authored motifs with seeded fills/voicings. Notes are MIDI numbers; times are 60 Hz score ticks.
 export const THEMES = Object.freeze({
+  goalposts: {root:53,bar:128,minor:true,progression:[0,7,3,5],motif:[0,1,7,3,10,7,1,0]},
   menu: {root:50,bar:160,minor:true,progression:[0,5,3,7],motif:[0,7,3,10,7,5,2,3]},
   outdoor: {root:50,bar:144,minor:false,progression:[0,7,9,5],motif:[0,4,7,9,7,2,4,12]},
   indoor: {root:45,bar:112,minor:true,progression:[0,5,8,7],motif:[0,7,12,3,10,7,5,2]},

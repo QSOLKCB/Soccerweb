@@ -1,3 +1,4 @@
+import {goalGeometry} from '../modes/goalposts.mjs';
 import { Q, clamp, distance, vector, random, length } from '../simulation/math.mjs';
 import { attack, goalY, nearest } from '../game/state.mjs';
 import { TEAMS } from '../game/teams.mjs';
@@ -43,7 +44,7 @@ export function aiIntent(s,p) {
   const b=s.ball,dir=attack(s,p.team),difficulty=s.config.difficulty;
   const own=b.owner>=0?s.players[b.owner]:null,team=TEAMS[s.config.teams[p.team]];
   if(p.keeper){
-    const gy=dir<0?s.h:0;
+    const gy=dir<0?s.h:0,g=goalGeometry(s,gy);
     if(own?.id===p.id){p.intent='distribute';return p.control<18?{x:0,y:0}:{x:0,y:dir*Q,kick:'pass',power:36,target:passTarget(s,p)};}
     // Reaction intervals change with difficulty; neither running speed nor reach is secretly boosted.
     const reaction=s.config.indoor?8-difficulty:15-difficulty*3;
@@ -52,20 +53,20 @@ export function aiIntent(s,p) {
       const line=gy+dir*24*Q;
       const time=incoming?clamp(Math.trunc((line-b.y)/b.vy),0,35):0;
       const predicted=b.x+b.vx*time;
-      p.tx=clamp(incoming?predicted:b.x,s.w/2-s.goal/2+10*Q,s.w/2+s.goal/2-10*Q);
+      p.tx=clamp(incoming?predicted:b.x,g.left+10*Q,g.right-10*Q);
       p.ty=gy+dir*(Math.abs(b.y-gy)<230*Q?31:20)*Q;
-      if(incoming&&time>0&&time<19&&Math.abs(predicted-s.w/2)<s.goal/2+12*Q&&b.z<35*Q&&p.cooldown===0){p.dive=18;p.cooldown=60;}
+      if(incoming&&time>0&&time<19&&Math.abs(predicted-g.center)<g.width/2+12*Q&&b.z<35*Q&&p.cooldown===0){p.dive=18;p.cooldown=60;}
     }
     p.intent=p.dive?'dive':'guard';return steer(s,p,p.tx,p.ty,false);
   }
   if(own?.id===p.id){
-    p.intent='attack';
+    p.intent='attack';const targetGoal=goalGeometry(s,goalY(s,p.team));
     const goalDist=Math.abs(goalY(s,p.team)-p.y)/Q,alignment=Math.abs(p.x-s.w/2)/Q;
     if(--p.think<=0&&p.control>=(s.config.indoor?16:8)){
       p.think=40-difficulty*7;
       const keeper=s.players.find(q=>q.team!==p.team&&q.keeper);
-      const side=keeper.x>=s.w/2?-1:1;
-      const target={x:s.w/2+side*43*Q,y:goalY(s,p.team)};
+      const side=keeper.x>=targetGoal.center?-1:1;
+      const target={x:targetGoal.center+side*Math.min(43*Q,targetGoal.width/2-18*Q),y:goalY(s,p.team)};
       const shotLane=laneClearance(s,p,target,p.team);
       if(goalDist<260+team.attack&&alignment<s.w/Q*.33&&(shotLane>12||goalDist<145)){
         const error=(random(s)%(39-difficulty*9)-Math.floor((39-difficulty*9)/2))*Q;

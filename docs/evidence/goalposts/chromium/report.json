@@ -1,0 +1,145 @@
+{
+  "status": "PASS",
+  "browser": "chromium",
+  "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+  "stages": [
+    {
+      "stage": 0,
+      "geometryBefore": {
+        "center": 92160,
+        "width": 46080,
+        "left": 69120,
+        "right": 115200,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 0
+      },
+      "geometryAfter": {
+        "center": 94345,
+        "width": 46080,
+        "left": 71305,
+        "right": 117385,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 0
+      },
+      "history": [
+        {
+          "stage": 0,
+          "ticks": 167,
+          "points": 1,
+          "conceded": 0
+        }
+      ],
+      "score": [
+        1,
+        0
+      ],
+      "hash": "dc66bae0"
+    },
+    {
+      "stage": 1,
+      "geometryBefore": {
+        "center": 92160,
+        "width": 46080,
+        "left": 69120,
+        "right": 115200,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 1
+      },
+      "geometryAfter": {
+        "center": 92160,
+        "width": 46080,
+        "left": 69120,
+        "right": 115200,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 1
+      },
+      "history": [
+        {
+          "stage": 0,
+          "ticks": 167,
+          "points": 1,
+          "conceded": 0
+        },
+        {
+          "stage": 1,
+          "ticks": 52,
+          "points": 1,
+          "conceded": 0
+        }
+      ],
+      "score": [
+        2,
+        0
+      ],
+      "hash": "0c2a4a27"
+    },
+    {
+      "stage": 2,
+      "geometryBefore": {
+        "center": 92160,
+        "width": 46080,
+        "left": 69120,
+        "right": 115200,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 2
+      },
+      "geometryAfter": {
+        "center": 92160,
+        "width": 46080,
+        "left": 69120,
+        "right": 115200,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 2
+      },
+      "history": [
+        {
+          "stage": 0,
+          "ticks": 167,
+          "points": 1,
+          "conceded": 0
+        },
+        {
+          "stage": 1,
+          "ticks": 52,
+          "points": 1,
+          "conceded": 0
+        },
+        {
+          "stage": 2,
+          "ticks": 52,
+          "points": 2,
+          "conceded": 0
+        }
+      ],
+      "score": [
+        3,
+        0
+      ],
+      "hash": "1af41b24"
+    }
+  ],
+  "replayHash": "1af41b24",
+  "replayTicks": 1083,
+  "failureRetry": true,
+  "offline": true,
+  "physicalGamepad": "NOT RUN",
+  "manualPlaytesting": "NOT RUN"
+}

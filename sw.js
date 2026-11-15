@@ -1,10 +1,10 @@
 // Bump VERSION when any app asset changes. A new worker waits for all old tabs to close.
-const VERSION='soccerweb-v3.0.0-3';
+const VERSION='soccerweb-v3.1.0-4';
 const ROOT=new URL('./',self.location).href;
 const CACHE=VERSION+'-'+ROOT;
 const ASSETS=['./','./index.html','./style.css','./app.mjs','./icon.svg','./manifest.webmanifest',
   './game/state.mjs','./game/match.mjs','./game/actions.mjs','./game/teams.mjs','./simulation/math.mjs','./simulation/physics.mjs',
-  './ai/team.mjs','./input/controls.mjs','./render/canvas.mjs','./render/camera.mjs','./render/players.mjs','./render/stadium.mjs','./audio/synth.mjs','./audio/score.mjs','./audio/effects.mjs','./audio/reference.mjs','./modes/competition.mjs','./modes/practice.mjs',
+  './ai/team.mjs','./input/controls.mjs','./input/gamepads.mjs','./render/canvas.mjs','./render/camera.mjs','./render/players.mjs','./render/stadium.mjs','./audio/synth.mjs','./audio/score.mjs','./audio/effects.mjs','./audio/reference.mjs','./modes/competition.mjs','./modes/practice.mjs','./modes/goalposts.mjs',
   './replay/replay.mjs','./replay/verify-worker.mjs'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS.map(a=>new URL(a,ROOT).href)))));
 self.addEventListener('activate',event=>event.waitUntil((async()=>{

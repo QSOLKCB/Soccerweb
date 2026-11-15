@@ -38,3 +38,18 @@ test('cosmetic poses distinguish actions without adding authoritative animation 
   s.phase='goal';s.restartTeam=1;assert.equal(playerPose(s,p).state,'celebrate');
   const reduced=playerPose(s,p,p,true);assert.equal(reduced.stride,0);assert.equal(reduced.bounce,0);
 });
+
+test('GOALPOSTS frames remain uncached and visible with reduced motion, all cameras and DPR',()=>{
+ let layers=0;globalThis.document={createElement:()=>{layers++;return canvas();}};globalThis.devicePixelRatio=2;
+ const s=createState({mode:'goalposts'}),screen=canvas(900,900),r=new Renderer(screen);r.effects='minimal';
+ const before=stateHash(s);r.draw(s);assert.equal(stateHash(s),before);const original=layers;
+ s.goalposts.clock=420;s.goalposts.previousClock=419;r.draw(s);assert.equal(layers,original);
+ for(const zoom of ['follow','wide','close'])for(const y of [0,400,1110]){
+  Object.assign(s.ball,{x:650*Q,y:y*Q,z:50*Q});const view=cameraFrame(s,900,900,{zoom,reduced:true});
+  for(const [x,py] of [[490-90,-65],[490+90,-65],[650,y-50]]){
+   assert.ok(450+(x-view.x)*view.scale>=0&&450+(x-view.x)*view.scale<=900);
+   assert.ok(450+(py-view.y)*view.scale>=0&&450+(py-view.y)*view.scale<=900);
+  }
+ }
+ r.draw(createState());assert.equal(layers,original+1,'normal pitch has a different cached frame layer');
+});
