@@ -63,3 +63,7 @@ test('Elite outdoor seed 42 creates shooting chances instead of an endless passi
   assert.equal(s.phase,'fulltime');assert.ok(s.stats.shots[0]+s.stats.shots[1]>=4);
   assert.ok(s.stats.completedPasses[0]+s.stats.completedPasses[1]>0);
 });
+test('shot release aims in the current input direction without a one-tick lag',()=>{
+  const {s,p}=scenario();p.charge=30;s.previous[0]={...EMPTY,fire:true};
+  step(s,[{...EMPTY,x:1},EMPTY]);assert.ok(s.ball.vx>6*Q);assert.ok(Math.abs(s.ball.vy)<Q);
+});

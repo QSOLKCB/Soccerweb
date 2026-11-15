@@ -26,7 +26,7 @@ test('fixed timestep determinism and recorded tick inputs', () => {
     return { s, data: r.export(s) };
   };
   const a = run(), b = run(); assert.equal(stateHash(a.s), stateHash(b.s));
-  assert.equal(stateHash(a.s), '300d8ed7', 'Release v3 numerical regression fixture');
+  assert.equal(stateHash(a.s), '7f1ba5f7', 'Release v3 numerical regression fixture');
   const replay = verifyReplay(JSON.parse(JSON.stringify(a.data))); assert.equal(stateHash(replay), stateHash(a.s));
   console.log(`Replay evidence: 4000 ticks, seed 731, final hash ${stateHash(a.s)}, ${a.data.checkpoints.length} verified checkpoints`);
 });
