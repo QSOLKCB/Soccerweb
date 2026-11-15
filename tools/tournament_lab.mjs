@@ -6,7 +6,7 @@ import {setImmediate} from 'node:timers/promises';
 import {fileURLToPath} from 'node:url';
 import {VERSION} from '../game/state.mjs';
 import {SCHEMA,settings,parseSeeds,schedule,partition,runFixture,integer,BudgetExceeded} from './tournament_core.mjs';
-import {ROOT,digest,seal,atomic,source,loadRun,loadReceipt,mergeRuns} from './tournament_io.mjs';
+import {digest,seal,atomic,readJSON,source,loadRun,loadReceipt,mergeRuns} from './tournament_io.mjs';
 import {writeReport} from './tournament_report.mjs';
 export const HELP=`SOCCERWEB tournament lab (development only; no model/browser in sweep)
 node tools/tournament_lab.mjs [run|merge|report] --out DIRECTORY [options]
@@ -68,8 +68,8 @@ export async function execute(o){
   atomic(path.join(o.out,'fixtures.ndjson'),merged.rows.map(r=>JSON.stringify(r)+'\n').join(''));
   // A merge cannot promote a shard with missing/failed verification to PASS.
   const status=receipts.some(r=>r.status==='FAIL')?'FAIL':merged.status==='PASS'&&receipts.every(r=>r.status==='PASS')?'PASS':merged.status==='FAIL'?'FAIL':'PARTIAL';
-  atomic(path.join(o.out,'receipt.json'),{schema:SCHEMA,status,source:merged.manifest.source,command:o.command,inputs:receipts,fixtures:merged.rows.length,journalSHA256:digest(fs.readFileSync(path.join(o.out,'fixtures.ndjson')))});
-  writeReport(o.out,merged.manifest,merged.rows,status);return status==='PASS'?0:status==='FAIL'?1:2;
+  writeReport(o.out,merged.manifest,merged.rows,status);
+  atomic(path.join(o.out,'receipt.json'),{schema:SCHEMA,status,source:merged.manifest.source,command:o.command,inputs:receipts,fixtures:merged.rows.length,journalSHA256:digest(fs.readFileSync(path.join(o.out,'fixtures.ndjson')))});return status==='PASS'?0:status==='FAIL'?1:2;
  }
  const provenance=source(),all=schedule(o.options),fixtures=partition(all,o.shard.index,o.shard.count);
  if(!fixtures.length)throw Error('Empty shard');
@@ -83,11 +83,10 @@ export async function execute(o){
   invocation:process.argv,environment:{node:process.version,platform:os.platform(),release:os.release(),arch:os.arch(),cpu:os.cpus()[0]?.model,logicalCPUs:os.cpus().length,ramBytes:os.totalmem(),runner:process.env.GITHUB_ACTIONS?'GitHub Actions':'local',gpu:'NOT USED'},sessions:[...previousSessions,measurement()],journalSHA256:digest(fs.readFileSync(path.join(o.out,'fixtures.ndjson')))});
  try{
   if(o.resume){
-   manifest=JSON.parse(fs.readFileSync(path.join(o.out,'manifest.json'),'utf8'));
+   manifest=readJSON(path.join(o.out,'manifest.json'));
    if(JSON.stringify(manifest.source)!==JSON.stringify(provenance)||JSON.stringify(manifest.options)!==JSON.stringify(o.options)||JSON.stringify(manifest.shard)!==JSON.stringify(o.shard))throw Error('Resume requires identical source/config/shard');
    const loaded=loadRun(o.out,{repairTail:true});rows=loaded.rows;
-   if(JSON.stringify(manifest.source)!==JSON.stringify(provenance)||JSON.stringify(manifest.options)!==JSON.stringify(o.options)||JSON.stringify(manifest.shard)!==JSON.stringify(o.shard))throw Error('Resume requires identical source/config/shard');
-   if(fs.existsSync(path.join(o.out,'receipt.json')))previousSessions=JSON.parse(fs.readFileSync(path.join(o.out,'receipt.json'))).sessions??[];
+   if(fs.existsSync(path.join(o.out,'receipt.json')))previousSessions=readJSON(path.join(o.out,'receipt.json')).sessions??[];
    if(previousSessions.length>=32)throw Error('At most 32 sessions per run');
   }else{
    manifest={schema:SCHEMA,simulationVersion:VERSION,source:provenance,options:o.options,shard:o.shard,scheduleSHA256:digest(all),verificationRequired:!!o.verify,metricDefinitions:'season_report.mjs; schema 1 extensions documented in docs/TOURNAMENT-LAB-001.md'};
@@ -117,8 +116,11 @@ export async function execute(o){
     catch(e){status=e instanceof BudgetExceeded?'PARTIAL':'FAIL';diagnostic=e.message;verification.push({id:r.fixture.id,status,error:e.message});break;}
    }
   }
-  atomic(path.join(o.out,'receipt.json'),receipt());writeReport(o.out,manifest,rows,status);
+  writeReport(o.out,manifest,rows,status);atomic(path.join(o.out,'receipt.json'),receipt());
   console.log(JSON.stringify({status,fixtures:rows.length,...measurement(),output:o.out}));return status==='PASS'?0:status==='FAIL'?1:2;
+ }catch(e){
+  if(fd!==undefined){status='FAIL';diagnostic=e.message;try{atomic(path.join(o.out,'receipt.json'),receipt());}catch{ /* Keep the last non-PASS checkpoint if storage itself failed. */ }}
+  throw e;
  }finally{if(fd!==undefined)fs.closeSync(fd);unlock();process.off('SIGINT',stop);process.off('SIGTERM',stop);}
 }
 if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.url)){

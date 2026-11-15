@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "source": {
+    "sha": "32c2f715688274f7e5b9e31b87f54856809fd06a",
+    "dirty": false,
+    "codeSHA256": "c49207c0a69e03d01c9ee1cb045a7658506f529ce9f43a5b2a470d850bd3934a"
+  },
+  "baselineSource": "4d67655ce6b5dcb1f071118b03f7e6d80d7ba10b",
+  "baselineSHA256": "069c406c5f4e9901918736724456edcfa4ab372b8c73bb70b4bd24373882eb24",
+  "command": "node tests/tournament_golden.mjs",
+  "fixtures": 96,
+  "checks": "Exact order and every legacy metric including final hash",
+  "wallSeconds": 37.397766940000004,
+  "cpuSeconds": 38.169034,
+  "peakRSSKiB": 91928,
+  "exitCode": 0
+}

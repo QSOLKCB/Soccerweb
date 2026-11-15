@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import {execFileSync,spawnSync} from 'node:child_process';
 import {schedule,partition,parseSeeds,settings,runFixture,BudgetExceeded} from '../tools/tournament_core.mjs';
-import {digest,seal,atomic,readRows,validateRow,loadRun,loadReceipt,mergeRuns} from '../tools/tournament_io.mjs';
+import {digest,seal,atomic,readJSON,readRows,validateRow,loadRun,loadReceipt,mergeRuns} from '../tools/tournament_io.mjs';
 import {parseArgs,verificationSample} from '../tools/tournament_lab.mjs';
 import {analyze,selectCaptures,escapeHTML,writeReport} from '../tools/tournament_report.mjs';
 import {provision,validateVision,promptFor,audit} from '../tools/vision_audit.mjs';
@@ -66,7 +66,7 @@ test('known scores produce expected aggregates, paired bias, spells and escaped 
  assert.equal(a.goals,10);assert.equal(a.side0Wins,2);assert.equal(a.pairedOrientation.pairs,2);assert.equal(a.pairedOrientation.meanSlot0Margin,.5);
  const club=a.groups.find(g=>g.dimension==='club'&&g.value===0);assert.equal(club.wins,2);assert.equal(club.goalDifference,5);
  assert.equal(a.possession.histogram.reduce((x,y)=>x+y,0),rows.reduce((n,r)=>n+r.metrics.spells,0));
- assert.equal(escapeHTML('<script>"&'),'&lt;script&gt;&quot;&amp;');const dir=temp(t);writeReport(dir,{options,source},rows,'PARTIAL');const html=fs.readFileSync(path.join(dir,'index.html'),'utf8');assert.match(html,/PARTIAL/);assert.doesNotMatch(html,/<script/);
+ assert.equal(escapeHTML('<script>"&'),'&lt;script&gt;&quot;&amp;');const dir=temp(t);writeReport(dir,{options,source,shard:{index:0,count:1}},rows,'PARTIAL');const html=fs.readFileSync(path.join(dir,'index.html'),'utf8');assert.match(html,/PARTIAL/);assert.doesNotMatch(html,/<script/);
 });
 test('capture selection is reproducible and sparse with independent controls',()=>{
  const a=selectCaptures(rows,{limit:2,controls:1});assert.deepEqual(a,selectCaptures([...rows].reverse(),{limit:2,controls:1}));assert.ok(a.captures.length<=2);assert.ok(a.captures.some(s=>s.reason==='pseudorandom-control'));assert.equal(new Set(a.captures.map(s=>s.fixture.id)).size,a.captures.length);assert.ok(a.captures.every(s=>s.ticks.length<=3));assert.throws(()=>selectCaptures(rows,{limit:9}));
@@ -115,4 +115,17 @@ test('required representative verification cannot be omitted from a PASS receipt
  const dir=temp(t),out=path.join(dir,'run');const manifest=shard(out,0,1);manifest.verificationRequired=true;atomic(path.join(out,'manifest.json'),manifest);
  const receipt={schema:1,source,status:'PASS',fixtures:4,journalSHA256:digest(fs.readFileSync(path.join(out,'fixtures.ndjson'))),verification:[]};atomic(path.join(out,'receipt.json'),receipt);
  assert.throws(()=>loadReceipt(out),/verification/);receipt.verification=verificationSample(rows).map(r=>({id:r.fixture.id,hash:r.metrics.hash,status:'PASS'}));atomic(path.join(out,'receipt.json'),receipt);assert.equal(loadReceipt(out).status,'PASS');
+});
+
+test('metadata is size-bounded, receipts require provenance and shard reports show assigned counts',t=>{
+ const dir=temp(t),big=path.join(dir,'big.json');fs.writeFileSync(big,' '.repeat(1024*1024+1));assert.throws(()=>readJSON(big),/1 MiB/);
+ const out=path.join(dir,'shard');const manifest=shard(out,1,2);const subset=rows.filter(r=>r.fixture.id%2===1);
+ atomic(path.join(out,'receipt.json'),{schema:1,status:'PASS',fixtures:2,journalSHA256:digest(fs.readFileSync(path.join(out,'fixtures.ndjson')))});assert.throws(()=>loadReceipt(out),/source/);
+ writeReport(out,manifest,subset,'PASS');const html=fs.readFileSync(path.join(out,'index.html'),'utf8');assert.match(html,/2\/2 assigned fixtures completed \(4 scheduled overall; shard 2\/2\)/);assert.match(html,/SOLAR ATHLETIC/);
+});
+
+test('a report write failure retains diagnostics and cannot leave a PASS receipt',t=>{
+ const dir=temp(t),out=path.join(dir,'run'),args=['tools/tournament_lab.mjs','--out',out,'--max-fixtures','4','--seconds','20'];
+ assert.equal(spawnSync(process.execPath,args).status,0);fs.unlinkSync(path.join(out,'analysis.json'));fs.mkdirSync(path.join(out,'analysis.json'));
+ assert.equal(spawnSync(process.execPath,[...args,'--resume']).status,1);const receipt=readJSON(path.join(out,'receipt.json'));assert.equal(receipt.status,'FAIL');assert.ok(receipt.diagnostic);assert.equal(loadRun(out).rows.length,4);
 });

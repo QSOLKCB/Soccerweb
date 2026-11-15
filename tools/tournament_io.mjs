@@ -8,6 +8,7 @@ import {SCHEMA,settings,schedule,partition} from './tournament_core.mjs';
 export const ROOT=fileURLToPath(new URL('../',import.meta.url));
 export const digest=value=>crypto.createHash('sha256').update(typeof value==='string'||Buffer.isBuffer(value)?value:JSON.stringify(value)).digest('hex');
 export const seal=row=>({...row,checksum:digest(row)});
+export function readJSON(file){if(fs.statSync(file).size>1024*1024)throw Error('JSON metadata exceeds 1 MiB');return JSON.parse(fs.readFileSync(file,'utf8'));}
 export function atomic(file,value){
  const temp=`${file}.tmp-${process.pid}`;const fd=fs.openSync(temp,'w');
  try{fs.writeFileSync(fd,typeof value==='string'?value:JSON.stringify(value,null,2)+'\n');fs.fsyncSync(fd);}finally{fs.closeSync(fd);}
@@ -54,7 +55,7 @@ export function readRows(file,{repairTail=false}={}){
  const seen=new Set();return lines.map(line=>{if(line.length>32768)throw Error('Oversized row');const r=validateRow(JSON.parse(line));if(seen.has(r.fixture.id))throw Error('Duplicate fixture');seen.add(r.fixture.id);return r;});
 }
 export function loadRun(dir,{repairTail=false}={}){
- const manifest=JSON.parse(fs.readFileSync(path.join(dir,'manifest.json'),'utf8'));
+ const manifest=readJSON(path.join(dir,'manifest.json'));
  if(manifest.schema!==SCHEMA||manifest.simulationVersion!==VERSION)throw Error('Unsupported manifest');
  validateSource(manifest.source);
  const options=settings(manifest.options);if(JSON.stringify(options)!==JSON.stringify(manifest.options))throw Error('Noncanonical options');
@@ -80,9 +81,9 @@ export function mergeRuns(directories){
 }
 
 export function loadReceipt(dir){
- const {manifest,rows,fixtures}=loadRun(dir);const r=JSON.parse(fs.readFileSync(path.join(dir,'receipt.json'),'utf8'));
+ const {manifest,rows,fixtures}=loadRun(dir);const r=readJSON(path.join(dir,'receipt.json'));
  if(r.schema!==SCHEMA||!['PASS','FAIL','PARTIAL','RUNNING'].includes(r.status)||r.fixtures!==rows.length||r.journalSHA256!==digest(fs.readFileSync(path.join(dir,'fixtures.ndjson'))))throw Error('Receipt journal/status mismatch');
- if(r.source&&JSON.stringify(r.source)!==JSON.stringify(manifest.source))throw Error('Receipt source mismatch');
+ if(JSON.stringify(r.source)!==JSON.stringify(manifest.source))throw Error('Receipt source mismatch');
  if(r.status==='PASS'&&(rows.length!==fixtures.length||rows.some(v=>v.status!=='COMPLETE')))throw Error('False PASS receipt');
  if(r.status==='PASS'&&manifest.verificationRequired&&!manifest.mergedShards){
   const representatives=new Map();for(const row of rows){const c=row.fixture.config,key=`${c.indoor}/${c.difficulty}/${c.weather}`;if(!representatives.has(key))representatives.set(key,row);}

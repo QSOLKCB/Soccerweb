@@ -7,7 +7,7 @@ import crypto from 'node:crypto';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {fileURLToPath} from 'node:url';
-import {atomic,digest} from './tournament_io.mjs';
+import {atomic,digest,readJSON} from './tournament_io.mjs';
 export const PROMPT_VERSION='soccerweb-visible-v1';
 export const CATEGORIES=['camera-obstruction','sprite-overlap','ball-visibility','illegible-text','goal-drawing','animation','uncertain'];
 export function promptFor(image,tick){return `SOCCERWEB visible evidence audit ${PROMPT_VERSION}.
@@ -68,7 +68,7 @@ if(process.argv[1]&&path.resolve(process.argv[1])===fileURLToPath(import.meta.ur
  try{
   const args=process.argv.slice(2),opts={};for(let i=0;i<args.length;i+=2){if(!['--captures','--out','--config'].includes(args[i])||!args[i+1]||opts[args[i]])throw Error('Usage: node tools/vision_audit.mjs --out NEW_DIRECTORY [--captures DIRECTORY --config LOCAL_MANIFEST.json]');opts[args[i]]=args[i+1];}
   if(!opts['--out']||opts['--config']&&!opts['--captures'])throw Error('--out required; enabled audit also requires --captures');
-  const config=opts['--config']?JSON.parse(fs.readFileSync(opts['--config'],'utf8')):null;
+  const config=opts['--config']?readJSON(opts['--config']):null;
   const r=await audit({captureDir:opts['--captures']?path.resolve(opts['--captures']):null,out:path.resolve(opts['--out']),config});console.log(JSON.stringify({status:r.status,reason:r.reason,images:r.images.length,advisory:true}));
  }catch(e){console.error(e.message);process.exitCode=1;}
 }

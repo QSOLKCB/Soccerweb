@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "status": "SKIPPED",
+  "advisory": true,
+  "promptVersion": "soccerweb-visible-v1",
+  "images": [],
+  "provision": {
+    "status": "SKIPPED",
+    "reason": "No local model configured. No download or inference attempted."
+  },
+  "reason": "No local model configured. No download or inference attempted."
+}
