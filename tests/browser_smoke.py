@@ -47,7 +47,7 @@ try:
         context = browser.new_context(viewport={'width': 1365, 'height': 1000}, accept_downloads=True)
         page = context.new_page()
         errors = []
-        page.on('pageerror', lambda error: errors.append(str(error)))
+        page.on('pageerror', lambda error: (errors.append(str(error)),print('PAGE ERROR:',str(error),flush=True)))
         page.goto(url)
         page.wait_for_function("document.querySelector('#home-team').options.length === 8")
         page.evaluate("async () => { window.soccerDiagnostics = (await import('./app.mjs')).diagnostics; }")
@@ -95,6 +95,7 @@ try:
         page.keyboard.press('Space')
         assert not snapshot(page)['paused']
         page.wait_for_timeout(2800)  # Exercise sustained audio scheduling before evidence capture.
+        print('Audio resume evidence:',json.dumps({'audio':snapshot(page)['audio'],'paused':snapshot(page)['paused'],'visibility':page.evaluate('document.visibilityState')}),flush=True)
         page.wait_for_function("window.soccerDiagnostics().audio.state === 'running'")
         assert snapshot(page)['audio']['cursor'] > 0
         assert snapshot(page)['audio']['voices'] <= 64

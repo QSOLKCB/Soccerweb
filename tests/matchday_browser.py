@@ -1,5 +1,5 @@
 """Sustained real inputs and CPU stage measurements; no simulation-state injection."""
-import functools, http.server, json, os, threading
+import base64, functools, http.server, json, os, threading
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 ROOT=Path(__file__).resolve().parents[1]
@@ -62,12 +62,61 @@ try:
     page.wait_for_timeout(300);page.evaluate("window.dispatchEvent(new Event('gamepaddisconnected'));testPads=[]")
     assert snapshot(page)['paused'];page.keyboard.press('Escape')
     assert not errors,errors
+    # Practice is exercised only on the Phase 3 runtime; baseline has no practice entry.
+    if page.locator('#practice-button').count():
+      page.keyboard.press('Escape');page.click('#pause-quit');page.click('[data-mode="cup"]');page.click('#kickoff')
+      page.keyboard.press('Escape');page.click('#pause-quit')
+      saved=page.evaluate("localStorage.getItem('soccerweb.competition.v1')")
+      practice_results=[]
+      for index in range(6):
+        page.click('#practice-button');page.select_option('#practice-drill',str(index));page.click('#practice-start')
+        page.wait_for_function('soccerDiagnostics()?.practice !== null')
+        if index==0:
+          page.keyboard.down('w');page.keyboard.down('d');page.wait_for_timeout(900);page.keyboard.up('w');page.keyboard.up('d')
+        elif index==1:
+          for _ in range(3):page.keyboard.press('f');page.wait_for_timeout(1300)
+        elif index==4:page.keyboard.press('Space')
+        else:
+          page.keyboard.down('Space');page.wait_for_timeout(500)
+          if index==3:page.keyboard.down('e')
+          page.keyboard.up('Space')
+        page.wait_for_function('soccerDiagnostics()?.practice.complete',timeout=12000)
+        if index==3:page.keyboard.up('e')
+        result=snapshot(page);assert result['recordedTicks']==0;assert result['paused']
+        assert page.locator('#pause-save').is_hidden()
+        practice_results.append({'drill':index,'hash':result['hash'],'score':result['state']['score'],'stats':result['state']['stats']})
+        page.screenshot(path=str(OUT/f'practice-{index}.png'),full_page=True)
+        assert page.evaluate("localStorage.getItem('soccerweb.competition.v1')")==saved
+        page.click('#pause-quit')
+      (OUT/'practice.json').write_text(json.dumps(practice_results,indent=2))
+      page.click('#options-button');page.locator('#key-mappings .key-button').first.click();page.keyboard.press('i')
+      assert page.locator('#key-mappings .key-button').first.inner_text()=='I'
+      page.click('#options-dialog .close');page.click('#practice-button');page.select_option('#practice-drill','0');page.click('#practice-start')
+      assert 'I/' in page.locator('#practice-copy').inner_text()
+      before=snapshot(page);page.keyboard.down('i');page.wait_for_timeout(300);page.keyboard.up('i');after=snapshot(page)
+      id=before['state']['selected'][0];assert after['state']['players'][id]['y']<before['state']['players'][id]['y']-256
+      page.keyboard.press('Escape');page.click('#pause-quit');page.click('#options-button');page.click('#reset-keys');page.click('#options-dialog .close')
+      page.click('#practice-button');page.select_option('#practice-drill','2');page.click('#practice-start')
+      page.evaluate("testPads=[{axes:[0,0],buttons:Array.from({length:16},(_,i)=>({pressed:i===0}))}]")
+      page.wait_for_timeout(500);page.evaluate('testPads[0].buttons[0].pressed=false')
+      page.wait_for_function('soccerDiagnostics()?.practice.complete',timeout=12000)
+      assert snapshot(page)['state']['stats']['shots'][0]==1
+      page.evaluate('testPads=[]')
     perf=[]
     for dpr,opts in [(1,{'camera':'wide','weather':'clear'}),(1,{'camera':'close','weather':'rain'}),(1,{'camera':'wide','indoor':True}),(2,{'camera':'close','indoor':True})]:
       ctx=browser.new_context(viewport={'width':1365 if dpr==1 else 900,'height':1000 if dpr==1 else 900},device_scale_factor=dpr)
       p=ctx.new_page();p.on('pageerror',lambda e:errors.append(str(e)));p.goto(url+'tests/probe.html')
       perf.append(p.evaluate("async options=>(await import('./performance_probe.mjs')).measure(options)",opts));ctx.close()
     (OUT/'performance.json').write_text(json.dumps(perf,indent=2));assert not errors,errors
+    # Trusted click starts a separate instance of the production live synth for auditable capture.
+    p=context.new_page();p.on('pageerror',lambda e:errors.append(str(e)));p.goto(url+'tests/probe.html')
+    p.evaluate("async()=>{const {captureLive}=await import('./live_audio_probe.mjs');document.body.onclick=()=>{document.body.onclick=null;captureLive().then(r=>window.captureResult=r).catch(e=>window.captureError=String(e))}}")
+    p.locator('p').click();p.wait_for_function('window.captureResult||window.captureError',timeout=30000)
+    assert not p.evaluate('window.captureError||null')
+    capture=p.evaluate('window.captureResult');report=capture['report']
+    assert report['rms']>.0001 and report['clippedSamples']==0 and report['peakVoices']<=64,report
+    (OUT/'live-mix.wav').write_bytes(base64.b64decode(capture['wav']));(OUT/'live-audio.json').write_text(json.dumps(report,indent=2))
+    assert not errors,errors
     print(json.dumps({'status':'PASS','browser':os.environ.get('BROWSER','chromium'),'routes':len(routes),'performanceCases':len(perf),'virtualGamepad':True,'physicalGamepad':'NOT RUN'}))
     browser.close()
 finally: server.shutdown()

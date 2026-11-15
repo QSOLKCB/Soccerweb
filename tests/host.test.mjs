@@ -48,7 +48,7 @@ async function host() {
   source = source.replace(/^import .*;\n/gm, '').replaceAll('import.meta.url', JSON.stringify(appURL.href))
     .replace('export function diagnostics', 'function diagnostics');
   vm.runInContext(source + `\nglobalThis.testHost = {
-    startMatch, home, setMode, showResult, togglePause, controls,
+    startMatch, startPractice, diagnostics, home, setMode, showResult, togglePause, controls,
     finish() { state.phase='fulltime'; state.score=[2,1]; return showResult(); },
     read() { return structuredClone({competition, activeCompetition, playing, finished, paused}); }
   };`, context, {filename:'app.mjs'});
@@ -108,4 +108,13 @@ test('host suspends gameplay on overlays, restores it on resume, and focuses res
   await h.app.finish(); assert.equal(h.app.controls.gameplayEnabled, false); assert.equal(h.app.controls.active, false);
   assert.equal(h.document.activeElement.id, 'result-next');
   h.app.home(); h.app.startMatch(); assert.equal(h.app.controls.gameplayEnabled, true);
+});
+
+test('practice invalidates an old cup result and never records or persists a fixture',async()=>{
+ const h=await host();h.app.setMode('cup');h.app.startMatch();const completion=h.app.finish();
+ const saved=structuredClone([...h.storage]);h.app.startPractice(3);
+ assert.equal(h.app.diagnostics().recordedTicks,0);assert.equal(h.app.diagnostics().practice.index,3);
+ assert.equal(h.elements.get('pause-save').hidden,true);assert.equal(h.app.read().activeCompetition,null);
+ h.pending[0].resolve(nextRound(h.pending[0]));await completion;assert.deepEqual([...h.storage],saved);
+ h.app.home();h.app.setMode('quick');h.app.startMatch();assert.equal(h.app.diagnostics().practice,null);assert.equal(h.elements.get('pause-save').hidden,false);
 });

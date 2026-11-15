@@ -32,7 +32,7 @@ export class Renderer {
     this.camera=cameraFrame(s,w,h,{zoom:this.zoom,reduced,demo},this.camera,dt);
     const view=this.camera;
     c.fillStyle='#0f2330';c.fillRect(0,0,w,h);c.save();c.translate(w/2,h/2);c.scale(view.scale,view.scale);c.translate(-view.x,-view.y);
-    this.ground(s);drawStadiumMotion(c,s,reduced,effects);
+    this.ground(s);if(s.training?.drill==='move'){const t=s.training.target;c.strokeStyle='#ffdc68';c.lineWidth=3;c.beginPath();c.ellipse(t.x/Q,t.y/Q,35,22,0,0,Math.PI*2);c.stroke();c.font='bold 12px monospace';c.textAlign='center';c.fillStyle='#fff3bf';c.fillText('DRIBBLE HERE',t.x/Q,t.y/Q-30);}drawStadiumMotion(c,s,reduced,effects);
     if(this.order.length!==s.players.length)this.order=s.players.map(p=>p.id);
     this.order.sort((a,b)=>s.players[a].y-s.players[b].y||a-b);
     for(const id of this.order){
