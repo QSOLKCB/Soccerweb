@@ -32,18 +32,16 @@ try:
  p.locator('#kickoff').focus();p.evaluate('testPads[0].axes[1]=1');p.wait_for_function("document.activeElement.id==='goalposts-button'");p.evaluate('testPads[0].axes[1]=0');p.wait_for_timeout(60)
  p.evaluate('testPads[0].buttons[2].pressed=true');p.wait_for_function("document.querySelector('#goalposts-dialog').open");p.evaluate('testPads[0].buttons[2].pressed=false');p.click('#goalposts-dialog .close')
  p.reload();install(p);assert p.evaluate("localStorage.getItem('soccerweb.controllers.v1')")==profile
- p.evaluate("""window.testPads=[];window.padShot=null;navigator.getGamepads=()=>{
+ p.evaluate("""async()=>{window.browserShot=(await import('./tests/goalposts_browser_route.mjs')).browserShot;window.testPads=[];window.padShot=null;navigator.getGamepads=()=>{
   if(padShot){
-   const s=soccerDiagnostics().state,t=s.goalposts.clock,pad=padShot,wait=s.goalposts.stage===0?90:0,release=wait+(s.goalposts.stage===0?60:45);
+   const input=browserShot(soccerDiagnostics().state),pad=padShot;
    // A virtual device delivers simultaneous D-pad/button changes at input sampling,
    // avoiding separate host round trips between aim, curve and kick release.
-   pad.axes=[s.phase==='play'&&t>=wait&&t<release?1:0,s.phase==='play'&&t>=wait&&t<=release?-1:0];
-   pad.buttons[2].pressed=s.phase==='goal'&&s.goalposts.stage===0||s.phase==='play'&&t>=wait&&t<release;
-   pad.buttons[4].pressed=s.phase==='play'&&t>=release;
+   pad.axes=[input.x,input.y];pad.buttons[2].pressed=input.fire;pad.buttons[4].pressed=input.curve<0;
    return [pad];
   }
   return testPads;
- }""")
+ }}""")
  p.click('#options-button');p.fill('#seed','731');p.locator('#seed').dispatch_event('change');p.click('#options-dialog .close')
  p.click('[data-mode="cup"]');p.click('#kickoff');p.keyboard.press('Escape');p.click('#pause-quit')
  cup=p.evaluate("localStorage.getItem('soccerweb.competition.v1')");prefs=p.evaluate("localStorage.getItem('soccerweb.preferences.v1')")

@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import {EMPTY} from '../game/state.mjs';
 import {routeInput} from './goalposts_route.mjs';
+import {browserShot} from './goalposts_browser_route.mjs';
 import {verifyReplay,stateHash} from '../replay/replay.mjs';
 
 // Execute the actual browser host with a small DOM boundary and deferred fixture work.
@@ -201,4 +202,16 @@ test('a genuinely failed GOALPOSTS replay retains its actual failure reason',asy
  assert.equal(h.app.diagnostics().state.goalposts.status,'failed');await h.app.showResult(true);
  assert.equal(h.elements.get('result-title').textContent,'THE STANDARD SURVIVES.');
  assert.match(h.elements.get('result-score').textContent,/Two goals conceded|active-time allowance expired/);
+});
+
+test('sampled browser controller route wins through the actual held-kick host progression',async()=>{
+ const h=await host();h.app.startGoalposts({difficulty:1,aftertouch:2,seed:731});
+ while(!h.app.diagnostics().finished){
+  const s=h.app.diagnostics().state;assert.ok(s.tick<2000);
+  if(s.phase==='stageclear')h.elements.get('stage-next').onclick();
+  assert.equal(h.app.runTick([browserShot(s),{...EMPTY}]),true);
+ }
+ const result=h.app.diagnostics();assert.equal(result.state.goalposts.status,'won');assert.deepEqual(result.state.score,[3,0]);
+ assert.equal(result.state.tick,1088);assert.equal(result.hash,'cacd3dd9');
+ assert.equal(stateHash(verifyReplay(JSON.parse(JSON.stringify(h.app.replay())))),result.hash);
 });
