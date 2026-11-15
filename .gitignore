@@ -1,0 +1,4 @@
+work/
+.openai/
+__pycache__/
+*.zip
