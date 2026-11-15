@@ -26,7 +26,7 @@ test('fixed timestep determinism and recorded tick inputs', () => {
     return { s, data: r.export(s) };
   };
   const a = run(), b = run(); assert.equal(stateHash(a.s), stateHash(b.s));
-  assert.equal(stateHash(a.s), '7f1ba5f7', 'Release v3 numerical regression fixture');
+  assert.equal(stateHash(a.s), 'c3d201a0', 'Release v4 numerical regression fixture');
   const replay = verifyReplay(JSON.parse(JSON.stringify(a.data))); assert.equal(stateHash(replay), stateHash(a.s));
   console.log(`Replay evidence: 4000 ticks, seed 731, final hash ${stateHash(a.s)}, ${a.data.checkpoints.length} verified checkpoints`);
 });
@@ -104,7 +104,7 @@ test('paused host makes no simulation calls; full time is immutable', () => {
 test('replay rejects malformed input, bad checksums and unsupported versions', () => {
   const s = createState(), r = new Recorder(s); step(s); r.record(s, empty()); const data = r.export(s);
   assert.throws(() => validateReplay({...data, version: 99}));
-  for(const version of [1,2])assert.throws(() => validateReplay({...data, version}), /Unsupported/, 'Reject recordings from earlier simulation rules');
+  for(const version of [1,2,3])assert.throws(() => validateReplay({...data, version}), /Unsupported/, 'Reject recordings from earlier simulation rules');
   assert.throws(() => validateReplay({...data, frames: [[[99,0,0,0],[0,0,0,0]]]}));
   assert.throws(() => verifyReplay({...data, finalHash: 'deadbeef'}));
 });

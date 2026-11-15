@@ -5,6 +5,7 @@ Serves the checkout beneath a repository subpath. No production test hooks mutat
 import functools
 import http.server
 import json
+import os
 from pathlib import Path
 import tempfile
 import threading
@@ -19,7 +20,7 @@ handler = functools.partial(QuietHandler, directory=str(ROOT.parent))
 server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), handler)
 threading.Thread(target=server.serve_forever, daemon=True).start()
 url = f'http://127.0.0.1:{server.server_port}/{ROOT.name}/'
-artifacts = ROOT / 'work' / 'browser'
+artifacts = ROOT / 'work' / 'browser' / os.environ.get('BROWSER','chromium')
 artifacts.mkdir(parents=True, exist_ok=True)
 
 def frame_sample(page):
@@ -42,11 +43,11 @@ def snapshot(page):
 
 try:
     with sync_playwright() as pw:
-        browser = pw.chromium.launch()
+        browser = getattr(pw, os.environ.get('BROWSER','chromium')).launch()
         context = browser.new_context(viewport={'width': 1365, 'height': 1000}, accept_downloads=True)
         page = context.new_page()
         errors = []
-        page.on('pageerror', lambda error: errors.append(str(error)))
+        page.on('pageerror', lambda error: (errors.append(str(error)),print('PAGE ERROR:',str(error),flush=True)))
         page.goto(url)
         page.wait_for_function("document.querySelector('#home-team').options.length === 8")
         page.evaluate("async () => { window.soccerDiagnostics = (await import('./app.mjs')).diagnostics; }")
@@ -94,6 +95,7 @@ try:
         page.keyboard.press('Space')
         assert not snapshot(page)['paused']
         page.wait_for_timeout(2800)  # Exercise sustained audio scheduling before evidence capture.
+        print('Audio resume evidence:',json.dumps({'audio':snapshot(page)['audio'],'paused':snapshot(page)['paused'],'visibility':page.evaluate('document.visibilityState')}),flush=True)
         page.wait_for_function("window.soccerDiagnostics().audio.state === 'running'")
         assert snapshot(page)['audio']['cursor'] > 0
         assert snapshot(page)['audio']['voices'] <= 64
@@ -195,7 +197,7 @@ try:
         hi.screenshot(path=str(artifacts / 'low-resolution.png'), full_page=True)
         dpi.close()
         assert not errors, errors
-        print(json.dumps({'status':'PASS','browser':'Chromium','ticks':result['state']['tick'],
+        print(json.dumps({'status':'PASS','browser':os.environ.get('BROWSER','chromium'),'ticks':result['state']['tick'],
             'replay_hash':result['hash'],'score':result['state']['score'],
             'checks':['menu rendering','keyboard movement','charged shot','pause/resume','keyboard overlay navigation and activation','full time',
                       'replay export/import verification','replay playback','indoor local P2',

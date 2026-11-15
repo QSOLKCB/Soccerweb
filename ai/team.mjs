@@ -46,7 +46,8 @@ export function aiIntent(s,p) {
     const gy=dir<0?s.h:0;
     if(own?.id===p.id){p.intent='distribute';return p.control<18?{x:0,y:0}:{x:0,y:dir*Q,kick:'pass',power:36,target:passTarget(s,p)};}
     // Reaction intervals change with difficulty; neither running speed nor reach is secretly boosted.
-    if(s.tick%(15-difficulty*3)===p.id%(15-difficulty*3)||!p.ty){
+    const reaction=s.config.indoor?8-difficulty:15-difficulty*3;
+    if(s.tick%reaction===p.id%reaction||!p.ty){
       const incoming=b.vy*dir<-2*Q;
       const line=gy+dir*24*Q;
       const time=incoming?clamp(Math.trunc((line-b.y)/b.vy),0,35):0;
@@ -60,7 +61,7 @@ export function aiIntent(s,p) {
   if(own?.id===p.id){
     p.intent='attack';
     const goalDist=Math.abs(goalY(s,p.team)-p.y)/Q,alignment=Math.abs(p.x-s.w/2)/Q;
-    if(--p.think<=0&&p.control>=8){
+    if(--p.think<=0&&p.control>=(s.config.indoor?16:8)){
       p.think=40-difficulty*7;
       const keeper=s.players.find(q=>q.team!==p.team&&q.keeper);
       const side=keeper.x>=s.w/2?-1:1;
@@ -74,7 +75,7 @@ export function aiIntent(s,p) {
       for(const foe of s.players)if(foe.team!==p.team)pressure=Math.min(pressure,distance(foe,p));
       const mate=passTarget(s,p),progress=mate?(mate.y-p.y)*dir:0;
       // Don't turn every possession into an immediate sideways pass. A clear forward lane is valuable.
-      if(mate&&laneClearance(s,p,mate,p.team)>17&&p.control>=14&&
+      if(mate&&laneClearance(s,p,mate,p.team)>17&&p.control>=(s.config.indoor?18:14)&&
           (pressure<48*Q||(progress>80*Q&&random(s)%100<team.pass)))
         return{x:0,y:dir*Q,kick:'pass',power:25,target:mate};
     }
@@ -107,6 +108,11 @@ export function aiIntent(s,p) {
       for(const foe of s.players)if(foe.team!==p.team&&!foe.keeper){const d=distance(foe,{x:tx,y:ty});if(d<best){best=d;threat=foe;}}
       if(threat&&best<210*Q){tx+=Math.trunc((threat.x-tx)*(difficulty+1)/6);ty+=Math.trunc((threat.y-dir*27*Q-ty)*(difficulty+1)/6);}
     }
+  }
+  // In the small court, keep two outlets behind possession instead of sending everyone at goal.
+  if(s.config.indoor&&own?.team===p.team&&p.number<=3){
+    const end=dir<0?s.h:0,depth=clamp(Math.trunc(Math.abs(own.y-end)*.4),85*Q,230*Q);
+    tx=s.w/2+(p.number===2?-80:80)*Q+Math.trunc((b.x-s.w/2)/6);ty=end+dir*depth;p.intent='cover';
   }
   p.tx=clamp(tx,28*Q,s.w-28*Q);p.ty=clamp(ty,55*Q,s.h-55*Q);
   return steer(s,p,p.tx,p.ty);

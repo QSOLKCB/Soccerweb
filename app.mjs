@@ -1,3 +1,4 @@
+import { createPractice, observePractice, practiceCopy, DRILL_NAMES } from './modes/practice.mjs';
 import { createState, EMPTY, attack } from './game/state.mjs';
 import { step } from './game/match.mjs';
 import { TEAMS } from './game/teams.mjs';
@@ -10,7 +11,7 @@ const $=id=>document.getElementById(id);
 const audio=new AudioEngine(),controls=new Controls(togglePause),renderer=new Renderer($('game')),preview=new Renderer($('preview'));
 let saved=readSaved('soccerweb.preferences.v1',{}),competition=readSaved('soccerweb.competition.v1',null);
 if(!saved||typeof saved!=='object')saved={};if(!validCompetition(competition))competition=null;
-let matchRun=0;
+let matchRun=0,practice=null;
 let mode='quick',state=null,previous=null,recorder=null,playing=false,paused=false,finished=false,activeCompetition=null;
 let demo=createState({humans:[false,false],seed:1988,seconds:120,difficulty:2}),demoPrev=demo;
 let accumulator=0,last=0,demoAccumulator=0,goalFrames=[],goalPlayback=null,verifiedReplay=null,playback=null,playbackIndex=0,toastTimer;
@@ -50,20 +51,29 @@ function matchConfig(){return {seed:Number($('seed').value),indoor:$('ground').v
 function updateContinue(){ $('continue').hidden=!competition||competition.complete; }
 function enterMatch(s,label){
   matchRun++;
-  state=s;previous=structuredClone(s);recorder=new Recorder(s);playing=true;paused=false;finished=false;controls.setGameplayEnabled(true);controls.active=true;
+  state=s;previous=structuredClone(s);recorder=s.training?null:new Recorder(s);playing=true;paused=false;finished=false;controls.setGameplayEnabled(true);controls.cancelPending=false;controls.active=true;
   accumulator=0;goalFrames=[];goalPlayback=null;renderer.reset();$('menu').hidden=true;$('match').hidden=false;$('pause-overlay').hidden=true;$('result-overlay').hidden=true;$('replay-tag').hidden=true;
-  $('pause-button').textContent='Ⅱ PAUSE';$('action-hint').textContent='FIND THE SPACE. PLAY THE PASS.';$('match-kind').textContent=label;$('record-status').textContent=playback?'▶ VERIFIED PLAYBACK':'● RECORDING';
+  $('pause-button').textContent='Ⅱ PAUSE';$('action-hint').textContent='FIND THE SPACE. PLAY THE PASS.';$('match-kind').textContent=label;$('pause-save').hidden=!!s.training;$('practice-retry').hidden=!s.training;$('practice-next').hidden=!s.training;$('practice-panel').hidden=!s.training;
+  $('record-status').textContent=s.training?'PRACTICE · SKILLS SESSION':playback?'▶ VERIFIED PLAYBACK':'● RECORDING';
   $('game').focus();audio.start();applyOptions();$('sound-toggle').innerHTML=muted?'♫ <span>SOUND OFF</span>':'♫ <span>SOUND ON</span>';
   audio.setPaused(false);audio.setMode(s.config.indoor?'indoor':'outdoor',s.config.weather==='rain'&&!s.config.indoor,s.config.seed);audio.event({type:'whistle'});updateHUD();window.scrollTo({top:0});
 }
 function startMatch({continueCup=false,demoMode=false}={}){
-  playback=null;playbackIndex=0;activeCompetition=null;const conf=matchConfig();
+  practice=null;playback=null;playbackIndex=0;activeCompetition=null;const conf=matchConfig();
   if(demoMode){conf.humans=[false,false];enterMatch(createState(conf),'ATTRACT MODE / CPU VS CPU');return;}
   if(continueCup&&competition&&!competition.complete)activeCompetition=structuredClone(competition);
   else if(['cup','challenge'].includes(mode)){activeCompetition=createCompetition(mode,conf.teams[0],conf.seed);competition=structuredClone(activeCompetition);save('soccerweb.competition.v1',competition);}
   if(activeCompetition){const f=nextFixture(activeCompetition);Object.assign(conf,{teams:f.teams,difficulty:f.difficulty,knockout:true,humans:[true,false],seed:activeCompetition.seed+activeCompetition.round*17});enterMatch(createState(conf),`${conf.indoor?'INDOOR':'OUTDOOR'} / ${f.round}`);}
   else enterMatch(createState(conf),`${conf.indoor?'INDOOR · 6 V 6':'OUTDOOR · 11 V 11'} / ${mode==='local'?'LOCAL 2 PLAYER':'QUICK MATCH'}`);
 }
+function startPractice(index=0){
+  playback=null;playbackIndex=0;activeCompetition=null;practice=createPractice(index,matchConfig());
+  enterMatch(practice.state,`PRACTICE / ${DRILL_NAMES[practice.index].toUpperCase()}`);
+}
+$('practice-button').onclick=()=>{$('practice-dialog').showModal();};
+$('practice-start').onclick=()=>{$('practice-dialog').close();startPractice(Number($('practice-drill').value));};
+$('practice-retry').onclick=()=>startPractice(practice?.index||0);
+$('practice-next').onclick=()=>startPractice(((practice?.index||0)+1)%DRILL_NAMES.length);
 $('kickoff').onclick=()=>startMatch();$('continue').onclick=()=>startMatch({continueCup:true});$('watch-demo').onclick=()=>startMatch({demoMode:true});
 function togglePause(force=false){
   if(!playing||finished)return;if(force&&paused)return;paused=force||!paused;audio.setPaused(paused);controls.setGameplayEnabled(!paused);accumulator=0;$('pause-overlay').hidden=!paused;$('pause-button').textContent=paused?'▶ RESUME':'Ⅱ PAUSE';
@@ -71,7 +81,7 @@ function togglePause(force=false){
 }
 $('pause-button').onclick=()=>togglePause();$('resume').onclick=()=>togglePause();
 $('exit-match').onclick=()=>togglePause(true);
-function home(){matchRun++;playing=false;paused=false;controls.active=false;controls.setGameplayEnabled(false);state=null;goalPlayback=null;playback=null;activeCompetition=null;$('match').hidden=true;$('menu').hidden=false;updateContinue();audio.setPaused(false);audio.setMode('menu');preview.reset();$('kickoff').focus();}
+function home(){matchRun++;practice=null;playing=false;paused=false;controls.active=false;controls.setGameplayEnabled(false);state=null;goalPlayback=null;playback=null;activeCompetition=null;$('match').hidden=true;$('menu').hidden=false;updateContinue();audio.setPaused(false);audio.setMode('menu');preview.reset();$('kickoff').focus();}
 $('pause-quit').onclick=home;$('result-home').onclick=home;
 function exportReplay(){
   if(!state||!recorder)return;const data=playback||recorder.export(state),blob=new Blob([JSON.stringify(data)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
@@ -79,7 +89,12 @@ function exportReplay(){
 }
 for(const id of ['pause-save','result-export'])$(id).onclick=exportReplay;
 function updateHUD(){
-  if(!state)return;const owner=state.ball.owner<0?null:state.players[state.ball.owner];
+  if(!state)return;
+  if(practice){$('practice-title').textContent=DRILL_NAMES[practice.index];$('practice-copy').textContent=practiceCopy(practice,controls.maps[0]);}
+  const selected=state.players[state.selected[0]];
+  const charge=selected.fireMode==='tackle'?'TACKLE · RELEASE TO REARM':selected.fireMode==='consumed'?'KICK SENT · RELEASE TO REARM':selected.charge?`${selected.charge<12?'TAP PASS':'SHOT'} · ${Math.round(selected.charge/60*100)}% POWER`:'';
+  $('charge-hint').textContent=charge;
+  const owner=state.ball.owner<0?null:state.players[state.ball.owner];
   const ownership=owner?`${TEAMS[state.config.teams[owner.team]].short} · ${owner.keeper?'KEEPER':'#'+owner.number} IN CONTROL`:state.ball.z>12*256?'BALL IN THE AIR':'LOOSE BALL';
   if($('possession-hint').textContent!==ownership)$('possession-hint').textContent=ownership;
   const a=TEAMS[state.config.teams[0]],b=TEAMS[state.config.teams[1]];
@@ -87,7 +102,7 @@ function updateHUD(){
   const scoreHTML=`${state.score[0]} <i>:</i> ${state.score[1]}`;if($('score').innerHTML!==scoreHTML)$('score').innerHTML=scoreHTML;
   const seconds=Math.floor(state.elapsed/60);const clockText=`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')} · ${state.sudden?'GOLDEN GOAL':state.half===1?'1ST':'2ND'}`;if($('clock').textContent!==clockText)$('clock').textContent=clockText;
   const banner=$('match-banner');
-  if(goalPlayback){banner.textContent='';return;}
+  if(goalPlayback){banner.textContent='';$('replay-tag').textContent=`GOAL REPLAY · ${state.score[0]} — ${state.score[1]}`;return;}
   if(state.phase==='kickoff')banner.innerHTML=`${state.restartType}<small>${TEAMS[state.config.teams[state.restartTeam]].name} · P1 ATTACK ${attack(state,0)<0?'↑':'↓'}</small>`;
   else if(state.phase==='goal')banner.innerHTML=`GOOOAL!<small>${TEAMS[state.config.teams[1-state.restartTeam]].name}</small>`;
   else if(state.phase==='halftime')banner.innerHTML='HALF TIME<small>SWITCH ENDS. GO AGAIN.</small>';
@@ -117,15 +132,16 @@ async function showResult(replayEnd=false){
 function tick(){
   previous=structuredClone(state);const inputs=playback?playback.frames[playbackIndex].map(unpack):controls.sample();
   if(paused)return;
-  step(state,inputs);if(!playback)recorder.record(state,inputs);else playbackIndex++;
-  for(const event of state.events){if(event.type==='goal')audio.setMode('goal',false,state.config.seed);audio.event(event);if(event.type==='kick')$('action-hint').textContent=`${TEAMS[state.config.teams[event.team]].short} · ${event.kind.toUpperCase()}${event.power>40?' · FULL POWER':''}`;else if(event.type==='save')$('action-hint').textContent=event.caught?'KEEPER HOLDS IT.':'PARRIED! CHASE THE REBOUND.';else if(event.type==='post')$('action-hint').textContent='OFF THE FRAME!';}
+  step(state,inputs);if(!playback)recorder?.record(state,inputs);else playbackIndex++;
+  if(practice&&observePractice(practice)){togglePause(true);$('practice-next').focus();}
+  for(const event of state.events){if(event.type==='goal')audio.setMode('goal',false,state.config.seed);audio.event(event);if(event.type==='kick')$('action-hint').textContent=`${TEAMS[state.config.teams[event.team]].short} · ${event.kind.toUpperCase()}${event.power>40?' · FULL POWER':''}`;else if(event.type==='save')$('action-hint').textContent=event.caught?'KEEPER HOLDS IT.':'PARRIED! CHASE THE REBOUND.';else if(event.type==='post')$('action-hint').textContent='OFF THE FRAME!';else if(event.type==='receive')$('action-hint').textContent=event.passed?'PASS COMPLETE · FIND THE NEXT RUN':'FIRST TOUCH · BALL CONTROLLED';else if(event.type==='intercept')$('action-hint').textContent='INTERCEPTED · CHANGE OF POSSESSION';else if(event.type==='tackle')$('action-hint').textContent='TACKLE WON · CHASE THE LOOSE BALL';}
   if(state.phase==='play'&&audio.mode==='goal')audio.setMode(state.config.indoor?'indoor':'outdoor',state.config.weather==='rain'&&!state.config.indoor,state.config.seed);
-  if(state.tick%3===0){goalFrames.push(structuredClone(state));if(goalFrames.length>100)goalFrames.shift();}
-  if(state.events.some(e=>e.type==='goal')&&goalFrames.length>12){goalPlayback={frames:goalFrames.slice(),time:0};$('replay-tag').hidden=false;}
+  if(!practice&&state.tick%3===0){goalFrames.push(structuredClone(state));if(goalFrames.length>100)goalFrames.shift();}
+  if(!practice&&state.events.some(e=>e.type==='goal')&&goalFrames.length>12){goalPlayback={frames:goalFrames.slice(),time:0};$('replay-tag').hidden=false;}
   if(playback&&playbackIndex>=playback.frames.length){
     if(stateHash(state)!==playback.finalHash)toast('Playback mismatch: the final state changed.');
     goalPlayback=null;$('replay-tag').hidden=true;showResult(true);
-  }else if(state.phase==='fulltime')showResult();
+  }else if(state.phase==='fulltime'){if(practice){togglePause(true);practice.message='Session finished. Choose Retry or the next drill.';}else showResult();}
   updateHUD();
 }
 function frame(now){
@@ -183,12 +199,12 @@ $('replay-file').onchange=async e=>{
   worker.onerror=()=>{$('replay-message').textContent='Replay verification could not run in this browser.';worker.terminate();};
   worker.postMessage(await file.text());
 };
-$('watch-replay').onclick=()=>{if(!verifiedReplay)return;activeCompetition=null;playback=verifiedReplay;playbackIndex=0;$('replays-dialog').close();enterMatch(createState(playback.config),'REPLAY STUDIO / VERIFIED INPUT STREAM');if(playback.frames.length===0)showResult(true);};
+$('watch-replay').onclick=()=>{if(!verifiedReplay)return;practice=null;activeCompetition=null;playback=verifiedReplay;playbackIndex=0;$('replays-dialog').close();enterMatch(createState(playback.config),'REPLAY STUDIO / VERIFIED INPUT STREAM');if(playback.frames.length===0)showResult(true);};
 document.addEventListener('visibilitychange',()=>audio.setPaused(document.hidden||paused));
 applyOptions();updateTeams();updateContinue();renderMappings();requestAnimationFrame(frame);
 if('serviceWorker'in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('./sw.js').then(async registration=>{
-  const ready=await navigator.serviceWorker.ready;if(ready.active)$('offline-status').textContent='OFFLINE READY · V2.0';
+  const ready=await navigator.serviceWorker.ready;if(ready.active)$('offline-status').textContent='OFFLINE READY · V3.0';
   if(registration.waiting)toast('A game update is ready. Close other Soccerweb tabs and reopen to update.');
 }).catch(()=>$('offline-status').textContent='ONLINE MODE · CACHE UNAVAILABLE');
 // Read-only diagnostics used by the browser smoke suite; never exposes mutable simulation objects.
-export function diagnostics(){return state?{state:structuredClone(state),paused,playing,finished,hash:stateHash(state),recordedTicks:recorder?.frames.length||0,audio:{mode:audio.mode,state:audio.ctx?.state||'uninitialized',voices:audio.voices.size,cursor:audio.cursor}}:null;}
+export function diagnostics(){return state?{state:structuredClone(state),paused,playing,finished,hash:stateHash(state),recordedTicks:recorder?.frames.length||0,practice:practice?{index:practice.index,progress:practice.progress,complete:practice.complete}:null,audio:{mode:audio.mode,state:audio.ctx?.state||'uninitialized',voices:audio.voices.size,cursor:audio.cursor,paused:audio.paused}}:null;}

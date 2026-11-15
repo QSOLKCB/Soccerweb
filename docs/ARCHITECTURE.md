@@ -30,11 +30,11 @@ The simulation imports no DOM, browser clock, rendering or audio code. `step(sta
 
 The reproducibility promise is **same release/version + normalized config/seed + the same tick-indexed input = the same final authoritative state**. Regression tests and browser re-import test this promise. Cross-browser CPU/audio bit identity is not claimed without cross-browser evidence. Changing numerical rules requires a replay format/version migration or explicit incompatibility; preserve fixtures before doing so.
 
-## Input and replay format v3
+## Input and replay format v4
 
-Version 3 changes movement response, AI, pass impulses, contact arbitration, keeper handling and indoor drag/rebounds, and adds authoritative control/pass metadata. Versions 1 and 2 are explicitly rejected; no migration or silently changed resimulation is attempted. Version 2 previously corrected goal-frame scoring precedence; that correction is preserved.
+Version 4 changes action gesture/short first-time buffering, control on receipt, contested ownership, keeper catches and indoor AI decisions. Player fire-mode/pending-action fields are authoritative. Versions 1, 2 and 3 are explicitly rejected; no migration or silently changed resimulation is attempted. Version 2 previously corrected goal-frame scoring precedence; that correction is preserved.
 
-One frame contains two arrays: `[horizontal, vertical, buttons, curve]`. Axes and curve are integers in -1..1. Button bits: kick=1, pass=2, chip=4, switch=8. Entries are indexed by tick; there is no wall-clock timestamp. Input arrays include both teams even when one is AI-controlled. AI is rerun, not recorded as canned positions.
+One frame contains two arrays: `[horizontal, vertical, buttons, curve]`. Axes and curve are integers in -1..1. Button bits: kick=1, pass=2, chip=4, switch=8, cancel gesture=16. Resume after an overlay emits one cancel bit on the next active tick, recorded like other input; pause itself never mutates authoritative state. Entries are indexed by tick; there is no wall-clock timestamp. Input arrays include both teams even when one is AI-controlled. AI is rerun, not recorded as canned positions.
 
 Exported JSON includes `format`, `version`, normalized `config`, `frames`, `[tick, hash]` checkpoints every 300 ticks and `finalHash`. The state hash is 32-bit FNV-1a over a stable JSON representation excluding transient audio/UI events. It is an engineering drift detector, **not a cryptographic integrity or anti-cheat mechanism**. Do not compare replays across changed simulation versions.
 
@@ -44,7 +44,7 @@ Imports are limited to 12 MB in the UI and 120,000 frames by the verifier. Schem
 
 Outfield shape uses formations, goal-side marking, support triangles and teammate separation. A friendly carrier receives support rather than another chaser at their feet. Intended receivers chase free passes. Pass utility penalizes obstructed lanes using pixel-quantized segment distances; short passes lead the receiver and scale speed by distance. Carriers settle for at least eight ticks before shooting and fourteen before passing; shots aim away from the keeper with seeded difficulty-dependent error.
 
-Difficulty changes reaction intervals, interception anticipation, shot error and marking, preserving running speed and keeper reach. Keepers predict goal-plane intersections, dive on incoming threats and hold catches before distribution. Hard shots usually rebound; a close diving contact may catch one. Saves count shot/chip/overhead contacts, not ordinary passes.
+Difficulty changes reaction intervals, interception anticipation, shot error and marking, preserving running speed and keeper reach. Keepers predict goal-plane intersections, dive on incoming threats and hold catches before distribution. Hard shots usually rebound; a close diving contact may catch one. A caught ball is protected from other players until distribution, with a short spring target near the keeper rather than the ordinary leading-foot dribble. Passive steals require the defender to be at least three pixels closer than the carrier. First touches dissipate incoming velocity without snapping ball position. Indoor keeper reaction intervals are 7/6/5 ticks at Club/Pro/Elite; reach/speed stay unchanged. Two indoor defenders remain behind possession, and carriers settle for 16 ticks before shot decisions / 18 before pass decisions. Saves count shot/chip/overhead contacts, not ordinary passes.
 
 Human dry acceleration is 62 Q8 units/tick (was 58), with stronger dry braking and turning; wet acceleration/braking remain lower. Top speeds remain 790 outdoor / 900 indoor. Shot direction reads the current release tick. Aerial kick input no longer initiates an unreachable ground slide. Physical spring dribbling, charge thresholds, aftertouch, switching and arcade rules remain intact. Indoor drag is 252/256 and wall restitution 224/256, separately from outdoor conditions.
 
@@ -57,6 +57,12 @@ Five original 32-bar themes (menu/outdoor/indoor/goal/victory) use intro, verse,
 The live Web Audio graph uses separate music/SFX buses, stereo panning, shaped gain ramps and a compressor before master gain. Scheduling uses tick buckets, a 120 ms lookahead, a 16-tick catch-up bound and at most 64 simultaneous voice groups; ended sources disconnect. Theme changes release existing music voices. Serialized suspend/resume transitions follow pause and tab visibility. Audio starts after a browser interaction. Actual speaker output remains browser/device dependent and is never authoritative.
 
 `referencePCM` is a separate, specified 16 kHz mono signed-16-bit square-wave reference. It uses integer millihertz frequency constants, a 16-bit phase accumulator, integer envelopes and saturation. It tests reproducible PCM for the musical event sequence; it is **not** a bit-exact rendering of the complete Web Audio mix, noise, effects or device output.
+
+## Action and practice isolation
+
+`game/actions.mjs` gives each kick press a context: kick, tackle or consumed. A dedicated pass/chip consumes a held kick until release; a tackle cannot become a charged shot. A nearby unavailable ball can queue one first-time action for at most six ticks, canceled on a new gesture, selection loss, another carrier, stopped play or the recorded resume-cancel input. Input taps shorter than one tick are sampled once by `Controls` and recorded as ordinary tick inputs. Keyboard/gamepad both feed the same action logic.
+
+`modes/practice.mjs` authors six isolated setups. Its `training` state flag freezes unused actors, while human movement, active keeper decisions, contacts, goals and passes run through `step`. A host-only observer tracks real outcomes and pauses on completion. Practice has no Recorder, no competition attachment and no persistence writes. Starting it increments the existing match-run ID, invalidating any pending prior fixture completion. Normal states never contain `training`.
 
 ## Rendering budget and accessibility
 

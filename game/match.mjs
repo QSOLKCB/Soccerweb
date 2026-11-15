@@ -2,9 +2,10 @@ import { Q, clamp, mul, vector, random, distance } from '../simulation/math.mjs'
 import { EMPTY, attack, resetPositions, nearest } from './state.mjs';
 import { aiIntent } from '../ai/team.mjs';
 import { kick, tackle, ballPhysics } from '../simulation/physics.mjs';
+import { humanAction } from './actions.mjs';
 export function normalizeInput(i = EMPTY) {
   return { x: clamp(Math.trunc(i.x || 0), -1, 1), y: clamp(Math.trunc(i.y || 0), -1, 1),
-    fire: !!i.fire, pass: !!i.pass, chip: !!i.chip, switch: !!i.switch, curve: clamp(Math.trunc(i.curve || 0), -1, 1) };
+    cancel: !!i.cancel, fire: !!i.fire, pass: !!i.pass, chip: !!i.chip, switch: !!i.switch, curve: clamp(Math.trunc(i.curve || 0), -1, 1) };
 }
 function restart(s) {
   if (s.phase === 'goal') {
@@ -23,6 +24,7 @@ export function step(s, inputs = [EMPTY, EMPTY]) {
   if (s.phase === 'fulltime') return s;
   const ins = inputs.map(normalizeInput); s.events = []; s.tick++;
   if (s.phase !== 'play') {
+    for(const p of s.players){p.charge=0;p.fireMode='idle';p.pending=null;}
     if (--s.timer <= 0) restart(s);
     s.previous = ins; return s;
   }
@@ -47,18 +49,10 @@ export function step(s, inputs = [EMPTY, EMPTY]) {
     let action;
     if (human) {
       const i = ins[p.team], prev = s.previous[p.team];
-      const [x, y] = vector(i.x * Q, i.y * Q, Q); action = { x, y };
-      if(x||y){p.fx=x;p.fy=y;} // Aim uses the release tick, not the previous frame.
-      if (i.fire) p.charge = Math.min(60, p.charge + 1);
-      if (i.fire && !prev.fire && s.ball.z < 12 * Q && (s.ball.owner >= 0 && s.players[s.ball.owner].team !== p.team || distance(p, s.ball) > 32 * Q)) tackle(s, p);
-      if ((!i.fire && prev.fire) || i.pass && !prev.pass || i.chip && !prev.chip) {
-        let kind = i.pass ? 'pass' : i.chip ? 'chip' : p.charge < 12 ? 'pass' : 'shot';
-        if (s.ball.z > 15 * Q && i.y === -attack(s, p.team)) kind = 'overhead';
-        kick(s, p, kind, p.charge || 25, null, i.curve * (1 + s.config.aftertouch)); p.charge = 0;
-      }
-      if (s.ball.kicker === p.id && s.ball.flight && s.ball.owner < 0) s.ball.spin = clamp(s.ball.spin + (i.curve || i.x) * s.config.aftertouch, -18, 18);
+      action=humanAction(s,p,i,prev);
     } else {
-      action = aiIntent(s, p);
+      p.charge=0;p.fireMode='idle';p.pending=null;
+      action = s.training&&!s.training.active.includes(p.id)?{x:0,y:0}:aiIntent(s, p);
       if (action.kick) kick(s, p, action.kick, action.power, action.target || (action.aimX !== undefined ? { x: action.aimX, y: action.aimY } : null));
       if (action.tackle) tackle(s, p);
     }

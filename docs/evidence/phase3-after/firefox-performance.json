@@ -1,0 +1,166 @@
+[
+  {
+    "options": {
+      "camera": "wide",
+      "weather": "clear"
+    },
+    "viewport": [
+      1365,
+      1000
+    ],
+    "dpr": 1,
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:142.0) Gecko/20100101 Firefox/142.0",
+    "logicalCPUs": 4,
+    "stages": {
+      "update": {
+        "samples": 300,
+        "meanMs": 0.22,
+        "p95Ms": 1,
+        "maxMs": 2
+      },
+      "snapshot": {
+        "samples": 300,
+        "meanMs": 0.19666666666666666,
+        "p95Ms": 1,
+        "maxMs": 2
+      },
+      "render": {
+        "samples": 300,
+        "meanMs": 3.32,
+        "p95Ms": 5,
+        "maxMs": 7
+      },
+      "raf": {
+        "samples": 300,
+        "meanMs": 16.66693333333335,
+        "p95Ms": 17.100000000000364,
+        "maxMs": 17.340000000000146
+      }
+    },
+    "longRAF": 0,
+    "heap": null
+  },
+  {
+    "options": {
+      "camera": "close",
+      "weather": "rain"
+    },
+    "viewport": [
+      1365,
+      1000
+    ],
+    "dpr": 1,
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:142.0) Gecko/20100101 Firefox/142.0",
+    "logicalCPUs": 4,
+    "stages": {
+      "update": {
+        "samples": 300,
+        "meanMs": 0.20666666666666667,
+        "p95Ms": 1,
+        "maxMs": 2
+      },
+      "snapshot": {
+        "samples": 300,
+        "meanMs": 0.22333333333333333,
+        "p95Ms": 1,
+        "maxMs": 2
+      },
+      "render": {
+        "samples": 300,
+        "meanMs": 3.723333333333333,
+        "p95Ms": 5,
+        "maxMs": 6
+      },
+      "raf": {
+        "samples": 300,
+        "meanMs": 16.66900000000003,
+        "p95Ms": 17.100000000000364,
+        "maxMs": 17.12000000000012
+      }
+    },
+    "longRAF": 0,
+    "heap": null
+  },
+  {
+    "options": {
+      "camera": "wide",
+      "indoor": true
+    },
+    "viewport": [
+      1365,
+      1000
+    ],
+    "dpr": 1,
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:142.0) Gecko/20100101 Firefox/142.0",
+    "logicalCPUs": 4,
+    "stages": {
+      "update": {
+        "samples": 300,
+        "meanMs": 0.14333333333333334,
+        "p95Ms": 1,
+        "maxMs": 2
+      },
+      "snapshot": {
+        "samples": 300,
+        "meanMs": 0.13333333333333333,
+        "p95Ms": 1,
+        "maxMs": 2
+      },
+      "render": {
+        "samples": 300,
+        "meanMs": 2.6466666666666665,
+        "p95Ms": 4,
+        "maxMs": 6
+      },
+      "raf": {
+        "samples": 300,
+        "meanMs": 16.668933333333346,
+        "p95Ms": 17.100000000000364,
+        "maxMs": 17.12000000000012
+      }
+    },
+    "longRAF": 0,
+    "heap": null
+  },
+  {
+    "options": {
+      "camera": "close",
+      "indoor": true
+    },
+    "viewport": [
+      900,
+      900
+    ],
+    "dpr": 2,
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:142.0) Gecko/20100101 Firefox/142.0",
+    "logicalCPUs": 4,
+    "stages": {
+      "update": {
+        "samples": 300,
+        "meanMs": 0.12333333333333334,
+        "p95Ms": 1,
+        "maxMs": 3
+      },
+      "snapshot": {
+        "samples": 300,
+        "meanMs": 0.19333333333333333,
+        "p95Ms": 1,
+        "maxMs": 2
+      },
+      "render": {
+        "samples": 300,
+        "meanMs": 4.316666666666666,
+        "p95Ms": 6,
+        "maxMs": 8
+      },
+      "raf": {
+        "samples": 300,
+        "meanMs": 16.66520000000003,
+        "p95Ms": 17.100000000000364,
+        "maxMs": 17.11999999999989
+      }
+    },
+    "longRAF": 0,
+    "heap": null
+  }
+]

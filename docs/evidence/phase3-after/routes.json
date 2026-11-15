@@ -1,0 +1,489 @@
+[
+  {
+    "ground": "outdoor",
+    "difficulty": "1",
+    "controlledTravelPixels": 1317.7578125,
+    "ticks": 593,
+    "stats": {
+      "shots": [
+        0,
+        0
+      ],
+      "saves": [
+        0,
+        0
+      ],
+      "passes": [
+        0,
+        3
+      ],
+      "tackles": [
+        0,
+        1
+      ],
+      "completedPasses": [
+        0,
+        1
+      ],
+      "possession": [
+        73,
+        126
+      ]
+    },
+    "score": [
+      0,
+      0
+    ],
+    "observedEvents": [
+      {
+        "type": "intercept",
+        "team": 0,
+        "player": 5
+      }
+    ],
+    "hash": "8ec4421a"
+  },
+  {
+    "ground": "outdoor",
+    "difficulty": "2",
+    "controlledTravelPixels": 1739.15234375,
+    "ticks": 592,
+    "stats": {
+      "shots": [
+        2,
+        0
+      ],
+      "saves": [
+        0,
+        1
+      ],
+      "passes": [
+        1,
+        1
+      ],
+      "tackles": [
+        0,
+        0
+      ],
+      "completedPasses": [
+        1,
+        1
+      ],
+      "possession": [
+        263,
+        64
+      ]
+    },
+    "score": [
+      0,
+      0
+    ],
+    "observedEvents": [
+      {
+        "type": "intercept",
+        "team": 0,
+        "player": 6
+      }
+    ],
+    "hash": "e62e56ff"
+  },
+  {
+    "ground": "outdoor",
+    "difficulty": "3",
+    "controlledTravelPixels": 1727.875,
+    "ticks": 596,
+    "stats": {
+      "shots": [
+        1,
+        0
+      ],
+      "saves": [
+        0,
+        1
+      ],
+      "passes": [
+        0,
+        5
+      ],
+      "tackles": [
+        1,
+        1
+      ],
+      "completedPasses": [
+        0,
+        5
+      ],
+      "possession": [
+        183,
+        149
+      ]
+    },
+    "score": [
+      0,
+      0
+    ],
+    "observedEvents": [
+      {
+        "type": "kick",
+        "kind": "pass",
+        "team": 1,
+        "player": 16,
+        "power": 25,
+        "speed": 6,
+        "x": 38819,
+        "y": 150248
+      },
+      {
+        "type": "receive",
+        "team": 1,
+        "player": 20,
+        "passed": true
+      }
+    ],
+    "hash": "8bcdc8d8"
+  },
+  {
+    "ground": "indoor",
+    "difficulty": "1",
+    "controlledTravelPixels": 1977.4921875,
+    "ticks": 580,
+    "stats": {
+      "shots": [
+        0,
+        1
+      ],
+      "saves": [
+        1,
+        0
+      ],
+      "passes": [
+        0,
+        1
+      ],
+      "tackles": [
+        0,
+        1
+      ],
+      "completedPasses": [
+        0,
+        1
+      ],
+      "possession": [
+        86,
+        158
+      ]
+    },
+    "score": [
+      0,
+      0
+    ],
+    "observedEvents": [
+      {
+        "type": "bounce",
+        "speed": 0
+      }
+    ],
+    "hash": "746659d5"
+  },
+  {
+    "ground": "indoor",
+    "difficulty": "2",
+    "controlledTravelPixels": 926.4921875,
+    "ticks": 350,
+    "stats": {
+      "shots": [
+        0,
+        0
+      ],
+      "saves": [
+        0,
+        0
+      ],
+      "passes": [
+        0,
+        0
+      ],
+      "tackles": [
+        3,
+        0
+      ],
+      "completedPasses": [
+        0,
+        0
+      ],
+      "possession": [
+        21,
+        138
+      ]
+    },
+    "score": [
+      0,
+      1
+    ],
+    "observedEvents": [
+      {
+        "type": "receive",
+        "team": 1,
+        "player": 10,
+        "passed": false
+      },
+      {
+        "type": "wall",
+        "speed": 2
+      },
+      {
+        "type": "receive",
+        "team": 1,
+        "player": 10,
+        "passed": false
+      },
+      {
+        "type": "wall",
+        "speed": 2
+      },
+      {
+        "type": "receive",
+        "team": 1,
+        "player": 10,
+        "passed": false
+      },
+      {
+        "type": "wall",
+        "speed": 2
+      },
+      {
+        "type": "receive",
+        "team": 1,
+        "player": 10,
+        "passed": false
+      },
+      {
+        "type": "wall",
+        "speed": 3
+      },
+      {
+        "type": "receive",
+        "team": 1,
+        "player": 10,
+        "passed": false
+      },
+      {
+        "type": "wall",
+        "speed": 3
+      },
+      {
+        "type": "receive",
+        "team": 1,
+        "player": 10,
+        "passed": false
+      },
+      {
+        "type": "post",
+        "speed": 4
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      }
+    ],
+    "hash": "775951e4"
+  },
+  {
+    "ground": "indoor",
+    "difficulty": "3",
+    "controlledTravelPixels": 1354.20703125,
+    "ticks": 463,
+    "stats": {
+      "shots": [
+        0,
+        2
+      ],
+      "saves": [
+        1,
+        0
+      ],
+      "passes": [
+        0,
+        3
+      ],
+      "tackles": [
+        0,
+        2
+      ],
+      "completedPasses": [
+        0,
+        3
+      ],
+      "possession": [
+        7,
+        145
+      ]
+    },
+    "score": [
+      0,
+      1
+    ],
+    "observedEvents": [
+      {
+        "type": "slide",
+        "team": 1,
+        "player": 10,
+        "speed": 3
+      },
+      {
+        "type": "tackle",
+        "team": 1,
+        "player": 10
+      },
+      {
+        "type": "tackle",
+        "team": 1,
+        "player": 10
+      },
+      {
+        "type": "save",
+        "team": 0,
+        "player": 0,
+        "speed": 14,
+        "caught": false
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      },
+      {
+        "type": "goal",
+        "team": 1
+      }
+    ],
+    "hash": "63bce21e"
+  }
+]

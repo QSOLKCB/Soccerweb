@@ -1,3 +1,20 @@
+# SOCCERWEB 3.0.0 — The Matchday Experience
+
+Focused playability improvements on merged PR #3. The native buildless runtime, original procedural assets, offline/subpath behavior and main-only Pages deployment contract remain intact.
+
+- One kick press has one purpose: quick pass, charge/release or nearby tackle. Dedicated pass/chip consumes a held kick; changing selection or losing the ball cancels unsafe release. Keyboard/gamepad resume sends a recorded cancel input instead of releasing an old charge. Very short action taps survive until the next input sample. A bounded six-tick first-time window still requires physical reach.
+- Keeper catches are protected until distribution, fixing alternating keeper/attacker possession loops. First touch dissipates incoming velocity; passive steals require a genuinely closer defender. No new scoring shortcuts, teleporting control or hidden speed/reach boosts.
+- Indoor keepers respond earlier, two defenders retain cover, and carriers settle before decisions. The paired 96-fixture sweep reduced indoor short spells from 75.9% to 57.7% and five-goal margins from seven fixtures to three. Outdoor/individual-difficulty regressions and Club indoor outliers remain documented.
+- Six interactive Practice / Skills drills: movement, three passes, charge/release, a curved goal, tackling and keeper awareness. Real controls/physics, remapping-aware instructions, retry/next controls, isolated statistics and no cup/replay writes.
+- Clearer charge/consumed-action, pass receipt, tackle/interception and goal-replay score feedback. Quiet contextual SFX; browser-compatible envelope release and gesture-time audio resume.
+- Expanded Chromium/Firefox automation, sustained input routes, virtual gamepads, captured live Web Audio, and separate simulation/snapshot/render CPU measurements. Test tools are not shipped.
+
+Replay **v4** deliberately rejects v1/v2/v3; no migration. Seed 731 / 4,000 ticks / 13 checkpoints: **`c3d201a0`**. The deterministic music/reference DSP fixture remains **`7787ba01`**. Preferences and between-round competition history keep their schema. All new runtime modules are precached with a new service-worker version.
+
+See [Phase 3 evidence](PHASE-3.md), [verification](VERIFICATION.md) and the [owner acceptance script](MANUAL-QA.md). Human playtesting/listening, physical controllers, Safari/WebKit and ordinary-laptop profiling were **NOT RUN**. The automated results do not prove enjoyable difficulty or full acceptance. Existing arcade-rule, touch, online-play and replay-seeking limitations remain. Keep this PR unmerged for owner review.
+
+---
+
 # SOCCERWEB 2.0.0 — The Beautiful Game
 
 Phase 2 builds on merged PR #1. Native HTML/CSS/modules, Canvas 2D, Web Audio, offline play and the fixed 60 Hz Q8 simulation remain the runtime foundation. All artwork, identities, melodies and effects are original procedural content.

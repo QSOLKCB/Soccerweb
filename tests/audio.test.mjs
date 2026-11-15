@@ -27,13 +27,13 @@ test('all five themes have stable distinct traces with rhythm, bass, lead and ha
 });
 test('SFX recipes are deterministic, strength-sensitive, bounded and do not consume game RNG',()=>{
   const game={rng:42},before=JSON.stringify(game);
-  for(const type of ['kick','slide','slip','post','save','bounce','wall','whistle','goal','crowd','rain','menu']){
+  for(const type of ['receive','intercept','tackle','kick','slide','slip','post','save','bounce','wall','whistle','goal','crowd','rain','menu']){
     const e={type,kind:'shot',speed:12,power:45,player:9,caught:true},r=effectRecipe(e,1988);
     assert.ok(r.length);assert.deepEqual(r,effectRecipe(e,1988));assert.ok(r.every(n=>n.duration>0&&n.duration<3&&n.gain<=.3&&n.at>=0));
   }
   assert.notDeepEqual(effectRecipe({type:'kick',speed:3}),effectRecipe({type:'kick',speed:15}));assert.equal(JSON.stringify(game),before);
 });
-class Param {setValueAtTime(){}exponentialRampToValueAtTime(){}linearRampToValueAtTime(){}setTargetAtTime(){}cancelAndHoldAtTime(){}}
+class Param {setValueAtTime(){}exponentialRampToValueAtTime(){}linearRampToValueAtTime(){}setTargetAtTime(){}cancelScheduledValues(){}cancelAndHoldAtTime(){}}
 class AudioNode {
   constructor(ctx){this.ctx=ctx;for(const name of ['gain','frequency','pan','threshold','knee','ratio','attack','release'])this[name]=new Param();}
   connect(){}disconnect(){this.disconnected=true;}start(at){this.startAt=at;this.ctx.sources.add(this);}stop(at){this.stopAt=at;}
@@ -55,4 +55,9 @@ test('audio scheduler stays bounded, cleans up nodes and serializes pause/resume
   audio.setPaused(true);await audio.transition;assert.equal(audio.ctx.state,'suspended');const paused=audio.cursor;audio.update();assert.equal(audio.cursor,paused);
   audio.setPaused(true);audio.setPaused(false);await audio.transition;assert.equal(audio.ctx.state,'running');
   audio.setMode('menu');audio.ctx.advance(4);assert.equal(audio.voices.size,0);assert.equal(audio.ctx.sources.size,0);
+});
+
+test('theme release supports AudioParam implementations without cancelAndHoldAtTime',async()=>{
+ const hold=Param.prototype.cancelAndHoldAtTime;Param.prototype.cancelAndHoldAtTime=undefined;
+ try{globalThis.window={AudioContext:FakeContext};const audio=new AudioEngine();await audio.start();audio.update();audio.ctx.advance(.03);audio.setMode('goal');audio.ctx.advance(1);assert.equal(audio.voices.size,0);}finally{Param.prototype.cancelAndHoldAtTime=hold;}
 });

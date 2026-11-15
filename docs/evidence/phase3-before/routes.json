@@ -1,0 +1,356 @@
+[
+  {
+    "ground": "outdoor",
+    "difficulty": "1",
+    "ticks": 597,
+    "stats": {
+      "shots": [
+        0,
+        1
+      ],
+      "saves": [
+        1,
+        0
+      ],
+      "passes": [
+        1,
+        2
+      ],
+      "tackles": [
+        0,
+        0
+      ],
+      "completedPasses": [
+        0,
+        1
+      ],
+      "possession": [
+        47,
+        164
+      ]
+    },
+    "score": [
+      0,
+      0
+    ],
+    "observedEvents": [
+      {
+        "type": "whistle"
+      },
+      {
+        "type": "kick",
+        "kind": "pass",
+        "team": 1,
+        "player": 20,
+        "power": 25,
+        "speed": 9,
+        "x": 27816,
+        "y": 184870
+      }
+    ],
+    "hash": "1a59de17"
+  },
+  {
+    "ground": "outdoor",
+    "difficulty": "2",
+    "ticks": 600,
+    "stats": {
+      "shots": [
+        0,
+        0
+      ],
+      "saves": [
+        0,
+        0
+      ],
+      "passes": [
+        1,
+        4
+      ],
+      "tackles": [
+        1,
+        0
+      ],
+      "completedPasses": [
+        0,
+        3
+      ],
+      "possession": [
+        98,
+        190
+      ]
+    },
+    "score": [
+      0,
+      0
+    ],
+    "observedEvents": [],
+    "hash": "174d934b"
+  },
+  {
+    "ground": "outdoor",
+    "difficulty": "3",
+    "ticks": 600,
+    "stats": {
+      "shots": [
+        0,
+        1
+      ],
+      "saves": [
+        1,
+        0
+      ],
+      "passes": [
+        0,
+        7
+      ],
+      "tackles": [
+        0,
+        0
+      ],
+      "completedPasses": [
+        0,
+        7
+      ],
+      "possession": [
+        46,
+        218
+      ]
+    },
+    "score": [
+      0,
+      0
+    ],
+    "observedEvents": [
+      {
+        "type": "kick",
+        "kind": "pass",
+        "team": 1,
+        "player": 20,
+        "power": 25,
+        "speed": 7,
+        "x": 28263,
+        "y": 174886
+      }
+    ],
+    "hash": "3a9653a8"
+  },
+  {
+    "ground": "indoor",
+    "difficulty": "1",
+    "ticks": 584,
+    "stats": {
+      "shots": [
+        0,
+        1
+      ],
+      "saves": [
+        1,
+        0
+      ],
+      "passes": [
+        1,
+        2
+      ],
+      "tackles": [
+        0,
+        3
+      ],
+      "completedPasses": [
+        1,
+        1
+      ],
+      "possession": [
+        89,
+        162
+      ]
+    },
+    "score": [
+      0,
+      0
+    ],
+    "observedEvents": [],
+    "hash": "9e712e0c"
+  },
+  {
+    "ground": "indoor",
+    "difficulty": "2",
+    "ticks": 586,
+    "stats": {
+      "shots": [
+        0,
+        2
+      ],
+      "saves": [
+        2,
+        0
+      ],
+      "passes": [
+        1,
+        2
+      ],
+      "tackles": [
+        1,
+        1
+      ],
+      "completedPasses": [
+        1,
+        2
+      ],
+      "possession": [
+        96,
+        150
+      ]
+    },
+    "score": [
+      0,
+      0
+    ],
+    "observedEvents": [],
+    "hash": "a57f00d4"
+  },
+  {
+    "ground": "indoor",
+    "difficulty": "3",
+    "ticks": 325,
+    "stats": {
+      "shots": [
+        0,
+        0
+      ],
+      "saves": [
+        0,
+        0
+      ],
+      "passes": [
+        1,
+        0
+      ],
+      "tackles": [
+        0,
+        2
+      ],
+      "completedPasses": [
+        0,
+        0
+      ],
+      "possession": [
+        25,
+        70
+      ]
+    },
+    "score": [
+      1,
+      0
+    ],
+    "observedEvents": [
+      {
+        "type": "slide",
+        "team": 1,
+        "player": 10,
+        "speed": 3
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      },
+      {
+        "type": "goal",
+        "team": 0
+      }
+    ],
+    "hash": "aeb508e8"
+  }
+]

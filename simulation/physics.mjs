@@ -3,7 +3,7 @@ import { attack, goalY } from '../game/state.mjs';
 import { passTarget } from '../ai/team.mjs';
 export function kick(s, p, kind = 'shot', power = 30, aim = null, curve = 0) {
   const b = s.ball;
-  if (distance(p, b) > 30 * Q || b.z > 55 * Q || p.cooldown > 0) return false;
+  if (b.kind==='caught' && b.owner>=0 && b.owner!==p.id || distance(p, b) > 30 * Q || b.z > 55 * Q || p.cooldown > 0) return false;
   let dx = p.fx, dy = p.fy;
   const target = kind === 'pass' ? (aim || passTarget(s, p, dx / Q, dy / Q)) : aim;
   if (target) {
@@ -80,7 +80,7 @@ export function ballPhysics(s) {
   }
   const contacts = s.players.filter(p => {
     const reach = (p.keeper && p.dive ? 24 : p.keeper ? 19 : p.slide ? 23 : 12) * Q;
-    return !(b.immunity && b.kicker === p.id) && !p.slip && distance(p,b) <= reach;
+    return !(b.kind==='caught'&&b.owner>=0&&b.owner!==p.id) && !(b.immunity && b.kicker === p.id) && !p.slip && distance(p,b) <= reach;
   }).sort((a,c) => distance(a,b)-distance(c,b) || a.id-c.id);
   for (const p of contacts) {
     const d = distance(p, b), speed = length(b.vx, b.vy);
@@ -88,22 +88,25 @@ export function ballPhysics(s) {
     const keeper = p.keeper && Math.abs(p.y - ownEnd) < 165 * Q;
     const radius = (keeper && p.dive ? 24 : keeper ? 19 : p.slide ? 23 : 12) * Q;
     if (b.immunity && b.kicker === p.id || p.slip || d > radius || b.z > (keeper ? 36 : p.slide ? 8 : 13) * Q) continue;
-    if (keeper && b.owner !== p.id && b.last !== p.team && speed > 2 * Q) {
+    if (keeper && b.owner !== p.id && b.last !== p.team && speed > 2 * Q && (b.owner<0||d+3*Q<distance(s.players[b.owner],b))) {
       if (['shot','chip','overhead'].includes(b.kind)) s.stats.saves[p.team]++;
       s.events.push({ type: 'save', team: p.team, player:p.id, speed:Math.trunc(speed/Q), caught:!(speed > 11*Q && (!p.dive || d > 10*Q)) });
       if (speed > 11 * Q && (!p.dive || d > 10*Q)) {
         b.vy = attack(s, p.team) * Math.abs(mul(b.vy, 155)); b.vx += Math.trunc((b.x - p.x) / 6); b.vz = 2 * Q;
         b.last = p.team; b.kicker = p.id; b.immunity = 14; b.owner = -1; b.kind='rebound'; break;
       }
-      b.vx = b.vy = b.vz = 0; b.z = 0; b.owner = p.id; b.last = p.team; b.kind='held'; p.control=0; break;
+      b.vx = b.vy = b.vz = 0; b.z = 0; b.owner = p.id; b.last = p.team; b.kind='caught'; p.control=0; break;
     } else if (p.slide && b.owner !== p.id) {
       b.owner = -1; b.vx = p.vx + mul(p.fx, 4 * Q); b.vy = p.vy + mul(p.fy, 4 * Q);
-      b.last = p.team; b.kicker = p.id; b.immunity = 10; s.stats.tackles[p.team]++; b.kind='loose'; break;
+      b.last = p.team; b.kicker = p.id; b.immunity = 10; s.stats.tackles[p.team]++; b.kind='loose'; s.events.push({type:'tackle',team:p.team,player:p.id});break;
     } else if (b.owner < 0 && (speed < 9 * Q || keeper)) {
-      if(b.kind==='pass' && b.last===p.team && b.kicker!==p.id)s.stats.completedPasses[p.team]++;
-      b.owner = p.id; b.last = p.team; b.kind='held'; p.control=0; break;
+      const passed=b.kind==='pass' && b.last===p.team && b.kicker!==p.id;
+      if(passed)s.stats.completedPasses[p.team]++;
+      b.owner = p.id; b.last = p.team; b.kind=keeper?'caught':'held'; p.control=0;
+      b.vx=Math.trunc((b.vx+p.vx)/3);b.vy=Math.trunc((b.vy+p.vy)/3);
+      s.events.push({type:'receive',team:p.team,player:p.id,passed});break;
     }
-    else if (b.owner >= 0 && s.players[b.owner].team !== p.team && d < 9 * Q) { b.owner = p.id; b.last = p.team; b.kind='held'; p.control=0; break; }
+    else if (b.owner >= 0 && s.players[b.owner].team !== p.team && d < 9 * Q && d+3*Q<distance(s.players[b.owner],b)) { b.owner = p.id; b.last = p.team; b.kind='held'; p.control=0; s.events.push({type:'intercept',team:p.team,player:p.id});break; }
     else if (b.owner < 0 && d < 10 * Q) {
       const [nx, ny] = vector(b.x - p.x || Q, b.y - p.y, Q);
       const dot = mul(b.vx, nx) + mul(b.vy, ny);
@@ -113,7 +116,7 @@ export function ballPhysics(s) {
   // A dribble is a spring impulse toward the runner's leading foot. The ball remains free.
   if (b.owner >= 0) {
     const p = s.players[b.owner];
-    const dx = p.x + mul(p.fx, 15 * Q) - b.x, dy = p.y + mul(p.fy, 15 * Q) - b.y;
+    const dx = p.x + mul(p.fx, (b.kind==='caught'?3:15) * Q) - b.x, dy = p.y + mul(p.fy, (b.kind==='caught'?3:15) * Q) - b.y;
     b.vx = mul(b.vx, 160) + Math.trunc(dx / 5) + Math.trunc(p.vx / 3);
     b.vy = mul(b.vy, 160) + Math.trunc(dy / 5) + Math.trunc(p.vy / 3);
     b.spin = 0; b.flight = 0; s.stats.possession[p.team]++;

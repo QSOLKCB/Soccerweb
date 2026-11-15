@@ -14,6 +14,6 @@ for(const mode of Object.keys(THEMES)){
   fs.writeFileSync(new URL(`${mode}-events.json`,directory),JSON.stringify({seed:1988,mode,bars:32,events},null,2));
   report.themes.push({mode,events:events.length,eventHash:hash(events),samples:pcm.length,pcmHash:hash(Array.from(pcm))});
 }
-const events=['kick','slide','post','save','bounce','wall','whistle','crowd','rain','goal'].map(type=>({type,speed:12,power:45,kind:'shot',caught:true}));
+const events=['receive','intercept','tackle','kick','slide','post','save','bounce','wall','whistle','crowd','rain','goal'].map(type=>({type,speed:12,power:45,kind:'shot',caught:true}));
 fs.writeFileSync(new URL('sfx-recipes.json',directory),JSON.stringify(events.map(event=>({event,recipe:effectRecipe(event,1988)})),null,2));
 fs.writeFileSync(new URL('manifest.json',directory),JSON.stringify(report,null,2));console.log(JSON.stringify(report,null,2));

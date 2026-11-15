@@ -23,6 +23,8 @@ export class AudioEngine {
   }
   setPaused(paused){
     this.paused=paused;if(!this.ctx)return;
+    // Request resumption inside the user gesture as well as serializing the final desired state.
+    if(!paused&&this.ctx.state==='suspended')this.ctx.resume().catch(()=>{});
     // Serialize state transitions and re-read desired state, so rapid pause/resume cannot leave stale suspension.
     this.transition=this.transition.catch(()=>{}).then(async()=>{
       if(this.ctx.state==='closed')return;
@@ -48,7 +50,14 @@ export class AudioEngine {
     let released=false;
     const token={channel,release:()=>{
       if(released)return;released=true;
-      const now=ctx.currentTime;v.gain.cancelAndHoldAtTime(now);v.gain.setTargetAtTime(.0001,now,.012);
+      const now=ctx.currentTime;
+      if(typeof v.gain.cancelAndHoldAtTime==='function')v.gain.cancelAndHoldAtTime(now);
+      else {
+        // Firefox versions without cancelAndHoldAtTime still release from the envelope's current level.
+        const age=now-t,level=age<=0?0:age<attack?gain*age/attack:Math.max(.0001,gain)*(.0001/Math.max(.0001,gain))**Math.min(1,(age-attack)/Math.max(.001,duration-attack));
+        v.gain.cancelScheduledValues(now);v.gain.setValueAtTime(Math.max(.0001,level),now);
+      }
+      v.gain.setTargetAtTime(.0001,now,.012);
       for(const n of nodes)if(typeof n.stop==='function')try{n.stop(now+.065);}catch{}
     }};
     this.voices.add(token);
@@ -97,7 +106,7 @@ export class AudioEngine {
   }
   event(e,when=this.ctx?.currentTime||0){
     if(!this.ctx||this.paused)return;
-    for(const recipe of effectRecipe(e,this.seed)){
+    for(const recipe of effectRecipe({...e,indoor:this.mode==='indoor'},this.seed)){
       if(recipe.kind==='noise')this.noise(recipe,when+recipe.at);
       else this.tone(recipe,when+recipe.at);
     }

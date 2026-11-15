@@ -36,3 +36,21 @@ test('overlay mode releases browser navigation keys but preserves keyboard and g
   const input=controls.sample();assert.equal(pauses.length,3);assert.equal(input[0].fire,false);assert.equal(input[0].x,0);
   controls.setGameplayEnabled(true);assert.equal(key('keydown','Tab').defaultPrevented,true);
 });
+test('a short action tap between ticks is sampled once, then released',()=>{
+ const {controls,key}=setup();key('keydown','Space');key('keyup','Space');key('keydown','ShiftRight');key('keyup','ShiftRight');
+ const first=controls.sample();assert.equal(first[0].fire,true);assert.equal(first[1].pass,true);
+ const second=controls.sample();assert.equal(second[0].fire,false);assert.equal(second[1].pass,false);
+ key('keydown','KeyF');key('keyup','KeyF');controls.setGameplayEnabled(false);controls.setGameplayEnabled(true);assert.equal(controls.sample()[0].pass,false);
+});
+
+test('overlay resume carries one recorded gesture-cancel input',()=>{
+ const {controls}=setup();controls.setGameplayEnabled(false);assert.equal(controls.sample()[0].cancel,false);
+ controls.setGameplayEnabled(true);const inputs=controls.sample();assert.equal(inputs[0].cancel,true);assert.equal(inputs[1].cancel,true);
+ assert.equal(controls.sample()[0].cancel,false);
+});
+
+test('Start resume leaves gesture cancellation for the next active tick',()=>{
+ const {controls,pads}=setup();controls.setGameplayEnabled(false);controls.onPause=()=>controls.setGameplayEnabled(true);
+ const pad={axes:[0,0],buttons:Array.from({length:16},(_,i)=>({pressed:i===9||i===0}))};pads([pad]);
+ assert.equal(controls.sample()[0].fire,false);const tick=controls.sample();assert.equal(tick[0].cancel,true);assert.equal(tick[0].fire,true);
+});
