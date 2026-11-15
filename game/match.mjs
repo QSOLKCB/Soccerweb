@@ -5,7 +5,7 @@ import { kick, tackle, ballPhysics } from '../simulation/physics.mjs';
 import { humanAction } from './actions.mjs';
 export function normalizeInput(i = EMPTY) {
   return { x: clamp(Math.trunc(i.x || 0), -1, 1), y: clamp(Math.trunc(i.y || 0), -1, 1),
-    fire: !!i.fire, pass: !!i.pass, chip: !!i.chip, switch: !!i.switch, curve: clamp(Math.trunc(i.curve || 0), -1, 1) };
+    cancel: !!i.cancel, fire: !!i.fire, pass: !!i.pass, chip: !!i.chip, switch: !!i.switch, curve: clamp(Math.trunc(i.curve || 0), -1, 1) };
 }
 function restart(s) {
   if (s.phase === 'goal') {

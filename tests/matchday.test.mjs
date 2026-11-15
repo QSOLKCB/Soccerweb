@@ -81,3 +81,16 @@ test('losing possession during charge cannot shoot through the new carrier',()=>
  s.ball.owner=s.players.find(q=>q.team===1&&!q.keeper).id;
  humanAction(s,p,EMPTY,{...EMPTY,fire:true});assert.equal(s.stats.shots[0],0);assert.equal(p.pending,null);assert.equal(p.charge,0);
 });
+
+test('resuming after a pause cancels charge without releasing an accidental shot',()=>{
+ const {s,p}=scene();for(let i=0;i<25;i++)step(s,[{...EMPTY,fire:true},EMPTY]);assert.ok(p.charge>=12);
+ step(s,[{...EMPTY,cancel:true},EMPTY]);assert.equal(p.charge,0);assert.equal(s.stats.shots[0],0);assert.equal(s.stats.passes[0],0);
+ for(let i=0;i<25;i++)step(s,[{...EMPTY,fire:true},EMPTY]);step(s,[EMPTY,EMPTY]);assert.equal(s.stats.shots[0],1);
+});
+
+import {Recorder,verifyReplay,stateHash} from '../replay/replay.mjs';
+test('gesture cancellation survives recorded replay export and verification',()=>{
+ const s=createState({seed:731}),r=new Recorder(s);
+ for(let t=0;t<400;t++){const input=[{...EMPTY,fire:t>=90&&t<115,cancel:t===115},{...EMPTY}];step(s,input);r.record(s,input);}
+ const replay=r.export(s);assert.ok(replay.frames.some(frame=>frame[0][2]&16));assert.equal(stateHash(verifyReplay(replay)),stateHash(s));
+});

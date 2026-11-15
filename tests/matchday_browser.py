@@ -23,7 +23,7 @@ try:
         page.select_option('#ground',ground);page.select_option('#difficulty',difficulty);page.click('#kickoff')
         page.wait_for_function("soccerDiagnostics()?.state.phase==='play'");start=snapshot(page);events=[]
         # 48 decisions over ~8 active seconds: approach ball, dribble toward goal, pass/charge/chip/switch.
-        held=set()
+        held=set();travel=0
         for n in range(48):
           s=snapshot(page)['state'];p=s['players'][s['selected'][0]];b=s['ball'];own=b['owner']==p['id']
           target_x=s['w']/2 if own else b['x'];target_y=0 if own else b['y']
@@ -36,13 +36,14 @@ try:
           if n==30:keys.add('r')
           for k in held-keys:page.keyboard.up(k)
           for k in keys-held:page.keyboard.down(k)
-          held=keys;page.wait_for_timeout(160);events.extend(snapshot(page)['state']['events'])
+          held=keys;page.wait_for_timeout(160);observed=snapshot(page)['state'];events.extend(observed['events'])
+          moved=observed['players'][p['id']];travel+=(abs(moved['x']-p['x'])+abs(moved['y']-p['y']))/256
         for k in held:page.keyboard.up(k)
         end=snapshot(page)
         # Goal replays intentionally suspend simulation; wall time is not active ticks.
         assert end['state']['tick']>start['state']['tick']+90
-        assert sum(end['state']['stats']['passes'])+sum(end['state']['stats']['shots'])>0
-        routes.append({'ground':ground,'difficulty':difficulty,'ticks':end['state']['tick'],'stats':end['state']['stats'],'score':end['state']['score'],'observedEvents':events,'hash':end['hash']})
+        assert travel>5  # Outcomes are observations; practice separately asserts successful actions.
+        routes.append({'ground':ground,'difficulty':difficulty,'controlledTravelPixels':travel,'ticks':end['state']['tick'],'stats':end['state']['stats'],'score':end['state']['score'],'observedEvents':events,'hash':end['hash']})
         page.screenshot(path=str(OUT/f'{ground}-{difficulty}.png'),full_page=True)
         (OUT/'routes.json').write_text(json.dumps(routes,indent=2))
     (OUT/'routes.json').write_text(json.dumps(routes,indent=2))
@@ -72,6 +73,11 @@ try:
         page.click('#practice-button');page.select_option('#practice-drill',str(index));page.click('#practice-start')
         page.wait_for_function('soccerDiagnostics()?.practice !== null')
         if index==3:page.screenshot(path=str(OUT/'practice-ready.png'),full_page=True)
+        if index==2:
+          page.keyboard.down('Space');page.wait_for_timeout(250);page.keyboard.press('Escape');page.keyboard.up('Space')
+          frozen=snapshot(page)['hash'];page.wait_for_timeout(120);assert snapshot(page)['hash']==frozen
+          page.click('#resume');page.wait_for_function('soccerDiagnostics().state.players[soccerDiagnostics().state.selected[0]].charge===0')
+          assert snapshot(page)['state']['stats']['shots'][0]==0
         if index==0:
           page.keyboard.down('w');page.keyboard.down('d');page.wait_for_timeout(900);page.keyboard.up('w');page.keyboard.up('d')
         elif index==1:
@@ -99,6 +105,12 @@ try:
       page.keyboard.press('Escape');page.click('#pause-quit');page.click('#options-button');page.click('#reset-keys');page.click('#options-dialog .close')
       page.click('#practice-button');page.select_option('#practice-drill','2');page.click('#practice-start')
       page.evaluate("testPads=[{axes:[0,0],buttons:Array.from({length:16},(_,i)=>({pressed:i===0}))}]")
+      page.wait_for_timeout(250);page.evaluate('testPads[0].buttons[9].pressed=true')
+      page.wait_for_function('soccerDiagnostics().paused');page.evaluate('testPads[0].buttons[9].pressed=false;testPads[0].buttons[0].pressed=false')
+      page.wait_for_timeout(80);page.evaluate('testPads[0].buttons[9].pressed=true')
+      page.wait_for_function('!soccerDiagnostics().paused');page.wait_for_timeout(100)
+      assert snapshot(page)['state']['stats']['shots'][0]==0
+      page.evaluate('testPads[0].buttons[9].pressed=false;testPads[0].buttons[0].pressed=true')
       page.wait_for_timeout(500);page.evaluate('testPads[0].buttons[0].pressed=false')
       page.wait_for_function('soccerDiagnostics()?.practice.complete',timeout=12000)
       assert snapshot(page)['state']['stats']['shots'][0]==1
@@ -112,7 +124,7 @@ try:
     # Trusted click starts a separate instance of the production live synth for auditable capture.
     p=context.new_page();p.on('pageerror',lambda e:errors.append(str(e)));p.goto(url+'tests/probe.html')
     fixed=p.evaluate("async()=>(await import('./performance_probe.mjs')).fixedReplayProbe()")
-    assert fixed['hash']==fixed['verifiedHash']=='67b35352',fixed
+    assert fixed['hash']==fixed['verifiedHash']=='c3d201a0',fixed
     (OUT/'fixed-replay.json').write_text(json.dumps(fixed,indent=2))
     p.evaluate("async()=>{const {captureLive}=await import('./live_audio_probe.mjs');document.body.onclick=()=>{document.body.onclick=null;captureLive().then(r=>window.captureResult=r).catch(e=>window.captureError=String(e))}}")
     p.locator('p').click();p.wait_for_function('window.captureResult||window.captureError',timeout=30000)

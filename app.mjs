@@ -51,7 +51,7 @@ function matchConfig(){return {seed:Number($('seed').value),indoor:$('ground').v
 function updateContinue(){ $('continue').hidden=!competition||competition.complete; }
 function enterMatch(s,label){
   matchRun++;
-  state=s;previous=structuredClone(s);recorder=s.training?null:new Recorder(s);playing=true;paused=false;finished=false;controls.setGameplayEnabled(true);controls.active=true;
+  state=s;previous=structuredClone(s);recorder=s.training?null:new Recorder(s);playing=true;paused=false;finished=false;controls.setGameplayEnabled(true);controls.cancelPending=false;controls.active=true;
   accumulator=0;goalFrames=[];goalPlayback=null;renderer.reset();$('menu').hidden=true;$('match').hidden=false;$('pause-overlay').hidden=true;$('result-overlay').hidden=true;$('replay-tag').hidden=true;
   $('pause-button').textContent='Ⅱ PAUSE';$('action-hint').textContent='FIND THE SPACE. PLAY THE PASS.';$('match-kind').textContent=label;$('pause-save').hidden=!!s.training;$('practice-retry').hidden=!s.training;$('practice-next').hidden=!s.training;$('practice-panel').hidden=!s.training;
   $('record-status').textContent=s.training?'PRACTICE · SKILLS SESSION':playback?'▶ VERIFIED PLAYBACK':'● RECORDING';

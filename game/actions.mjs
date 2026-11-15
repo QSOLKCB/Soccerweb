@@ -4,6 +4,7 @@ import {kick,tackle} from '../simulation/physics.mjs';
 // Each press is one gesture. A tackle/dedicated kick consumes it until release.
 export function humanAction(s,p,i,prev){
  const [x,y]=vector(i.x*Q,i.y*Q,Q);if(x||y){p.fx=x;p.fy=y;}
+ if(i.cancel){p.charge=0;p.pending=null;p.fireMode=i.fire?'consumed':'idle';return{x,y};}
  if(i.fire&&!prev.fire){
   p.charge=0;p.pending=null;p.fireMode='kick';
   if(s.ball.z<12*Q&&distance(p,s.ball)<42*Q&&s.ball.owner>=0&&s.players[s.ball.owner].team!==p.team){tackle(s,p);p.fireMode='tackle';}

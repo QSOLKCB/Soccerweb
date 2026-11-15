@@ -18,21 +18,22 @@ export class Controls {
     window.addEventListener('blur',()=>{this.clear();if(this.active)onPause(true);});
     document.addEventListener('visibilitychange',()=>{if(document.hidden){this.clear();if(this.active)onPause(true);}});
     window.addEventListener('gamepaddisconnected',()=>{this.clear();if(this.active)onPause(true);});
-    this.padPause=false;
+    this.padPause=false;this.cancelPending=false;
   }
   clear(){this.keys.clear();this.taps.clear();}
-  setGameplayEnabled(enabled){this.gameplayEnabled=enabled;this.clear();}
+  setGameplayEnabled(enabled){if(!enabled)this.cancelPending=true;this.gameplayEnabled=enabled;this.clear();}
   sample(){
+    const wasPlaying=this.active&&this.gameplayEnabled;
     const pads=navigator.getGamepads?Array.from(navigator.getGamepads()).filter(Boolean):[];
     const pause=pads.some(p=>p.buttons[9]?.pressed);if(pause&&!this.padPause&&this.active)this.onPause();this.padPause=pause;
-    if(!this.active||!this.gameplayEnabled)return [{...EMPTY},{...EMPTY}];
+    if(!wasPlaying||!this.active||!this.gameplayEnabled)return [{...EMPTY},{...EMPTY}];
     const result=this.maps.map((m,t)=>{
       const down=a=>this.keys.has(m[a])||this.taps.has(m[a]),p=pads[t],button=n=>!!p?.buttons[n]?.pressed;
       const axis=n=>Math.abs(p?.axes[n]||0)>.28?Math.sign(p.axes[n]):0;
-      return { ...EMPTY,x:(+down('right')-down('left'))||axis(0)||(+button(15)-button(14)),y:(+down('down')-down('up'))||axis(1)||(+button(13)-button(12)),
+      return { ...EMPTY,cancel:this.cancelPending,x:(+down('right')-down('left'))||axis(0)||(+button(15)-button(14)),y:(+down('down')-down('up'))||axis(1)||(+button(13)-button(12)),
         fire:down('fire')||button(0),pass:down('pass')||button(2),chip:down('chip')||button(1),switch:down('switch')||button(3),curve:(+down('curveRight')-down('curveLeft'))||(+button(5)-button(4)) };
     });
-    this.taps.clear();return result;
+    this.taps.clear();this.cancelPending=false;return result;
   }
   remap(player,action,code){
     if(['Escape','KeyP','Unidentified'].includes(code))throw new Error('That key is reserved.');

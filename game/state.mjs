@@ -1,5 +1,5 @@
 import { Q, clamp, distance } from '../simulation/math.mjs';
-export const EMPTY = Object.freeze({ x: 0, y: 0, fire: false, pass: false, chip: false, switch: false, curve: 0 });
+export const EMPTY = Object.freeze({ x: 0, y: 0, fire: false, pass: false, chip: false, switch: false, curve: 0, cancel: false });
 // v4 changes action gestures, first touch, contested possession and indoor defensive decisions.
 export const VERSION = 4;
 export function config(options = {}) {
