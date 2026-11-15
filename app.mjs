@@ -126,7 +126,7 @@ function updateHUD(){
   const a=TEAMS[state.config.teams[0]],b=TEAMS[state.config.teams[1]];
   $('score-home').textContent=a.short;$('score-home').style.borderColor=a.color;$('score-away').textContent=b.short;$('score-away').style.borderColor=b.color;
   const scoreHTML=`${state.score[0]} <i>:</i> ${state.score[1]}`;if($('score').innerHTML!==scoreHTML)$('score').innerHTML=scoreHTML;
-  const seconds=Math.floor(state.elapsed/60);const clockText=`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')} · ${state.sudden?'GOLDEN GOAL':state.half===1?'1ST':'2ND'}`;if($('clock').textContent!==clockText)$('clock').textContent=clockText;
+  const seconds=Math.floor(state.elapsed/60);const clockText=`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')} · ${state.goalposts?'STAGE '+(state.goalposts.stage+1)+'/3':state.sudden?'GOLDEN GOAL':state.half===1?'1ST':'2ND'}`;if($('clock').textContent!==clockText)$('clock').textContent=clockText;
   const banner=$('match-banner');
   if(goalPlayback){banner.textContent='';$('replay-tag').textContent=`GOAL REPLAY · ${state.score[0]} — ${state.score[1]}`;return;}
   if(state.phase==='kickoff')banner.innerHTML=`${state.restartType}<small>${TEAMS[state.config.teams[state.restartTeam]].name} · P1 ATTACK ${attack(state,0)<0?'↑':'↓'}</small>`;
@@ -301,7 +301,7 @@ $('watch-replay').onclick=()=>{if(!verifiedReplay)return;practice=null;activeCom
 document.addEventListener('visibilitychange',()=>audio.setPaused(document.hidden||paused));
 applyOptions();updateTeams();updateContinue();renderMappings();requestAnimationFrame(frame);
 if('serviceWorker'in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('./sw.js').then(async registration=>{
-  const ready=await navigator.serviceWorker.ready;if(ready.active)$('offline-status').textContent='OFFLINE READY · V3.0';
+  const ready=await navigator.serviceWorker.ready;if(ready.active)$('offline-status').textContent='OFFLINE READY · V3.1';
   if(registration.waiting)toast('A game update is ready. Close other Soccerweb tabs and reopen to update.');
 }).catch(()=>$('offline-status').textContent='ONLINE MODE · CACHE UNAVAILABLE');
 // Read-only diagnostics used by the browser smoke suite; never exposes mutable simulation objects.

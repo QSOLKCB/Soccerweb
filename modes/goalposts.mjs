@@ -17,14 +17,15 @@ function shape(s,clock){
 export function goalGeometry(s,end,numerator=1,denominator=1){
  let center=s.w/2,width=s.goal;
  if(s.goalposts&&end===0){
-  const g=s.goalposts,a=shape(s,g.previousClock),b=shape(s,g.clock),f=clamp(numerator/denominator,0,1);
-  center=a.center+Math.trunc((b.center-a.center)*f);width=a.width+Math.trunc((b.width-a.width)*f);
+  const g=s.goalposts,a=shape(s,g.previousClock),b=shape(s,g.clock),d=Math.max(1,Math.abs(denominator)),n=clamp(numerator*Math.sign(denominator),0,d);
+  center=a.center+Math.trunc((b.center-a.center)*n/d);width=a.width+Math.trunc((b.width-a.width)*n/d);
  }
  return{center,width,left:center-width/2,right:center+width/2,height:36*Q,plane:end,minCenter:s.w/2-130*Q,maxCenter:s.w/2+130*Q,stage:s.goalposts?.stage??-1};
 }
 export function shiftNotice(s){
- const g=s.goalposts,t=g.clock%span(s),left=120-t;
- return t<120?{warning:true,ticks:left,text:`SHIFT IN ${Math.ceil(left/60)}s · ${g.stage===0?'SLIDE':g.stage===1?'RESIZE':'SLIDE + RESIZE'}`}:{warning:false,ticks:span(s)-t,text:'SHIFT IN MOTION · WATCH THE OPENING'};
+ const g=s.goalposts,t=g.clock%span(s),left=120-t,part=Math.floor(g.clock/span(s))%3;
+ const slide=['SLIDE RIGHT','SLIDE LEFT','RETURN TO CENTRE'][part],resize=['OPENING NARROWS','OPENING WIDENS','WIDTH HOLDS'][part];
+ return t<120?{warning:true,ticks:left,text:`SHIFT IN ${Math.ceil(left/60)}s · ${g.stage===0?slide:g.stage===1?resize:slide+' · '+resize}`}:{warning:false,ticks:span(s)-t,text:'SHIFT IN MOTION · WATCH THE OPENING'};
 }
 export function initGoalposts(s){
  s.goalposts={stage:0,clock:0,previousClock:0,spent:0,points:0,total:0,conceded:0,status:'playing',curved:false,history:[]};
@@ -70,7 +71,7 @@ export function validBests(value){
 }
 export function updateBest(value,s){
  if(!s.goalposts||s.goalposts.status!=='won')return validBests(value)?value:{version:1,runs:[]};
- const out=validBests(value)?structuredClone(value):{version:1,runs:[]};
+ const out=validBests(value)?{version:1,runs:value.runs.map(({difficulty,ticks,points})=>({difficulty,ticks,points}))}:{version:1,runs:[]};
  const run={difficulty:s.config.difficulty,ticks:s.goalposts.spent,points:s.goalposts.total},i=out.runs.findIndex(r=>r.difficulty===run.difficulty);
  if(i<0)out.runs.push(run);else if(run.ticks<out.runs[i].ticks)out.runs[i]=run;
  return out;

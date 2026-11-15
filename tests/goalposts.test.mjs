@@ -9,12 +9,7 @@ import {aiIntent} from '../ai/team.mjs';
 import {goalGeometry,shiftNotice,setupStage,stageLimit,validBests,updateBest} from '../modes/goalposts.mjs';
 import {Recorder,verifyReplay,stateHash,validateReplay} from '../replay/replay.mjs';
 import {normalReference} from './normal_reference.mjs';
-export function routeInput(s){
- const t=s.goalposts.clock,i={...EMPTY},wait=s.goalposts.stage===0?90:0,charge=s.goalposts.stage===0?60:45;
- if(s.phase==='stageclear')i.fire=true;
- else if(s.phase==='play'){if(t>=wait&&t<wait+charge)Object.assign(i,{x:1,y:-1,fire:true});else if(t>=wait+charge)Object.assign(i,{y:t===wait+charge?-1:0,curve:-1});}
- return [i,{...EMPTY}];
-}
+import {routeInput} from './goalposts_route.mjs';
 function isolated(stage=0){const s=createState({mode:'goalposts',difficulty:1,seed:731});s.goalposts.stage=stage;setupStage(s);s.phase='play';for(const p of s.players){p.x=20*Q;p.y=400*Q;}return s;}
 test('normal football matches merged Phase 3 at every checkpoint, excluding version only',async()=>{
  const before=JSON.parse(fs.readFileSync(new URL('../docs/evidence/goalposts/normal-before.json',import.meta.url)));
@@ -73,6 +68,7 @@ for(const difficulty of [1,2,3])test(`all stages complete with genuine shots and
  while(s.phase!=='fulltime'&&s.tick<12000){const input=routeInput(s);step(s,input);r.record(s,input);goals+=s.events.filter(e=>e.type==='goal'&&e.team===0).length;shifts+=s.events.filter(e=>e.type==='shift').length;}
  assert.equal(s.goalposts.status,'won');assert.equal(goals,3);assert.equal(s.score[0],3);assert.equal(s.goalposts.total,4);assert.equal(s.goalposts.history.length,3);assert.ok(shifts>=1);
  const replay=r.export(s);assert.equal(stateHash(verifyReplay(JSON.parse(JSON.stringify(replay)))),stateHash(s));assert.throws(()=>validateReplay({...replay,version:4}));
+ assert.equal(stateHash(s),['c5a03750','fa343d42','f29f2fc2'][difficulty-1]);
  console.log('GOALPOSTS fixture',difficulty,s.tick,stateHash(s));
 });
 test('finite time or two concessions ends the run, and a retry starts clean',()=>{

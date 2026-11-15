@@ -1,3 +1,11 @@
+# GOALPOSTS / controller extension
+
+`modes/goalposts.mjs` supplies the shared moving goal geometry and fixed-step challenge lifecycle. State initialization is opt-in through `config.mode === 'goalposts'`; static matches have no mode fields. Physics interpolates previous/current geometry at swept crossing time, resolving the frame first. AI and uncached goal rendering consume the same contract. Stage advancement is a recorded fire input, so full-run replays reproduce it. Mode-specific camera fitting is cosmetic. See [GOALPOSTS.md](GOALPOSTS.md) for exact bounds/rounding and v5 compatibility.
+
+`input/gamepads.mjs` validates and normalizes per-player controller profiles. `Controls` combines the resulting logical input with keyboard controls; controller IDs/button indices never enter authoritative state or replays. Host-only calibration and menu focus run from the animation loop. Logical action presses, gesture cancellation and the fixed simulation loop retain their existing boundary. Local controller profiles and GOALPOSTS bests have separate bounded schemas/keys.
+
+---
+
 # Architecture and reproducibility
 
 ## Runtime boundaries

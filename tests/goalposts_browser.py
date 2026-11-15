@@ -41,6 +41,7 @@ try:
   stages=[]
   for stage in range(3):
    p.wait_for_function('(stage)=>soccerDiagnostics().state.goalposts.stage===stage&&soccerDiagnostics().state.phase==="play"',arg=stage)
+   p.wait_for_function("soccerDiagnostics().audio.state==='running'");assert snap(p)['audio']['mode']=='goalposts';assert snap(p)['audio']['voices']<=64
    initial=p.evaluate('goalGeometry(soccerDiagnostics().state,0)')
    if stage==0:clock(p,90)
    if stage==2:p.evaluate("testPads=[{axes:[1,-1],buttons:Array.from({length:16},(_,i)=>({pressed:i===2}))}]")

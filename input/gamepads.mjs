@@ -1,6 +1,6 @@
 // USB adapters do not agree on button order. Explicit per-player profiles, never an ID guess.
 export const PAD_KEY='soccerweb.controllers.v1';
-export const PAD_ACTIONS={fire:'Kick / confirm (B)',pass:'Pass (Y)',chip:'Chip / back (A)',switch:'Switch (X)',curveLeft:'Curve left (L)',curveRight:'Curve right (R)',pause:'Pause / resume (Start)',alternateSwitch:'Switch (Select)',up:'D-pad up',down:'D-pad down',left:'D-pad left',right:'D-pad right'};
+export const PAD_ACTIONS={fire:'Kick / confirm (bottom)',pass:'Pass (left)',chip:'Chip / back (right)',switch:'Switch (top)',curveLeft:'Curve left (L)',curveRight:'Curve right (R)',pause:'Pause / resume (Start)',alternateSwitch:'Switch (Select)',up:'D-pad up',down:'D-pad down',left:'D-pad left',right:'D-pad right'};
 export function padPreset(name='standard'){
  const snes=name==='snes';return{name:snes?'snes':'standard',movement:'axes',axes:[0,1],deadzone:.28,buttons:{fire:snes?1:0,pass:snes?0:2,chip:snes?2:1,switch:3,curveLeft:4,curveRight:5,pause:9,alternateSwitch:snes?8:-1,up:12,down:13,left:14,right:15}};
 }
@@ -9,7 +9,7 @@ export function validPadProfile(p){
  const values=Object.keys(PAD_ACTIONS).map(k=>p.buttons?.[k]);
  return values.every((n,i)=>Number.isInteger(n)&&n>=(i<7?0:-1)&&n<32)&&new Set(values.filter(n=>n>=0)).size===values.filter(n=>n>=0).length;
 }
-export function readPadProfiles(value){return value?.version===1&&Array.isArray(value.profiles)&&value.profiles.length===2&&value.profiles.every(validPadProfile)?structuredClone(value.profiles):[padPreset(),padPreset()];}
+export function readPadProfiles(value){return value?.version===1&&Array.isArray(value.profiles)&&value.profiles.length===2&&value.profiles.every(validPadProfile)?value.profiles.map(p=>({name:p.name,movement:p.movement,axes:[...p.axes],deadzone:p.deadzone,buttons:Object.fromEntries(Object.keys(PAD_ACTIONS).map(k=>[k,p.buttons[k]]))})):[padPreset(),padPreset()];}
 export const connectedPads=()=>Array.from(globalThis.navigator?.getGamepads?.()||[]).filter(p=>p&&p.connected!==false).slice(0,2);
 export function padInput(p,profile){
  const button=n=>n>=0&&!!(p?.buttons[n]?.pressed||p?.buttons[n]?.value>.5),pressed=Object.fromEntries(Object.entries(profile.buttons).map(([k,n])=>[k,button(n)]));

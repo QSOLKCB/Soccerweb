@@ -1,3 +1,15 @@
+# SOCCERWEB 3.1 — GOALPOSTS and USB SNES controls
+
+- Optional outdoor 5 v 5, three-stage GOALPOSTS challenge: moving/resizing goals, announced rules, authentic scoring, finite timers/concession limits, victory/failure, retry and complete replay support. Physics, renderer and keepers share the same authoritative opening. Normal football retains its Phase 3 rules.
+- Separate local best times; no cup, practice or preference mutations. Optional fictional dedication without implied endorsement.
+- Generic USB SNES preset, dedicated live Controller Test & Calibration screen, per-player local remapping, directional axes/buttons and controller menu navigation. Standard mappings and keyboard remapping remain available.
+- Original procedural mode theme and shift/revision/near-miss/win cues; reduced-motion keeps gameplay-critical posts visible. New modules are precached, with a coherent cache version.
+- Replay v5 deliberately rejects v1–v4. Normal 4,000-tick fixture `541d73f5`; normalized gameplay/checkpoints match Phase 3. See [GOALPOSTS](GOALPOSTS.md) and [controller guide](CONTROLLERS.md) for exact fixtures, limits and owner checks.
+
+Physical controller and human gameplay/listening QA remain **NOT RUN**. This is an unmerged review candidate; PR checks cannot deploy.
+
+---
+
 # SOCCERWEB 3.0.0 — The Matchday Experience
 
 Focused playability improvements on merged PR #3. The native buildless runtime, original procedural assets, offline/subpath behavior and main-only Pages deployment contract remain intact.

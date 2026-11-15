@@ -21,7 +21,7 @@ export function cameraFrame(s, width, height, options = {}, prior = null, dt = 1
   if(s.goalposts){
     const g=goalGeometry(s,0),left=Math.min(g.left/Q,ballX),right=Math.max(g.right/Q,ballX),top=Math.min(-65,ballY),bottom=Math.max(30,ballY);
     scale=Math.min(scale,width/(right-left+130),height/(bottom-top+130));vw=width/scale;vh=height/scale;
-    x=(left+right)/2;y=(top+bottom)/2;
+    x=clamp(x,right-vw/2+60,left+vw/2-60);y=clamp(y,bottom-vh/2+60,top+vh/2-60);
   }
   return { x, y, scale, vw, vh };
 }

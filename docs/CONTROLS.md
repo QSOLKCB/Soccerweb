@@ -1,5 +1,9 @@
 # The touchline manual
 
+**Controller profiles:** Settings → Controller Test & Calibration offers a common USB SNES layout, live D-pad/buttons/axes and local per-player remapping. [Setup guide](CONTROLLERS.md).
+
+**GOALPOSTS:** Select it in the clubhouse; ordinary controls apply. Follow the visible shift warning, score through the gold opening, and use Next stage after clearing an objective. [Rules and aiming guide](GOALPOSTS.md).
+
 ## Start quickly
 
 Choose a team and ground, then **LET’S PLAY**. P1 is the first/left-hand team on the scoreboard. The P1 marker and yellow ring identify your selected player; P2 uses a blue ring. At each kickoff the banner and minimap tell P1's attacking direction. Teams switch ends at halftime.

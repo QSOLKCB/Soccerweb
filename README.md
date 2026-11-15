@@ -1,5 +1,7 @@
 # SOCCERWEB
 
+**New:** [GOALPOSTS arcade mode](docs/GOALPOSTS.md) · [USB SNES controller test & calibration](docs/CONTROLLERS.md).
+
 **The beautiful game. Pure web standards.** An original QSOL–IMC arcade football game inspired by the responsiveness, banana shots, indoor walls and weather of classic overhead football.
 
 Native HTML, CSS, JavaScript modules, Canvas 2D and Web Audio. No game engine, npm dependencies, build tool, backend, account, telemetry, external fonts or runtime network service. Apache-2.0.

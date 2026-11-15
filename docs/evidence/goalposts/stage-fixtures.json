@@ -1,0 +1,266 @@
+[
+  {
+    "seed": 731,
+    "difficulty": 1,
+    "ticks": 1087,
+    "hash": "c5a03750",
+    "checkpoints": [
+      [
+        300,
+        "5682c44d"
+      ],
+      [
+        600,
+        "43e9abad"
+      ],
+      [
+        900,
+        "41fc0e04"
+      ]
+    ],
+    "score": [
+      3,
+      0
+    ],
+    "stages": [
+      {
+        "stage": 0,
+        "ticks": 171,
+        "points": 1,
+        "conceded": 0
+      },
+      {
+        "stage": 1,
+        "ticks": 52,
+        "points": 1,
+        "conceded": 0
+      },
+      {
+        "stage": 2,
+        "ticks": 52,
+        "points": 2,
+        "conceded": 0
+      }
+    ]
+  },
+  {
+    "seed": 731,
+    "difficulty": 2,
+    "ticks": 1088,
+    "hash": "fa343d42",
+    "checkpoints": [
+      [
+        300,
+        "43c9c7e4"
+      ],
+      [
+        600,
+        "77b53a62"
+      ],
+      [
+        900,
+        "ce912e63"
+      ]
+    ],
+    "score": [
+      3,
+      0
+    ],
+    "stages": [
+      {
+        "stage": 0,
+        "ticks": 168,
+        "points": 1,
+        "conceded": 0
+      },
+      {
+        "stage": 1,
+        "ticks": 54,
+        "points": 1,
+        "conceded": 0
+      },
+      {
+        "stage": 2,
+        "ticks": 54,
+        "points": 2,
+        "conceded": 0
+      }
+    ]
+  },
+  {
+    "seed": 731,
+    "difficulty": 3,
+    "ticks": 1079,
+    "hash": "f29f2fc2",
+    "checkpoints": [
+      [
+        300,
+        "df035533"
+      ],
+      [
+        600,
+        "8ccdb0b7"
+      ],
+      [
+        900,
+        "6bc0d72b"
+      ]
+    ],
+    "score": [
+      3,
+      0
+    ],
+    "stages": [
+      {
+        "stage": 0,
+        "ticks": 157,
+        "points": 1,
+        "conceded": 0
+      },
+      {
+        "stage": 1,
+        "ticks": 55,
+        "points": 1,
+        "conceded": 0
+      },
+      {
+        "stage": 2,
+        "ticks": 55,
+        "points": 2,
+        "conceded": 0
+      }
+    ]
+  },
+  {
+    "seed": 42,
+    "difficulty": 1,
+    "ticks": 1087,
+    "hash": "c1832416",
+    "checkpoints": [
+      [
+        300,
+        "2899fd1b"
+      ],
+      [
+        600,
+        "b0553b67"
+      ],
+      [
+        900,
+        "aa450e6e"
+      ]
+    ],
+    "score": [
+      3,
+      0
+    ],
+    "stages": [
+      {
+        "stage": 0,
+        "ticks": 171,
+        "points": 1,
+        "conceded": 0
+      },
+      {
+        "stage": 1,
+        "ticks": 52,
+        "points": 1,
+        "conceded": 0
+      },
+      {
+        "stage": 2,
+        "ticks": 52,
+        "points": 2,
+        "conceded": 0
+      }
+    ]
+  },
+  {
+    "seed": 42,
+    "difficulty": 2,
+    "ticks": 1088,
+    "hash": "4751048e",
+    "checkpoints": [
+      [
+        300,
+        "e405eab0"
+      ],
+      [
+        600,
+        "012e14ee"
+      ],
+      [
+        900,
+        "632da00f"
+      ]
+    ],
+    "score": [
+      3,
+      0
+    ],
+    "stages": [
+      {
+        "stage": 0,
+        "ticks": 168,
+        "points": 1,
+        "conceded": 0
+      },
+      {
+        "stage": 1,
+        "ticks": 54,
+        "points": 1,
+        "conceded": 0
+      },
+      {
+        "stage": 2,
+        "ticks": 54,
+        "points": 2,
+        "conceded": 0
+      }
+    ]
+  },
+  {
+    "seed": 42,
+    "difficulty": 3,
+    "ticks": 1079,
+    "hash": "e35786ec",
+    "checkpoints": [
+      [
+        300,
+        "2ff12125"
+      ],
+      [
+        600,
+        "ee4677c9"
+      ],
+      [
+        900,
+        "627c6611"
+      ]
+    ],
+    "score": [
+      3,
+      0
+    ],
+    "stages": [
+      {
+        "stage": 0,
+        "ticks": 157,
+        "points": 1,
+        "conceded": 0
+      },
+      {
+        "stage": 1,
+        "ticks": 55,
+        "points": 1,
+        "conceded": 0
+      },
+      {
+        "stage": 2,
+        "ticks": 55,
+        "points": 2,
+        "conceded": 0
+      }
+    ]
+  }
+]

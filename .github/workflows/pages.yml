@@ -30,6 +30,7 @@ jobs:
           node tests/gameplay_report.mjs > work/browser/gameplay-report.json
           node tests/season_report.mjs > work/browser/season-report.json
           node tests/audio_artifacts.mjs > work/browser/audio-summary.json
+          node tests/goalposts_report.mjs work/browser/goalposts-fixtures > work/browser/goalposts-summary.json
       - name: Install browser test tooling (not shipped with the game)
         run: |
           python -m pip install playwright==1.56.0
