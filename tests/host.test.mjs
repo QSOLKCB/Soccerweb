@@ -154,3 +154,25 @@ for(const held of [false,true])test(`Next Stage records a rising edge when kick 
  assert.equal(replay.frames.at(-1)[0][2],1);if(held)assert.equal(replay.frames.at(-2)[0][2],0);
  assert.equal(stateHash(verifyReplay(replay)),after.hash,'release and press must both replay deterministically');
 });
+
+test('complete GOALPOSTS host presents the committee finale, keeps all scores and resets cleanly',async()=>{
+ const h=await host();h.app.startGoalposts({difficulty:1,aftertouch:2,seed:731});
+ while(!h.app.diagnostics().finished){
+  const s=h.app.diagnostics().state;assert.ok(s.tick<2000);
+  if(s.phase==='stageclear'){
+   assert.equal(h.document.activeElement.id,'stage-next');
+   assert.match(h.elements.get('stage-rule').textContent,/NEXT STANDARD:/);
+   h.elements.get('stage-next').onclick();
+  }
+  assert.equal(h.app.runTick(routeInput(s)),true);
+ }
+ const result=h.app.diagnostics();assert.equal(result.state.goalposts.status,'won');assert.deepEqual(result.state.score,[3,0]);
+ assert.equal(h.elements.get('result-title').textContent,'YOU HAVE SUCCESSFULLY MET EVERY STANDARD.');
+ assert.equal(h.elements.get('result-review').textContent,'A NEW STANDARD IS NOW UNDER REVIEW.');
+ assert.equal(h.elements.get('result-standards').children.length,3);assert.equal(h.document.activeElement.id,'result-next');
+ assert.equal(stateHash(verifyReplay(JSON.parse(JSON.stringify(h.app.replay())))),result.hash);
+ assert.ok(h.storage.has('soccerweb.goalposts.v1'));assert.equal(h.storage.has('soccerweb.competition.v1'),false);
+ h.elements.get('result-next').onclick();assert.equal(h.app.diagnostics().state.goalposts.stage,0);assert.equal(h.app.diagnostics().standards.revision,0);
+ h.app.home();h.app.setMode('quick');h.app.startMatch();await h.app.finish();
+ assert.equal(h.elements.get('result-review').hidden,true);assert.equal(h.elements.get('result-standards').hidden,true);
+});

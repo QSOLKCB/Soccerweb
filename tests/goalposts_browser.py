@@ -1,5 +1,5 @@
 """Actual keys, goals, stage buttons, replay worker/playback and offline mode. No score/state injection."""
-import functools,http.server,json,os,threading
+import functools,http.server,json,os,subprocess,threading
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 ROOT=Path(__file__).resolve().parents[1]
@@ -11,6 +11,10 @@ threading.Thread(target=server.serve_forever,daemon=True).start();url=f'http://1
 def snap(p):return p.evaluate('soccerDiagnostics()')
 def clock(p,t):p.wait_for_function('(t)=>soccerDiagnostics().state.goalposts.clock>=t',arg=t)
 def install(p):p.evaluate("async()=>{window.soccerDiagnostics=(await import('./app.mjs')).diagnostics;window.goalGeometry=(await import('./modes/goalposts.mjs')).goalGeometry}")
+captures=[]
+def shot(p,name):
+ before=snap(p);p.screenshot(path=str(OUT/name),full_page=True);after=snap(p)
+ captures.append({'file':name,'tickBefore':before['state']['tick'] if before else None,'tickAfter':after['state']['tick'] if after else None,'hashBefore':before['hash'] if before else None,'standardsBefore':before.get('standards') if before else None,'viewport':p.viewport_size,'dpr':p.evaluate('devicePixelRatio')})
 try:
  with sync_playwright() as pw:
   browser=getattr(pw,os.environ.get('BROWSER','chromium')).launch();context=browser.new_context(viewport={'width':1365,'height':1000},accept_downloads=True)
@@ -55,7 +59,9 @@ try:
    p.wait_for_timeout(35)
    if stage==2:p.evaluate('testPads[0].axes[1]=0')
    else:p.keyboard.up('w')
-   p.screenshot(path=str(OUT/f'stage-{stage+1}.png'),full_page=True)
+   assert p.locator('#goalposts-announcement').get_attribute('aria-live')=='polite'
+   assert p.locator('#goalposts-revision').inner_text().startswith(f'STANDARD 0{stage+1}')
+   shot(p,f'stage-{stage+1}.png')
    if stage==0:
     p.wait_for_function("soccerDiagnostics().state.phase==='goal'");p.keyboard.down('Space')
    if stage<2:p.wait_for_selector('#stage-overlay:not([hidden])',timeout=25000)
@@ -73,13 +79,25 @@ try:
     p.click('#stage-next')
     p.wait_for_function('(stage)=>soccerDiagnostics().state.goalposts.stage===stage+1',arg=stage)
     if stage==0:p.keyboard.up('Space')
-  assert snap(p)['state']['goalposts']['status']=='won';p.screenshot(path=str(OUT/'victory.png'),full_page=True)
+  assert snap(p)['state']['goalposts']['status']=='won'
+  assert p.locator('#result-title').inner_text()=='YOU HAVE SUCCESSFULLY MET EVERY STANDARD.'
+  assert p.locator('#result-review').inner_text()=='A NEW STANDARD IS NOW UNDER REVIEW.'
+  assert p.locator('#result-standards li').count()==3
+  assert p.evaluate('document.activeElement.id')=='result-next'
+  p.keyboard.press('Tab');assert p.evaluate('document.activeElement.id')=='result-export'
+  shot(p,'victory.png')
+  p.set_viewport_size({'width':390,'height':720});p.emulate_media(reduced_motion='reduce')
+  assert p.locator('#goalposts-stamp').evaluate('(e)=>getComputedStyle(e).animationName')=='none'
+  p.locator('#result-export').scroll_into_view_if_needed();box=p.locator('#result-export').bounding_box();assert box and 0<=box['y'] and box['y']+box['height']<=720
+  shot(p,'victory-narrow-reduced.png');p.set_viewport_size({'width':1365,'height':1000});p.emulate_media(reduced_motion='no-preference')
   best=p.evaluate("localStorage.getItem('soccerweb.goalposts.v1')");assert json.loads(best)['runs'][0]['difficulty']==1
   with p.expect_download() as dl:p.click('#result-export')
   replay_path=OUT/'goalposts-replay.json';dl.value.save_as(str(replay_path));replay=json.loads(replay_path.read_text());assert replay['version']==5;assert replay['config']['mode']=='goalposts'
   p.click('#result-home');p.click('#replays-button');p.set_input_files('#replay-file',str(replay_path));p.wait_for_selector('#watch-replay:not([hidden])',timeout=30000);p.click('#watch-replay')
   p.wait_for_selector('#result-overlay:not([hidden])',timeout=90000);assert snap(p)['hash']==replay['finalHash'];assert p.evaluate("localStorage.getItem('soccerweb.goalposts.v1')")==best
-  p.click('#result-home');p.click('#goalposts-button');p.select_option('#goalposts-difficulty','3');p.click('#goalposts-start')
+  p.click('#result-home');p.click('#options-button');p.select_option('#effects','minimal');p.click('#options-dialog .close')
+  p.click('#goalposts-button');p.select_option('#goalposts-difficulty','3');p.click('#goalposts-start')
+  assert p.locator('#match').evaluate('(e)=>e.classList.contains("quiet-announcements")')
   # An unattended real run must terminate. This is failure-loop coverage, not balance evidence.
   p.wait_for_selector('#result-overlay:not([hidden])',timeout=120000);assert snap(p)['state']['goalposts']['status']=='failed';p.screenshot(path=str(OUT/'failure.png'),full_page=True)
   p.click('#result-next');assert snap(p)['state']['goalposts']['stage']==0;assert snap(p)['state']['score']==[0,0]
@@ -90,6 +108,6 @@ try:
   p.click('#goalposts-button');p.click('#goalposts-start');p.wait_for_function("soccerDiagnostics().state.phase==='play'")
   clock(p,180);assert p.evaluate('goalGeometry(soccerDiagnostics().state,0).center')!=snap(p)['state']['w']/2
   p.screenshot(path=str(OUT/'offline.png'),full_page=True);assert not errors,errors
-  (OUT/'report.json').write_text(json.dumps({'status':'PASS','browser':os.environ.get('BROWSER','chromium'),'userAgent':p.evaluate('navigator.userAgent'),'stages':stages,'replayHash':replay['finalHash'],'replayTicks':len(replay['frames']),'failureRetry':True,'offline':True,'physicalGamepad':'NOT RUN','manualPlaytesting':'NOT RUN'},indent=2))
+  (OUT/'report.json').write_text(json.dumps({'status':'PASS','source':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'browser':os.environ.get('BROWSER','chromium'),'userAgent':p.evaluate('navigator.userAgent'),'captures':captures,'captureTiming':'Live inputs and RAF: screenshots occur between tickBefore and tickAfter; browser runs can differ. Paired deterministic comparisons are separate.','stages':stages,'replayHash':replay['finalHash'],'replayTicks':len(replay['frames']),'failureRetry':True,'offline':True,'physicalGamepad':'NOT RUN','manualPlaytesting':'NOT RUN','manualListening':'NOT RUN'},indent=2))
   print('GOALPOSTS PASS',os.environ.get('BROWSER','chromium'),replay['finalHash'],flush=True);browser.close()
 finally:server.shutdown()

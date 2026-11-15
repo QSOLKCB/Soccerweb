@@ -1,0 +1,1645 @@
+{
+  "version": 5,
+  "normal": [
+    {
+      "config": {
+        "seed": 42,
+        "indoor": false,
+        "weather": "rain",
+        "seconds": 60,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false
+      },
+      "ticks": 4000,
+      "hash": "3d1bd9e5",
+      "checkpoints": [
+        [
+          300,
+          "8f0d8bf0"
+        ],
+        [
+          600,
+          "4f4517c0"
+        ],
+        [
+          900,
+          "49826c85"
+        ],
+        [
+          1200,
+          "340f66e3"
+        ],
+        [
+          1500,
+          "54f1961f"
+        ],
+        [
+          1800,
+          "a006f59e"
+        ],
+        [
+          2100,
+          "60bb2cac"
+        ],
+        [
+          2400,
+          "5ac2e559"
+        ],
+        [
+          2700,
+          "506cf10e"
+        ],
+        [
+          3000,
+          "77b79a7c"
+        ],
+        [
+          3300,
+          "b3e7d39b"
+        ],
+        [
+          3600,
+          "4ec41f25"
+        ],
+        [
+          3900,
+          "0ce82604"
+        ]
+      ],
+      "score": [
+        0,
+        4
+      ],
+      "stats": {
+        "shots": [
+          5,
+          5
+        ],
+        "saves": [
+          1,
+          0
+        ],
+        "passes": [
+          1,
+          9
+        ],
+        "tackles": [
+          0,
+          2
+        ],
+        "completedPasses": [
+          1,
+          7
+        ],
+        "possession": [
+          558,
+          1083
+        ]
+      }
+    },
+    {
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "rain",
+        "seconds": 60,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false
+      },
+      "ticks": 4000,
+      "hash": "26dc6f60",
+      "checkpoints": [
+        [
+          300,
+          "657cbb00"
+        ],
+        [
+          600,
+          "df04cc63"
+        ],
+        [
+          900,
+          "93d8197a"
+        ],
+        [
+          1200,
+          "b296c8fa"
+        ],
+        [
+          1500,
+          "a611848a"
+        ],
+        [
+          1800,
+          "8162ed8c"
+        ],
+        [
+          2100,
+          "2498333c"
+        ],
+        [
+          2400,
+          "0b53178c"
+        ],
+        [
+          2700,
+          "f39aa8b8"
+        ],
+        [
+          3000,
+          "a16874be"
+        ],
+        [
+          3300,
+          "47186bda"
+        ],
+        [
+          3600,
+          "84724728"
+        ],
+        [
+          3900,
+          "99867bc2"
+        ]
+      ],
+      "score": [
+        0,
+        3
+      ],
+      "stats": {
+        "shots": [
+          5,
+          7
+        ],
+        "saves": [
+          4,
+          0
+        ],
+        "passes": [
+          0,
+          10
+        ],
+        "tackles": [
+          1,
+          2
+        ],
+        "completedPasses": [
+          0,
+          7
+        ],
+        "possession": [
+          389,
+          1140
+        ]
+      }
+    },
+    {
+      "config": {
+        "seed": 42,
+        "indoor": false,
+        "weather": "rain",
+        "seconds": 60,
+        "difficulty": 2,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false
+      },
+      "ticks": 4000,
+      "hash": "de32c3c9",
+      "checkpoints": [
+        [
+          300,
+          "79ca6adc"
+        ],
+        [
+          600,
+          "d1554162"
+        ],
+        [
+          900,
+          "b727c84a"
+        ],
+        [
+          1200,
+          "654fe94c"
+        ],
+        [
+          1500,
+          "3e203644"
+        ],
+        [
+          1800,
+          "2394cb6a"
+        ],
+        [
+          2100,
+          "496f9023"
+        ],
+        [
+          2400,
+          "dc3811f6"
+        ],
+        [
+          2700,
+          "765a02ac"
+        ],
+        [
+          3000,
+          "b5aa9555"
+        ],
+        [
+          3300,
+          "2ed71d1c"
+        ],
+        [
+          3600,
+          "1b5e2afe"
+        ],
+        [
+          3900,
+          "e35b0327"
+        ]
+      ],
+      "score": [
+        0,
+        4
+      ],
+      "stats": {
+        "shots": [
+          3,
+          3
+        ],
+        "saves": [
+          0,
+          0
+        ],
+        "passes": [
+          1,
+          12
+        ],
+        "tackles": [
+          5,
+          2
+        ],
+        "completedPasses": [
+          1,
+          11
+        ],
+        "possession": [
+          341,
+          1147
+        ]
+      }
+    },
+    {
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "rain",
+        "seconds": 60,
+        "difficulty": 2,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false
+      },
+      "ticks": 4000,
+      "hash": "24be6fcc",
+      "checkpoints": [
+        [
+          300,
+          "ab3d9bef"
+        ],
+        [
+          600,
+          "79533632"
+        ],
+        [
+          900,
+          "07fdbf94"
+        ],
+        [
+          1200,
+          "7aa46eac"
+        ],
+        [
+          1500,
+          "532e1cda"
+        ],
+        [
+          1800,
+          "7b4c2d75"
+        ],
+        [
+          2100,
+          "bb28b718"
+        ],
+        [
+          2400,
+          "8fb28d05"
+        ],
+        [
+          2700,
+          "eef5cf13"
+        ],
+        [
+          3000,
+          "77326741"
+        ],
+        [
+          3300,
+          "74471b38"
+        ],
+        [
+          3600,
+          "a6bbdc40"
+        ],
+        [
+          3900,
+          "bea7f041"
+        ]
+      ],
+      "score": [
+        0,
+        4
+      ],
+      "stats": {
+        "shots": [
+          5,
+          5
+        ],
+        "saves": [
+          2,
+          0
+        ],
+        "passes": [
+          0,
+          7
+        ],
+        "tackles": [
+          0,
+          4
+        ],
+        "completedPasses": [
+          0,
+          6
+        ],
+        "possession": [
+          596,
+          885
+        ]
+      }
+    },
+    {
+      "config": {
+        "seed": 42,
+        "indoor": false,
+        "weather": "rain",
+        "seconds": 60,
+        "difficulty": 3,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false
+      },
+      "ticks": 4000,
+      "hash": "20f7e4ee",
+      "checkpoints": [
+        [
+          300,
+          "5cb72fad"
+        ],
+        [
+          600,
+          "d3c8212c"
+        ],
+        [
+          900,
+          "5a138510"
+        ],
+        [
+          1200,
+          "218ff495"
+        ],
+        [
+          1500,
+          "8df65934"
+        ],
+        [
+          1800,
+          "f0d654d8"
+        ],
+        [
+          2100,
+          "9d132b8f"
+        ],
+        [
+          2400,
+          "b8652a95"
+        ],
+        [
+          2700,
+          "c91819cc"
+        ],
+        [
+          3000,
+          "d2514e7c"
+        ],
+        [
+          3300,
+          "e5199e00"
+        ],
+        [
+          3600,
+          "787e73f4"
+        ],
+        [
+          3900,
+          "5bb7e73f"
+        ]
+      ],
+      "score": [
+        0,
+        3
+      ],
+      "stats": {
+        "shots": [
+          4,
+          3
+        ],
+        "saves": [
+          1,
+          0
+        ],
+        "passes": [
+          1,
+          15
+        ],
+        "tackles": [
+          3,
+          2
+        ],
+        "completedPasses": [
+          1,
+          15
+        ],
+        "possession": [
+          584,
+          959
+        ]
+      }
+    },
+    {
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "rain",
+        "seconds": 60,
+        "difficulty": 3,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false
+      },
+      "ticks": 4000,
+      "hash": "30a3ba50",
+      "checkpoints": [
+        [
+          300,
+          "25815222"
+        ],
+        [
+          600,
+          "c2e14402"
+        ],
+        [
+          900,
+          "10d9c6b9"
+        ],
+        [
+          1200,
+          "0685c575"
+        ],
+        [
+          1500,
+          "80e95cf2"
+        ],
+        [
+          1800,
+          "71711e12"
+        ],
+        [
+          2100,
+          "863c091c"
+        ],
+        [
+          2400,
+          "9bcfc2ca"
+        ],
+        [
+          2700,
+          "6d73f875"
+        ],
+        [
+          3000,
+          "6a325bce"
+        ],
+        [
+          3300,
+          "60eec237"
+        ],
+        [
+          3600,
+          "e50abf5e"
+        ],
+        [
+          3900,
+          "7fc27940"
+        ]
+      ],
+      "score": [
+        0,
+        2
+      ],
+      "stats": {
+        "shots": [
+          3,
+          4
+        ],
+        "saves": [
+          3,
+          0
+        ],
+        "passes": [
+          1,
+          15
+        ],
+        "tackles": [
+          3,
+          2
+        ],
+        "completedPasses": [
+          0,
+          13
+        ],
+        "possession": [
+          455,
+          1055
+        ]
+      }
+    },
+    {
+      "config": {
+        "seed": 42,
+        "indoor": true,
+        "weather": "rain",
+        "seconds": 60,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false
+      },
+      "ticks": 4000,
+      "hash": "cbb54df3",
+      "checkpoints": [
+        [
+          300,
+          "0c3c40da"
+        ],
+        [
+          600,
+          "2b4d444c"
+        ],
+        [
+          900,
+          "a6a16f58"
+        ],
+        [
+          1200,
+          "c105d3c7"
+        ],
+        [
+          1500,
+          "3c879d99"
+        ],
+        [
+          1800,
+          "41a5258b"
+        ],
+        [
+          2100,
+          "5973091e"
+        ],
+        [
+          2400,
+          "aa218091"
+        ],
+        [
+          2700,
+          "98a95a4a"
+        ],
+        [
+          3000,
+          "3758f24c"
+        ],
+        [
+          3300,
+          "3d93896b"
+        ],
+        [
+          3600,
+          "47a0f3dc"
+        ],
+        [
+          3900,
+          "d2122ef3"
+        ]
+      ],
+      "score": [
+        0,
+        3
+      ],
+      "stats": {
+        "shots": [
+          3,
+          14
+        ],
+        "saves": [
+          12,
+          1
+        ],
+        "passes": [
+          1,
+          2
+        ],
+        "tackles": [
+          1,
+          2
+        ],
+        "completedPasses": [
+          1,
+          2
+        ],
+        "possession": [
+          668,
+          971
+        ]
+      }
+    },
+    {
+      "config": {
+        "seed": 731,
+        "indoor": true,
+        "weather": "rain",
+        "seconds": 60,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false
+      },
+      "ticks": 4000,
+      "hash": "8411b875",
+      "checkpoints": [
+        [
+          300,
+          "50522e04"
+        ],
+        [
+          600,
+          "10a67545"
+        ],
+        [
+          900,
+          "38830c56"
+        ],
+        [
+          1200,
+          "84cd9476"
+        ],
+        [
+          1500,
+          "2319d667"
+        ],
+        [
+          1800,
+          "f71b2c81"
+        ],
+        [
+          2100,
+          "fa6c9d47"
+        ],
+        [
+          2400,
+          "9cd731a5"
+        ],
+        [
+          2700,
+          "2488ae5b"
+        ],
+        [
+          3000,
+          "72f6d2b3"
+        ],
+        [
+          3300,
+          "12de4196"
+        ],
+        [
+          3600,
+          "181c308f"
+        ],
+        [
+          3900,
+          "ffeb04fd"
+        ]
+      ],
+      "score": [
+        0,
+        2
+      ],
+      "stats": {
+        "shots": [
+          5,
+          9
+        ],
+        "saves": [
+          8,
+          1
+        ],
+        "passes": [
+          1,
+          4
+        ],
+        "tackles": [
+          1,
+          3
+        ],
+        "completedPasses": [
+          1,
+          4
+        ],
+        "possession": [
+          647,
+          961
+        ]
+      }
+    },
+    {
+      "config": {
+        "seed": 42,
+        "indoor": true,
+        "weather": "rain",
+        "seconds": 60,
+        "difficulty": 2,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false
+      },
+      "ticks": 4000,
+      "hash": "d7eeb8a5",
+      "checkpoints": [
+        [
+          300,
+          "dcd429a8"
+        ],
+        [
+          600,
+          "22f7e8f6"
+        ],
+        [
+          900,
+          "d04f08e4"
+        ],
+        [
+          1200,
+          "a2f5c089"
+        ],
+        [
+          1500,
+          "486efa7d"
+        ],
+        [
+          1800,
+          "c95ee4f8"
+        ],
+        [
+          2100,
+          "93fc6862"
+        ],
+        [
+          2400,
+          "2288cc56"
+        ],
+        [
+          2700,
+          "2195943c"
+        ],
+        [
+          3000,
+          "4e9a22c2"
+        ],
+        [
+          3300,
+          "c2809568"
+        ],
+        [
+          3600,
+          "7f9a67bf"
+        ],
+        [
+          3900,
+          "44105ba9"
+        ]
+      ],
+      "score": [
+        0,
+        2
+      ],
+      "stats": {
+        "shots": [
+          2,
+          14
+        ],
+        "saves": [
+          11,
+          1
+        ],
+        "passes": [
+          2,
+          7
+        ],
+        "tackles": [
+          0,
+          7
+        ],
+        "completedPasses": [
+          1,
+          6
+        ],
+        "possession": [
+          496,
+          1088
+        ]
+      }
+    },
+    {
+      "config": {
+        "seed": 731,
+        "indoor": true,
+        "weather": "rain",
+        "seconds": 60,
+        "difficulty": 2,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false
+      },
+      "ticks": 4000,
+      "hash": "0f1207d9",
+      "checkpoints": [
+        [
+          300,
+          "a42ad128"
+        ],
+        [
+          600,
+          "c8a1b050"
+        ],
+        [
+          900,
+          "bd97347f"
+        ],
+        [
+          1200,
+          "e750dc5d"
+        ],
+        [
+          1500,
+          "53da016d"
+        ],
+        [
+          1800,
+          "46b45e33"
+        ],
+        [
+          2100,
+          "25456f78"
+        ],
+        [
+          2400,
+          "8c99caf4"
+        ],
+        [
+          2700,
+          "78c72da3"
+        ],
+        [
+          3000,
+          "0854b7fa"
+        ],
+        [
+          3300,
+          "42a61447"
+        ],
+        [
+          3600,
+          "91c07ee9"
+        ],
+        [
+          3900,
+          "97aeee38"
+        ]
+      ],
+      "score": [
+        0,
+        3
+      ],
+      "stats": {
+        "shots": [
+          3,
+          11
+        ],
+        "saves": [
+          7,
+          2
+        ],
+        "passes": [
+          1,
+          8
+        ],
+        "tackles": [
+          3,
+          10
+        ],
+        "completedPasses": [
+          1,
+          7
+        ],
+        "possession": [
+          634,
+          943
+        ]
+      }
+    },
+    {
+      "config": {
+        "seed": 42,
+        "indoor": true,
+        "weather": "rain",
+        "seconds": 60,
+        "difficulty": 3,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false
+      },
+      "ticks": 4000,
+      "hash": "e3392ef7",
+      "checkpoints": [
+        [
+          300,
+          "2cf2eada"
+        ],
+        [
+          600,
+          "44b314d0"
+        ],
+        [
+          900,
+          "9b965d79"
+        ],
+        [
+          1200,
+          "cd8fd52d"
+        ],
+        [
+          1500,
+          "a968039b"
+        ],
+        [
+          1800,
+          "31c593b3"
+        ],
+        [
+          2100,
+          "440e44fe"
+        ],
+        [
+          2400,
+          "57c30f7b"
+        ],
+        [
+          2700,
+          "4609d5f7"
+        ],
+        [
+          3000,
+          "d342b5de"
+        ],
+        [
+          3300,
+          "f03e543d"
+        ],
+        [
+          3600,
+          "0b2f66e5"
+        ],
+        [
+          3900,
+          "a59a9baa"
+        ]
+      ],
+      "score": [
+        0,
+        5
+      ],
+      "stats": {
+        "shots": [
+          5,
+          7
+        ],
+        "saves": [
+          3,
+          1
+        ],
+        "passes": [
+          6,
+          3
+        ],
+        "tackles": [
+          7,
+          10
+        ],
+        "completedPasses": [
+          3,
+          2
+        ],
+        "possession": [
+          1046,
+          603
+        ]
+      }
+    },
+    {
+      "config": {
+        "seed": 731,
+        "indoor": true,
+        "weather": "rain",
+        "seconds": 60,
+        "difficulty": 3,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false
+      },
+      "ticks": 4000,
+      "hash": "a0a87ade",
+      "checkpoints": [
+        [
+          300,
+          "a5c7bde8"
+        ],
+        [
+          600,
+          "bfe8f228"
+        ],
+        [
+          900,
+          "be695462"
+        ],
+        [
+          1200,
+          "9c35a393"
+        ],
+        [
+          1500,
+          "588f26f4"
+        ],
+        [
+          1800,
+          "7005bfda"
+        ],
+        [
+          2100,
+          "cc021256"
+        ],
+        [
+          2400,
+          "e3f805d3"
+        ],
+        [
+          2700,
+          "370c51e2"
+        ],
+        [
+          3000,
+          "3e16f641"
+        ],
+        [
+          3300,
+          "a55e56fb"
+        ],
+        [
+          3600,
+          "b5012041"
+        ],
+        [
+          3900,
+          "f753d870"
+        ]
+      ],
+      "score": [
+        0,
+        2
+      ],
+      "stats": {
+        "shots": [
+          6,
+          10
+        ],
+        "saves": [
+          8,
+          2
+        ],
+        "passes": [
+          5,
+          6
+        ],
+        "tackles": [
+          8,
+          6
+        ],
+        "completedPasses": [
+          2,
+          6
+        ],
+        "possession": [
+          700,
+          1011
+        ]
+      }
+    }
+  ],
+  "goalposts": [
+    {
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "ticks": 1087,
+      "hash": "c5a03750",
+      "checkpoints": [
+        [
+          300,
+          "5682c44d"
+        ],
+        [
+          600,
+          "43e9abad"
+        ],
+        [
+          900,
+          "41fc0e04"
+        ]
+      ],
+      "score": [
+        3,
+        0
+      ],
+      "history": [
+        {
+          "stage": 0,
+          "ticks": 171,
+          "points": 1,
+          "conceded": 0
+        },
+        {
+          "stage": 1,
+          "ticks": 52,
+          "points": 1,
+          "conceded": 0
+        },
+        {
+          "stage": 2,
+          "ticks": 52,
+          "points": 2,
+          "conceded": 0
+        }
+      ]
+    },
+    {
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 2,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "ticks": 1088,
+      "hash": "fa343d42",
+      "checkpoints": [
+        [
+          300,
+          "43c9c7e4"
+        ],
+        [
+          600,
+          "77b53a62"
+        ],
+        [
+          900,
+          "ce912e63"
+        ]
+      ],
+      "score": [
+        3,
+        0
+      ],
+      "history": [
+        {
+          "stage": 0,
+          "ticks": 168,
+          "points": 1,
+          "conceded": 0
+        },
+        {
+          "stage": 1,
+          "ticks": 54,
+          "points": 1,
+          "conceded": 0
+        },
+        {
+          "stage": 2,
+          "ticks": 54,
+          "points": 2,
+          "conceded": 0
+        }
+      ]
+    },
+    {
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 3,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "ticks": 1079,
+      "hash": "f29f2fc2",
+      "checkpoints": [
+        [
+          300,
+          "df035533"
+        ],
+        [
+          600,
+          "8ccdb0b7"
+        ],
+        [
+          900,
+          "6bc0d72b"
+        ]
+      ],
+      "score": [
+        3,
+        0
+      ],
+      "history": [
+        {
+          "stage": 0,
+          "ticks": 157,
+          "points": 1,
+          "conceded": 0
+        },
+        {
+          "stage": 1,
+          "ticks": 55,
+          "points": 1,
+          "conceded": 0
+        },
+        {
+          "stage": 2,
+          "ticks": 55,
+          "points": 2,
+          "conceded": 0
+        }
+      ]
+    },
+    {
+      "config": {
+        "seed": 42,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "ticks": 1087,
+      "hash": "c1832416",
+      "checkpoints": [
+        [
+          300,
+          "2899fd1b"
+        ],
+        [
+          600,
+          "b0553b67"
+        ],
+        [
+          900,
+          "aa450e6e"
+        ]
+      ],
+      "score": [
+        3,
+        0
+      ],
+      "history": [
+        {
+          "stage": 0,
+          "ticks": 171,
+          "points": 1,
+          "conceded": 0
+        },
+        {
+          "stage": 1,
+          "ticks": 52,
+          "points": 1,
+          "conceded": 0
+        },
+        {
+          "stage": 2,
+          "ticks": 52,
+          "points": 2,
+          "conceded": 0
+        }
+      ]
+    },
+    {
+      "config": {
+        "seed": 42,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 2,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "ticks": 1088,
+      "hash": "4751048e",
+      "checkpoints": [
+        [
+          300,
+          "e405eab0"
+        ],
+        [
+          600,
+          "012e14ee"
+        ],
+        [
+          900,
+          "632da00f"
+        ]
+      ],
+      "score": [
+        3,
+        0
+      ],
+      "history": [
+        {
+          "stage": 0,
+          "ticks": 168,
+          "points": 1,
+          "conceded": 0
+        },
+        {
+          "stage": 1,
+          "ticks": 54,
+          "points": 1,
+          "conceded": 0
+        },
+        {
+          "stage": 2,
+          "ticks": 54,
+          "points": 2,
+          "conceded": 0
+        }
+      ]
+    },
+    {
+      "config": {
+        "seed": 42,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 3,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "ticks": 1079,
+      "hash": "e35786ec",
+      "checkpoints": [
+        [
+          300,
+          "2ff12125"
+        ],
+        [
+          600,
+          "ee4677c9"
+        ],
+        [
+          900,
+          "627c6611"
+        ]
+      ],
+      "score": [
+        3,
+        0
+      ],
+      "history": [
+        {
+          "stage": 0,
+          "ticks": 157,
+          "points": 1,
+          "conceded": 0
+        },
+        {
+          "stage": 1,
+          "ticks": 55,
+          "points": 1,
+          "conceded": 0
+        },
+        {
+          "stage": 2,
+          "ticks": 55,
+          "points": 2,
+          "conceded": 0
+        }
+      ]
+    }
+  ]
+}
