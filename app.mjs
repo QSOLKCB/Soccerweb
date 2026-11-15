@@ -1,3 +1,4 @@
+import {StandardAnnouncements,standardRule,STANDARD_VICTORY,STANDARD_REVIEW} from './modes/goalposts_presentation.mjs';
 import {PAD_KEY,PAD_ACTIONS,padPreset,readPadProfiles,connectedPads,bindPadButton,padInput} from './input/gamepads.mjs';
 import {STAGES,stageTarget,stageLimit,shiftNotice,BEST_KEY,validBests,updateBest} from './modes/goalposts.mjs';
 import { createPractice, observePractice, practiceCopy, DRILL_NAMES } from './modes/practice.mjs';
@@ -15,6 +16,7 @@ let saved=readSaved('soccerweb.preferences.v1',{}),competition=readSaved('soccer
 if(!saved||typeof saved!=='object')saved={};if(!validCompetition(competition))competition=null;
 controls.padProfiles=readPadProfiles(readSaved(PAD_KEY,null));
 let padCapture=null;
+const standards=new StandardAnnouncements();
 let matchRun=0,practice=null,stageWaiting=false,advanceStage=false;
 let mode='quick',state=null,previous=null,recorder=null,playing=false,paused=false,finished=false,activeCompetition=null;
 let demo=createState({humans:[false,false],seed:1988,seconds:120,difficulty:2}),demoPrev=demo;
@@ -37,6 +39,7 @@ function applyOptions(){
   audio.volumes(muted?0:Number($('master-volume').value)/100,Number($('music-volume').value)/100,Number($('sfx-volume').value)/100);
   for(const r of [renderer,preview]){r.retro=$('visual').value==='crt';r.palette=$('visual').value==='mint'?'mint':'classic';r.pixelated=$('visual').value==='pixel';r.zoom=$('camera').value;r.effects=$('effects').value;}
   $('weather').disabled=$('ground').value==='indoor';
+  $('match').classList.toggle('quiet-announcements',$('effects').value==='minimal');
 }
 function updateTeams(){
   if($('home-team').value===$('away-team').value)$('away-team').value=String((Number($('home-team').value)+1)%TEAMS.length);
@@ -54,6 +57,7 @@ $('sound-toggle').onclick=async()=>{if(!audio.ctx){muted=false;await audio.start
 function matchConfig(){return {seed:Number($('seed').value),indoor:$('ground').value==='indoor',weather:$('weather').value,seconds:Number($('duration').value),difficulty:Number($('difficulty').value),teams:[Number($('home-team').value),Number($('away-team').value)],humans:[true,mode==='local'],aftertouch:Number($('aftertouch').value),auto:$('selection').value==='auto'};}
 function updateContinue(){ $('continue').hidden=!competition||competition.complete; }
 function enterMatch(s,label){
+  standards.reset();standards.update(s);$('match').classList.toggle('standards-mode',!!s.goalposts);
   matchRun++;stageWaiting=false;advanceStage=false;$('stage-overlay').hidden=true;$('goalposts-panel').hidden=!s.goalposts;
   state=s;previous=structuredClone(s);recorder=s.training?null:new Recorder(s);playing=true;paused=false;finished=false;controls.setGameplayEnabled(true);controls.cancelPending=false;controls.active=true;
   accumulator=0;goalFrames=[];goalPlayback=null;renderer.reset();$('menu').hidden=true;$('match').hidden=false;$('pause-overlay').hidden=true;$('result-overlay').hidden=true;$('replay-tag').hidden=true;
@@ -100,21 +104,26 @@ function togglePause(force=false){
 }
 $('pause-button').onclick=()=>togglePause();$('resume').onclick=()=>togglePause();
 $('exit-match').onclick=()=>togglePause(true);
-function home(){matchRun++;stageWaiting=false;advanceStage=false;practice=null;playing=false;paused=false;controls.active=false;controls.setGameplayEnabled(false);state=null;goalPlayback=null;playback=null;activeCompetition=null;$('match').hidden=true;$('menu').hidden=false;updateContinue();audio.setPaused(false);audio.setMode('menu');preview.reset();$('kickoff').focus();}
+function home(){standards.reset();matchRun++;stageWaiting=false;advanceStage=false;practice=null;playing=false;paused=false;controls.active=false;controls.setGameplayEnabled(false);state=null;goalPlayback=null;playback=null;activeCompetition=null;$('match').hidden=true;$('menu').hidden=false;updateContinue();audio.setPaused(false);audio.setMode('menu');preview.reset();$('kickoff').focus();}
 $('pause-quit').onclick=home;$('result-home').onclick=home;
 function exportReplay(){
   if(!state||!recorder)return;const data=playback||recorder.export(state),blob=new Blob([JSON.stringify(data)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
   a.href=url;a.download=`soccerweb-${data.config.seed}-${data.frames.length}-ticks.json`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toast(`Exported ${data.frames.length.toLocaleString()} ticks · hash ${data.finalHash}`);
 }
 for(const id of ['pause-save','result-export','stage-export'])$(id).onclick=exportReplay;
+function textIfChanged(id,text){if($(id).textContent!==text)$(id).textContent=text;}
 function updateHUD(){
   if(!state)return;
   if(practice){$('practice-title').textContent=DRILL_NAMES[practice.index];$('practice-copy').textContent=practiceCopy(practice,controls.maps[0]);}
   if(state.goalposts){
-    const g=state.goalposts,notice=shiftNotice(state);
-    $('goalposts-title').textContent=`${g.stage+1}/3 · ${STAGES[g.stage]}`;
+    const g=state.goalposts,notice=shiftNotice(state),view=standards.view;
+    textIfChanged('goalposts-title',`${g.stage+1}/3 · ${STAGES[g.stage]}`);
+    textIfChanged('goalposts-revision',`STANDARD ${String(g.stage+1).padStart(2,'0')} / REV ${String(view.revision).padStart(2,'0')}`);
+    textIfChanged('goalposts-stamp',view.stamp);
+    textIfChanged('goalposts-announcement-title',view.headline);textIfChanged('goalposts-announcement-detail',view.detail);
+    $('goalposts-panel').classList.toggle('criteria-revised',view.flash);
     $('goalposts-rule').textContent=`${g.points}/${stageTarget(g.stage)} POINTS · ${Math.ceil(Math.max(0,stageLimit(state)-g.clock)/60)}s LEFT · CONCEDED ${g.conceded}/2 · ${g.stage===2?'Any goal = 1; curved shot = 2.':'Every goal = 1 point.'}`;
-    $('goalposts-notice').textContent=state.phase==='play'?notice.text:state.phase==='goal'?'A splendid goal. The criteria are under review.':'CLOCK & POSTS HELD · '+notice.text;
+    textIfChanged('goalposts-notice',state.phase==='play'?notice.text:state.phase==='goal'?'CLOCK & POSTS HELD · GOAL RECORDED':'CLOCK & POSTS HELD · '+notice.text);
     $('goalposts-tip').textContent=`Try moving diagonally toward goal while charging ${keyLabel(controls.maps[0].fire)}, then face up and release. Bend with ${keyLabel(controls.maps[0].curveLeft)}/${keyLabel(controls.maps[0].curveRight)}. Your own goal stays fixed.`;
   }
   const selected=state.players[state.selected[0]];
@@ -142,12 +151,16 @@ async function showResult(replayEnd=false){
   $('result-score').textContent=`${TEAMS[state.config.teams[0]].short} ${score[0]} — ${score[1]} ${TEAMS[state.config.teams[1]].short}`;
   $('result-stats').replaceChildren();for(const [key,label] of [['shots','SHOTS'],['saves','SAVES'],['passes','PASSES']]){const div=document.createElement('div');div.textContent=state.stats[key].join(' — ');const small=document.createElement('small');small.textContent=label;div.append(small);$('result-stats').append(div);}
   const next=$('result-next');next.disabled=false;next.textContent=replayEnd?'RETURN TO CLUBHOUSE →':'PLAY AGAIN →';next.onclick=replayEnd?home:()=>startMatch();
-  if(state.goalposts&&!replayEnd){
-    const won=state.goalposts.status==='won';audio.setMode(won?'victory':'goalposts');$('result-label').textContent='GOALPOSTS / '+(won?'ALL THREE STANDARDS MET':'RUN ENDED');
-    $('result-title').textContent=won?'THE MATHS WINS.':'THE STANDARD SURVIVES.';
-    $('result-score').textContent=`${state.goalposts.total} points · ${(state.goalposts.spent/60).toFixed(1)} active seconds · ${won?'New standard unlocked!':'Time expired or two goals conceded. Try again.'}`;
-    next.textContent='RETRY THREE-STAGE RUN →';next.onclick=()=>startGoalposts(state.config);
-    if(won){audio.event({type:'challengewin'});if(!save(BEST_KEY,updateBest(readSaved(BEST_KEY,null),state)))toast('Best time could not be saved.');}
+  $('result-review').hidden=true;$('result-standards').hidden=true;
+  if(state.goalposts){
+    const won=state.goalposts.status==='won',failed=state.goalposts.status==='failed';audio.setMode(won?'victory':'goalposts');$('result-label').textContent=(replayEnd?'VERIFIED REPLAY / ':'GOALPOSTS / ')+(won?'ALL THREE STANDARDS MET':failed?'RUN ENDED':'RECORDING ENDED');
+    $('result-title').textContent=won?STANDARD_VICTORY:failed?'THE STANDARD SURVIVES.':'REPLAY COMPLETE.';
+    $('result-review').hidden=false;$('result-review').textContent=won?STANDARD_REVIEW:failed?'A FRESH SUBMISSION IS ALWAYS WELCOME.':'THIS RECORDING ENDS BEFORE THE RUN IS FINISHED.';
+    $('result-standards').hidden=false;$('result-standards').replaceChildren();
+    for(const record of state.goalposts.history){const line=document.createElement('li');line.textContent=`STANDARD ${record.stage+1} · APPROVED · ${record.points} ${record.points===1?'point':'points'} · ${(record.ticks/60).toFixed(1)}s`;$('result-standards').append(line);}
+    $('result-score').textContent=`${state.goalposts.total} points · ${(state.goalposts.spent/60).toFixed(1)} active seconds · ${won?'Every valid goal remains on the record.':!failed?'Recorded progress only; the run had not ended.':state.goalposts.conceded>=2?'Two goals conceded in this stage. Try again.':'The active-time allowance expired. Try again.'}`;
+    next.textContent=replayEnd?'RETURN TO CLUBHOUSE →':'RETRY THREE-STAGE RUN →';next.onclick=replayEnd?home:()=>startGoalposts(state.config);
+    if(won&&!replayEnd){if(!save(BEST_KEY,updateBest(readSaved(BEST_KEY,null),state)))toast('Best time could not be saved.');}
     next.focus();return;
   }
   if(activeCompetition&&!replayEnd){
@@ -170,12 +183,13 @@ function tick(){
     // A held kick needs a recorded release before the stage's rising-edge press.
     const release=state.previous[0].fire;inputs[0]={...EMPTY,fire:!release};advanceStage=release;
   }
-  step(state,inputs);if(!playback)recorder?.record(state,inputs);else playbackIndex++;
+  step(state,inputs);const standardSounds=state.goalposts?standards.update(state):[];if(!playback)recorder?.record(state,inputs);else playbackIndex++;
   if(state.phase==='stageclear'&&!playback&&!advanceStage){
-    stageWaiting=true;controls.setGameplayEnabled(false);$('stage-overlay').hidden=false;$('stage-title').textContent=STAGES[state.goalposts.stage]+' — cleared!';$('stage-next').textContent=`NEXT: ${STAGES[state.goalposts.stage+1]} →`;$('stage-next').focus();
+    stageWaiting=true;controls.setGameplayEnabled(false);$('stage-overlay').hidden=false;$('stage-title').textContent=STAGES[state.goalposts.stage]+' — approved!';$('stage-copy').textContent=standards.view.headline;$('stage-rule').textContent=`NEXT STANDARD: ${standardRule(state.goalposts.stage+1)}`;$('stage-next').textContent=`NEXT: ${STAGES[state.goalposts.stage+1]} →`;$('stage-next').focus();
   }
   if(practice&&observePractice(practice)){togglePause(true);$('practice-next').focus();}
-  for(const event of state.events){if(event.type==='goal')audio.setMode('goal',false,state.config.seed);audio.event(event);if(event.type==='kick')$('action-hint').textContent=`${TEAMS[state.config.teams[event.team]].short} · ${event.kind.toUpperCase()}${event.power>40?' · FULL POWER':''}`;else if(event.type==='save')$('action-hint').textContent=event.caught?'KEEPER HOLDS IT.':'PARRIED! CHASE THE REBOUND.';else if(event.type==='post')$('action-hint').textContent='OFF THE FRAME!';else if(event.type==='receive')$('action-hint').textContent=event.passed?'PASS COMPLETE · FIND THE NEXT RUN':'FIRST TOUCH · BALL CONTROLLED';else if(event.type==='intercept')$('action-hint').textContent='INTERCEPTED · CHANGE OF POSSESSION';else if(event.type==='tackle')$('action-hint').textContent='TACKLE WON · CHASE THE LOOSE BALL';}
+  for(const event of state.events){if(event.type==='goal')audio.setMode('goal',false,state.config.seed);if(!state.goalposts||!['revision','shift','nearmiss','challengewin','post'].includes(event.type))audio.event(event);if(event.type==='kick')$('action-hint').textContent=`${TEAMS[state.config.teams[event.team]].short} · ${event.kind.toUpperCase()}${event.power>40?' · FULL POWER':''}`;else if(event.type==='save')$('action-hint').textContent=event.caught?'KEEPER HOLDS IT.':'PARRIED! CHASE THE REBOUND.';else if(event.type==='post')$('action-hint').textContent='OFF THE FRAME!';else if(event.type==='receive')$('action-hint').textContent=event.passed?'PASS COMPLETE · FIND THE NEXT RUN':'FIRST TOUCH · BALL CONTROLLED';else if(event.type==='intercept')$('action-hint').textContent='INTERCEPTED · CHANGE OF POSSESSION';else if(event.type==='tackle')$('action-hint').textContent='TACKLE WON · CHASE THE LOOSE BALL';}
+  for(const event of standardSounds)audio.event(event);
   if(state.phase==='play'&&audio.mode==='goal')audio.setMode(state.goalposts?'goalposts':state.config.indoor?'indoor':'outdoor',state.config.weather==='rain'&&!state.config.indoor,state.config.seed);
   if(!practice&&state.tick%3===0){goalFrames.push(structuredClone(state));if(goalFrames.length>100)goalFrames.shift();}
   if(!practice&&state.events.some(e=>e.type==='goal')&&goalFrames.length>12){goalPlayback={frames:goalFrames.slice(),time:0};$('replay-tag').hidden=false;}
@@ -308,4 +322,4 @@ if('serviceWorker'in navigator&&location.protocol!=='file:')navigator.serviceWor
   if(registration.waiting)toast('A game update is ready. Close other Soccerweb tabs and reopen to update.');
 }).catch(()=>$('offline-status').textContent='ONLINE MODE · CACHE UNAVAILABLE');
 // Read-only diagnostics used by the browser smoke suite; never exposes mutable simulation objects.
-export function diagnostics(){return state?{state:structuredClone(state),paused,playing,finished,hash:stateHash(state),recordedTicks:recorder?.frames.length||0,practice:practice?{index:practice.index,progress:practice.progress,complete:practice.complete}:null,audio:{mode:audio.mode,state:audio.ctx?.state||'uninitialized',voices:audio.voices.size,cursor:audio.cursor,paused:audio.paused}}:null;}
+export function diagnostics(){return state?{state:structuredClone(state),paused,playing,finished,hash:stateHash(state),recordedTicks:recorder?.frames.length||0,standards:state.goalposts?structuredClone(standards.view):null,practice:practice?{index:practice.index,progress:practice.progress,complete:practice.complete}:null,audio:{mode:audio.mode,state:audio.ctx?.state||'uninitialized',voices:audio.voices.size,cursor:audio.cursor,paused:audio.paused}}:null;}

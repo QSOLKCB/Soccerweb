@@ -1,0 +1,1773 @@
+{
+  "status": "PASS",
+  "browser": "chromium",
+  "version": "141.0.7390.37",
+  "method": "Identical legitimate input streams and 120 production-renderer warmup frames; paired Canvas-only captures. Full-app live captures are separate.",
+  "captures": [
+    {
+      "kind": "Canvas-only deterministic input replay; no app HUD",
+      "baseline": true,
+      "stage": 0,
+      "tick": 300,
+      "clock": 180,
+      "hash": "61523316",
+      "replayVersion": 5,
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "score": [
+        0,
+        0
+      ],
+      "camera": {
+        "x": 360,
+        "y": 253.78787878787875,
+        "scale": 1.32,
+        "vw": 1034.090909090909,
+        "vh": 757.5757575757575
+      },
+      "geometry": {
+        "center": 95613,
+        "width": 46080,
+        "left": 72573,
+        "right": 118653,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 0
+      },
+      "sign": null,
+      "bounds": null,
+      "players": [
+        {
+          "id": 0,
+          "x": 76004,
+          "y": 281564
+        },
+        {
+          "id": 1,
+          "x": 29469,
+          "y": 122326
+        },
+        {
+          "id": 2,
+          "x": 47446,
+          "y": 57914
+        },
+        {
+          "id": 3,
+          "x": 107971,
+          "y": 122408
+        },
+        {
+          "id": 4,
+          "x": 74671,
+          "y": 40228
+        },
+        {
+          "id": 5,
+          "x": 73476,
+          "y": 7898
+        },
+        {
+          "id": 6,
+          "x": 42855,
+          "y": 28494
+        },
+        {
+          "id": 7,
+          "x": 73265,
+          "y": 43800
+        },
+        {
+          "id": 8,
+          "x": 96608,
+          "y": 21248
+        },
+        {
+          "id": 9,
+          "x": 147459,
+          "y": 16523
+        }
+      ],
+      "options": {
+        "pixel": false,
+        "wide": false,
+        "minimal": false,
+        "reducedMotion": false
+      },
+      "viewport": {
+        "width": 1365,
+        "height": 1000,
+        "dpr": 1
+      },
+      "file": "stage-1-before.png",
+      "source": "b9db46ab9b42cb2c3e98d2af82c10eed0b309128",
+      "pngSHA256": "a50b2110a90b24c9996cc3d77dbbbc62f0aa4fa4ba2533a178f4a2c8045d8eb5"
+    },
+    {
+      "kind": "Canvas-only deterministic input replay; no app HUD",
+      "baseline": false,
+      "stage": 0,
+      "tick": 300,
+      "clock": 180,
+      "hash": "61523316",
+      "replayVersion": 5,
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "score": [
+        0,
+        0
+      ],
+      "camera": {
+        "x": 360,
+        "y": 253.78787878787875,
+        "scale": 1.32,
+        "vw": 1034.090909090909,
+        "vh": 757.5757575757575
+      },
+      "geometry": {
+        "center": 95613,
+        "width": 46080,
+        "left": 72573,
+        "right": 118653,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 0
+      },
+      "sign": {
+        "text": "CURRENT STANDARD",
+        "center": 373.48828125,
+        "left": 309.48828125,
+        "right": 437.48828125,
+        "top": -60,
+        "bottom": -41,
+        "width": 128,
+        "height": 19,
+        "font": 11,
+        "baseline": -46
+      },
+      "bounds": {
+        "left": 615.82453125,
+        "right": 784.78453125,
+        "top": 85.80000000000001,
+        "bottom": 110.88000000000005
+      },
+      "players": [
+        {
+          "id": 0,
+          "x": 76004,
+          "y": 281564
+        },
+        {
+          "id": 1,
+          "x": 29469,
+          "y": 122326
+        },
+        {
+          "id": 2,
+          "x": 47446,
+          "y": 57914
+        },
+        {
+          "id": 3,
+          "x": 107971,
+          "y": 122408
+        },
+        {
+          "id": 4,
+          "x": 74671,
+          "y": 40228
+        },
+        {
+          "id": 5,
+          "x": 73476,
+          "y": 7898
+        },
+        {
+          "id": 6,
+          "x": 42855,
+          "y": 28494
+        },
+        {
+          "id": 7,
+          "x": 73265,
+          "y": 43800
+        },
+        {
+          "id": 8,
+          "x": 96608,
+          "y": 21248
+        },
+        {
+          "id": 9,
+          "x": 147459,
+          "y": 16523
+        }
+      ],
+      "options": {
+        "pixel": false,
+        "wide": false,
+        "minimal": false,
+        "reducedMotion": false
+      },
+      "viewport": {
+        "width": 1365,
+        "height": 1000,
+        "dpr": 1
+      },
+      "file": "stage-1-after.png",
+      "source": "d7c9b04ae7ac2dfe4381bd97c931395ed1f51d8c",
+      "pngSHA256": "b40209010356ef8876284b96a040b3334ac1cddf5ccb4be01eb209c71454348b"
+    },
+    {
+      "kind": "Canvas-only deterministic input replay; no app HUD",
+      "baseline": true,
+      "stage": 1,
+      "tick": 742,
+      "clock": 180,
+      "hash": "9be956cb",
+      "replayVersion": 5,
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "score": [
+        1,
+        0
+      ],
+      "camera": {
+        "x": 360,
+        "y": 253.78787878787875,
+        "scale": 1.32,
+        "vw": 1034.090909090909,
+        "vh": 757.5757575757575
+      },
+      "geometry": {
+        "center": 92160,
+        "width": 45018,
+        "left": 69651,
+        "right": 114669,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 1
+      },
+      "sign": null,
+      "bounds": null,
+      "players": [
+        {
+          "id": 0,
+          "x": 87108,
+          "y": 281582
+        },
+        {
+          "id": 1,
+          "x": 29985,
+          "y": 144392
+        },
+        {
+          "id": 2,
+          "x": 51415,
+          "y": 81583
+        },
+        {
+          "id": 3,
+          "x": 108511,
+          "y": 144460
+        },
+        {
+          "id": 4,
+          "x": 73321,
+          "y": 44303
+        },
+        {
+          "id": 5,
+          "x": 80111,
+          "y": 7933
+        },
+        {
+          "id": 6,
+          "x": 55837,
+          "y": 52145
+        },
+        {
+          "id": 7,
+          "x": 80908,
+          "y": 59682
+        },
+        {
+          "id": 8,
+          "x": 107224,
+          "y": 53008
+        },
+        {
+          "id": 9,
+          "x": 135529,
+          "y": 56356
+        }
+      ],
+      "options": {
+        "pixel": false,
+        "wide": false,
+        "minimal": false,
+        "reducedMotion": false
+      },
+      "viewport": {
+        "width": 1365,
+        "height": 1000,
+        "dpr": 1
+      },
+      "file": "stage-2-before.png",
+      "source": "b9db46ab9b42cb2c3e98d2af82c10eed0b309128",
+      "pngSHA256": "e237f085ab0289bfc7be251d99b5c7e21fa753320b51caf2e75618e1f4f87774"
+    },
+    {
+      "kind": "Canvas-only deterministic input replay; no app HUD",
+      "baseline": false,
+      "stage": 1,
+      "tick": 742,
+      "clock": 180,
+      "hash": "9be956cb",
+      "replayVersion": 5,
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "score": [
+        1,
+        0
+      ],
+      "camera": {
+        "x": 360,
+        "y": 253.78787878787875,
+        "scale": 1.32,
+        "vw": 1034.090909090909,
+        "vh": 757.5757575757575
+      },
+      "geometry": {
+        "center": 92160,
+        "width": 45018,
+        "left": 69651,
+        "right": 114669,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 1
+      },
+      "sign": {
+        "text": "CURRENT STANDARD",
+        "center": 360,
+        "left": 296,
+        "right": 424,
+        "top": -60,
+        "bottom": -41,
+        "width": 128,
+        "height": 19,
+        "font": 11,
+        "baseline": -46
+      },
+      "bounds": {
+        "left": 598.02,
+        "right": 766.98,
+        "top": 85.80000000000001,
+        "bottom": 110.88000000000005
+      },
+      "players": [
+        {
+          "id": 0,
+          "x": 87108,
+          "y": 281582
+        },
+        {
+          "id": 1,
+          "x": 29985,
+          "y": 144392
+        },
+        {
+          "id": 2,
+          "x": 51415,
+          "y": 81583
+        },
+        {
+          "id": 3,
+          "x": 108511,
+          "y": 144460
+        },
+        {
+          "id": 4,
+          "x": 73321,
+          "y": 44303
+        },
+        {
+          "id": 5,
+          "x": 80111,
+          "y": 7933
+        },
+        {
+          "id": 6,
+          "x": 55837,
+          "y": 52145
+        },
+        {
+          "id": 7,
+          "x": 80908,
+          "y": 59682
+        },
+        {
+          "id": 8,
+          "x": 107224,
+          "y": 53008
+        },
+        {
+          "id": 9,
+          "x": 135529,
+          "y": 56356
+        }
+      ],
+      "options": {
+        "pixel": false,
+        "wide": false,
+        "minimal": false,
+        "reducedMotion": false
+      },
+      "viewport": {
+        "width": 1365,
+        "height": 1000,
+        "dpr": 1
+      },
+      "file": "stage-2-after.png",
+      "source": "d7c9b04ae7ac2dfe4381bd97c931395ed1f51d8c",
+      "pngSHA256": "3421d708c35b11c2ceffd8aba3b02ec1d640c6eeec5356e7a2a275b71d519e52"
+    },
+    {
+      "kind": "Canvas-only deterministic input replay; no app HUD",
+      "baseline": true,
+      "stage": 2,
+      "tick": 1065,
+      "clock": 180,
+      "hash": "e3ade08c",
+      "replayVersion": 5,
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "score": [
+        2,
+        0
+      ],
+      "camera": {
+        "x": 360,
+        "y": 253.78787878787875,
+        "scale": 1.32,
+        "vw": 1034.090909090909,
+        "vh": 757.5757575757575
+      },
+      "geometry": {
+        "center": 95613,
+        "width": 45018,
+        "left": 73104,
+        "right": 118122,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 2
+      },
+      "sign": null,
+      "bounds": null,
+      "players": [
+        {
+          "id": 0,
+          "x": 87081,
+          "y": 281589
+        },
+        {
+          "id": 1,
+          "x": 29985,
+          "y": 144392
+        },
+        {
+          "id": 2,
+          "x": 51415,
+          "y": 81583
+        },
+        {
+          "id": 3,
+          "x": 108511,
+          "y": 144460
+        },
+        {
+          "id": 4,
+          "x": 73321,
+          "y": 44303
+        },
+        {
+          "id": 5,
+          "x": 80860,
+          "y": 5985
+        },
+        {
+          "id": 6,
+          "x": 55837,
+          "y": 52145
+        },
+        {
+          "id": 7,
+          "x": 80908,
+          "y": 59682
+        },
+        {
+          "id": 8,
+          "x": 107224,
+          "y": 53008
+        },
+        {
+          "id": 9,
+          "x": 135529,
+          "y": 56356
+        }
+      ],
+      "options": {
+        "pixel": false,
+        "wide": false,
+        "minimal": false,
+        "reducedMotion": false
+      },
+      "viewport": {
+        "width": 1365,
+        "height": 1000,
+        "dpr": 1
+      },
+      "file": "stage-3-before.png",
+      "source": "b9db46ab9b42cb2c3e98d2af82c10eed0b309128",
+      "pngSHA256": "25db5eb4758547b0a660ba62dc08851b8dee8426ddeff30d1142a77edf842ea1"
+    },
+    {
+      "kind": "Canvas-only deterministic input replay; no app HUD",
+      "baseline": false,
+      "stage": 2,
+      "tick": 1065,
+      "clock": 180,
+      "hash": "e3ade08c",
+      "replayVersion": 5,
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "score": [
+        2,
+        0
+      ],
+      "camera": {
+        "x": 360,
+        "y": 253.78787878787875,
+        "scale": 1.32,
+        "vw": 1034.090909090909,
+        "vh": 757.5757575757575
+      },
+      "geometry": {
+        "center": 95613,
+        "width": 45018,
+        "left": 73104,
+        "right": 118122,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 2
+      },
+      "sign": {
+        "text": "CURRENT STANDARD",
+        "center": 373.48828125,
+        "left": 309.48828125,
+        "right": 437.48828125,
+        "top": -60,
+        "bottom": -41,
+        "width": 128,
+        "height": 19,
+        "font": 11,
+        "baseline": -46
+      },
+      "bounds": {
+        "left": 615.82453125,
+        "right": 784.78453125,
+        "top": 85.80000000000001,
+        "bottom": 110.88000000000005
+      },
+      "players": [
+        {
+          "id": 0,
+          "x": 87081,
+          "y": 281589
+        },
+        {
+          "id": 1,
+          "x": 29985,
+          "y": 144392
+        },
+        {
+          "id": 2,
+          "x": 51415,
+          "y": 81583
+        },
+        {
+          "id": 3,
+          "x": 108511,
+          "y": 144460
+        },
+        {
+          "id": 4,
+          "x": 73321,
+          "y": 44303
+        },
+        {
+          "id": 5,
+          "x": 80860,
+          "y": 5985
+        },
+        {
+          "id": 6,
+          "x": 55837,
+          "y": 52145
+        },
+        {
+          "id": 7,
+          "x": 80908,
+          "y": 59682
+        },
+        {
+          "id": 8,
+          "x": 107224,
+          "y": 53008
+        },
+        {
+          "id": 9,
+          "x": 135529,
+          "y": 56356
+        }
+      ],
+      "options": {
+        "pixel": false,
+        "wide": false,
+        "minimal": false,
+        "reducedMotion": false
+      },
+      "viewport": {
+        "width": 1365,
+        "height": 1000,
+        "dpr": 1
+      },
+      "file": "stage-3-after.png",
+      "source": "d7c9b04ae7ac2dfe4381bd97c931395ed1f51d8c",
+      "pngSHA256": "48f970531a9ef6fc004dfcb71354a6c363c9ea21ef9904a01489706676026c0b"
+    },
+    {
+      "kind": "Canvas-only deterministic input replay; no app HUD",
+      "baseline": true,
+      "stage": 2,
+      "tick": 1065,
+      "clock": 180,
+      "hash": "e3ade08c",
+      "replayVersion": 5,
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "score": [
+        2,
+        0
+      ],
+      "camera": {
+        "x": 335,
+        "y": 560,
+        "scale": 0.4875,
+        "vw": 800,
+        "vh": 1476.923076923077
+      },
+      "geometry": {
+        "center": 95613,
+        "width": 45018,
+        "left": 73104,
+        "right": 118122,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 2
+      },
+      "sign": null,
+      "bounds": null,
+      "players": [
+        {
+          "id": 0,
+          "x": 87081,
+          "y": 281589
+        },
+        {
+          "id": 1,
+          "x": 29985,
+          "y": 144392
+        },
+        {
+          "id": 2,
+          "x": 51415,
+          "y": 81583
+        },
+        {
+          "id": 3,
+          "x": 108511,
+          "y": 144460
+        },
+        {
+          "id": 4,
+          "x": 73321,
+          "y": 44303
+        },
+        {
+          "id": 5,
+          "x": 80860,
+          "y": 5985
+        },
+        {
+          "id": 6,
+          "x": 55837,
+          "y": 52145
+        },
+        {
+          "id": 7,
+          "x": 80908,
+          "y": 59682
+        },
+        {
+          "id": 8,
+          "x": 107224,
+          "y": 53008
+        },
+        {
+          "id": 9,
+          "x": 135529,
+          "y": 56356
+        }
+      ],
+      "options": {
+        "pixel": false,
+        "wide": false,
+        "minimal": false,
+        "reducedMotion": true
+      },
+      "viewport": {
+        "width": 390,
+        "height": 720,
+        "dpr": 1
+      },
+      "file": "narrow-reduced-before.png",
+      "source": "b9db46ab9b42cb2c3e98d2af82c10eed0b309128",
+      "pngSHA256": "b468e88784d702eafed8c83e608fc86d086921b0ab3558cfc0aa0f3c2609b15b"
+    },
+    {
+      "kind": "Canvas-only deterministic input replay; no app HUD",
+      "baseline": false,
+      "stage": 2,
+      "tick": 1065,
+      "clock": 180,
+      "hash": "e3ade08c",
+      "replayVersion": 5,
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "score": [
+        2,
+        0
+      ],
+      "camera": {
+        "x": 335,
+        "y": 560,
+        "scale": 0.4875,
+        "vw": 800,
+        "vh": 1476.923076923077
+      },
+      "geometry": {
+        "center": 95613,
+        "width": 45018,
+        "left": 73104,
+        "right": 118122,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 2
+      },
+      "sign": {
+        "text": "CURRENT STANDARD",
+        "center": 373.48828125,
+        "left": 242.2062299679487,
+        "right": 504.77033253205127,
+        "top": -85.23076923076923,
+        "bottom": -46.256410256410255,
+        "width": 262.5641025641026,
+        "height": 38.97435897435898,
+        "font": 22.564102564102566,
+        "baseline": -56.51282051282051
+      },
+      "bounds": {
+        "left": 149.76303710937498,
+        "right": 277.763037109375,
+        "top": 45.44999999999999,
+        "bottom": 64.44999999999999
+      },
+      "players": [
+        {
+          "id": 0,
+          "x": 87081,
+          "y": 281589
+        },
+        {
+          "id": 1,
+          "x": 29985,
+          "y": 144392
+        },
+        {
+          "id": 2,
+          "x": 51415,
+          "y": 81583
+        },
+        {
+          "id": 3,
+          "x": 108511,
+          "y": 144460
+        },
+        {
+          "id": 4,
+          "x": 73321,
+          "y": 44303
+        },
+        {
+          "id": 5,
+          "x": 80860,
+          "y": 5985
+        },
+        {
+          "id": 6,
+          "x": 55837,
+          "y": 52145
+        },
+        {
+          "id": 7,
+          "x": 80908,
+          "y": 59682
+        },
+        {
+          "id": 8,
+          "x": 107224,
+          "y": 53008
+        },
+        {
+          "id": 9,
+          "x": 135529,
+          "y": 56356
+        }
+      ],
+      "options": {
+        "pixel": false,
+        "wide": false,
+        "minimal": false,
+        "reducedMotion": true
+      },
+      "viewport": {
+        "width": 390,
+        "height": 720,
+        "dpr": 1
+      },
+      "file": "narrow-reduced-after.png",
+      "source": "d7c9b04ae7ac2dfe4381bd97c931395ed1f51d8c",
+      "pngSHA256": "d9e1ac0456592ad641be1901f5ed5701aec4dbd92971762c1d288b930c130ef4"
+    },
+    {
+      "kind": "Canvas-only deterministic input replay; no app HUD",
+      "baseline": true,
+      "stage": 2,
+      "tick": 1065,
+      "clock": 180,
+      "hash": "e3ade08c",
+      "replayVersion": 5,
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "score": [
+        2,
+        0
+      ],
+      "camera": {
+        "x": 335,
+        "y": 275,
+        "scale": 1.125,
+        "vw": 800,
+        "vh": 800
+      },
+      "geometry": {
+        "center": 95613,
+        "width": 45018,
+        "left": 73104,
+        "right": 118122,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 2
+      },
+      "sign": null,
+      "bounds": null,
+      "players": [
+        {
+          "id": 0,
+          "x": 87081,
+          "y": 281589
+        },
+        {
+          "id": 1,
+          "x": 29985,
+          "y": 144392
+        },
+        {
+          "id": 2,
+          "x": 51415,
+          "y": 81583
+        },
+        {
+          "id": 3,
+          "x": 108511,
+          "y": 144460
+        },
+        {
+          "id": 4,
+          "x": 73321,
+          "y": 44303
+        },
+        {
+          "id": 5,
+          "x": 80860,
+          "y": 5985
+        },
+        {
+          "id": 6,
+          "x": 55837,
+          "y": 52145
+        },
+        {
+          "id": 7,
+          "x": 80908,
+          "y": 59682
+        },
+        {
+          "id": 8,
+          "x": 107224,
+          "y": 53008
+        },
+        {
+          "id": 9,
+          "x": 135529,
+          "y": 56356
+        }
+      ],
+      "options": {
+        "pixel": false,
+        "wide": false,
+        "minimal": false,
+        "reducedMotion": false
+      },
+      "viewport": {
+        "width": 900,
+        "height": 900,
+        "dpr": 2
+      },
+      "file": "dpr2-before.png",
+      "source": "b9db46ab9b42cb2c3e98d2af82c10eed0b309128",
+      "pngSHA256": "1a5b591f046095ebb2e0ad94ae1708e33d51b51b819cd6d470517ab3ee4b25c9"
+    },
+    {
+      "kind": "Canvas-only deterministic input replay; no app HUD",
+      "baseline": false,
+      "stage": 2,
+      "tick": 1065,
+      "clock": 180,
+      "hash": "e3ade08c",
+      "replayVersion": 5,
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "score": [
+        2,
+        0
+      ],
+      "camera": {
+        "x": 335,
+        "y": 275,
+        "scale": 1.125,
+        "vw": 800,
+        "vh": 800
+      },
+      "geometry": {
+        "center": 95613,
+        "width": 45018,
+        "left": 73104,
+        "right": 118122,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 2
+      },
+      "sign": {
+        "text": "CURRENT STANDARD",
+        "center": 373.48828125,
+        "left": 309.48828125,
+        "right": 437.48828125,
+        "top": -60,
+        "bottom": -41,
+        "width": 128,
+        "height": 19,
+        "font": 11,
+        "baseline": -46
+      },
+      "bounds": {
+        "left": 421.29931640625,
+        "right": 565.29931640625,
+        "top": 73.125,
+        "bottom": 94.5
+      },
+      "players": [
+        {
+          "id": 0,
+          "x": 87081,
+          "y": 281589
+        },
+        {
+          "id": 1,
+          "x": 29985,
+          "y": 144392
+        },
+        {
+          "id": 2,
+          "x": 51415,
+          "y": 81583
+        },
+        {
+          "id": 3,
+          "x": 108511,
+          "y": 144460
+        },
+        {
+          "id": 4,
+          "x": 73321,
+          "y": 44303
+        },
+        {
+          "id": 5,
+          "x": 80860,
+          "y": 5985
+        },
+        {
+          "id": 6,
+          "x": 55837,
+          "y": 52145
+        },
+        {
+          "id": 7,
+          "x": 80908,
+          "y": 59682
+        },
+        {
+          "id": 8,
+          "x": 107224,
+          "y": 53008
+        },
+        {
+          "id": 9,
+          "x": 135529,
+          "y": 56356
+        }
+      ],
+      "options": {
+        "pixel": false,
+        "wide": false,
+        "minimal": false,
+        "reducedMotion": false
+      },
+      "viewport": {
+        "width": 900,
+        "height": 900,
+        "dpr": 2
+      },
+      "file": "dpr2-after.png",
+      "source": "d7c9b04ae7ac2dfe4381bd97c931395ed1f51d8c",
+      "pngSHA256": "9626f4c3540c0ef1ff0d0e3c6163e3c52d2c87c7b342dc83db721a5f7c6e4fed"
+    },
+    {
+      "kind": "Canvas-only deterministic input replay; no app HUD",
+      "baseline": true,
+      "stage": 2,
+      "tick": 1065,
+      "clock": 180,
+      "hash": "e3ade08c",
+      "replayVersion": 5,
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "score": [
+        2,
+        0
+      ],
+      "camera": {
+        "x": 360,
+        "y": 253.78787878787875,
+        "scale": 1.32,
+        "vw": 1034.090909090909,
+        "vh": 757.5757575757575
+      },
+      "geometry": {
+        "center": 95613,
+        "width": 45018,
+        "left": 73104,
+        "right": 118122,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 2
+      },
+      "sign": null,
+      "bounds": null,
+      "players": [
+        {
+          "id": 0,
+          "x": 87081,
+          "y": 281589
+        },
+        {
+          "id": 1,
+          "x": 29985,
+          "y": 144392
+        },
+        {
+          "id": 2,
+          "x": 51415,
+          "y": 81583
+        },
+        {
+          "id": 3,
+          "x": 108511,
+          "y": 144460
+        },
+        {
+          "id": 4,
+          "x": 73321,
+          "y": 44303
+        },
+        {
+          "id": 5,
+          "x": 80860,
+          "y": 5985
+        },
+        {
+          "id": 6,
+          "x": 55837,
+          "y": 52145
+        },
+        {
+          "id": 7,
+          "x": 80908,
+          "y": 59682
+        },
+        {
+          "id": 8,
+          "x": 107224,
+          "y": 53008
+        },
+        {
+          "id": 9,
+          "x": 135529,
+          "y": 56356
+        }
+      ],
+      "options": {
+        "pixel": true,
+        "wide": false,
+        "minimal": false,
+        "reducedMotion": false
+      },
+      "viewport": {
+        "width": 1365,
+        "height": 1000,
+        "dpr": 1
+      },
+      "file": "pixel-before.png",
+      "source": "b9db46ab9b42cb2c3e98d2af82c10eed0b309128",
+      "pngSHA256": "3ad598b9fa96188e6251cc2cf76a0891703e8cea604bb24faf4161ca65a82156"
+    },
+    {
+      "kind": "Canvas-only deterministic input replay; no app HUD",
+      "baseline": false,
+      "stage": 2,
+      "tick": 1065,
+      "clock": 180,
+      "hash": "e3ade08c",
+      "replayVersion": 5,
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "score": [
+        2,
+        0
+      ],
+      "camera": {
+        "x": 360,
+        "y": 253.78787878787875,
+        "scale": 1.32,
+        "vw": 1034.090909090909,
+        "vh": 757.5757575757575
+      },
+      "geometry": {
+        "center": 95613,
+        "width": 45018,
+        "left": 73104,
+        "right": 118122,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 2
+      },
+      "sign": {
+        "text": "CURRENT STANDARD",
+        "center": 373.48828125,
+        "left": 309.48828125,
+        "right": 437.48828125,
+        "top": -60,
+        "bottom": -41,
+        "width": 128,
+        "height": 19,
+        "font": 11,
+        "baseline": -46
+      },
+      "bounds": {
+        "left": 615.82453125,
+        "right": 784.78453125,
+        "top": 85.80000000000001,
+        "bottom": 110.88000000000005
+      },
+      "players": [
+        {
+          "id": 0,
+          "x": 87081,
+          "y": 281589
+        },
+        {
+          "id": 1,
+          "x": 29985,
+          "y": 144392
+        },
+        {
+          "id": 2,
+          "x": 51415,
+          "y": 81583
+        },
+        {
+          "id": 3,
+          "x": 108511,
+          "y": 144460
+        },
+        {
+          "id": 4,
+          "x": 73321,
+          "y": 44303
+        },
+        {
+          "id": 5,
+          "x": 80860,
+          "y": 5985
+        },
+        {
+          "id": 6,
+          "x": 55837,
+          "y": 52145
+        },
+        {
+          "id": 7,
+          "x": 80908,
+          "y": 59682
+        },
+        {
+          "id": 8,
+          "x": 107224,
+          "y": 53008
+        },
+        {
+          "id": 9,
+          "x": 135529,
+          "y": 56356
+        }
+      ],
+      "options": {
+        "pixel": true,
+        "wide": false,
+        "minimal": false,
+        "reducedMotion": false
+      },
+      "viewport": {
+        "width": 1365,
+        "height": 1000,
+        "dpr": 1
+      },
+      "file": "pixel-after.png",
+      "source": "d7c9b04ae7ac2dfe4381bd97c931395ed1f51d8c",
+      "pngSHA256": "b99febda96a2a66d2b6c895b742f500e3bbcd9522149467e5338492b621fedc0"
+    },
+    {
+      "kind": "Canvas-only deterministic input replay; no app HUD",
+      "baseline": true,
+      "stage": 2,
+      "tick": 1065,
+      "clock": 180,
+      "hash": "e3ade08c",
+      "replayVersion": 5,
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "score": [
+        2,
+        0
+      ],
+      "camera": {
+        "x": 360,
+        "y": 373.8913525498891,
+        "scale": 1.0824,
+        "vw": 1773.8359201773835,
+        "vh": 997.7827050997782
+      },
+      "geometry": {
+        "center": 95613,
+        "width": 45018,
+        "left": 73104,
+        "right": 118122,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 2
+      },
+      "sign": null,
+      "bounds": null,
+      "players": [
+        {
+          "id": 0,
+          "x": 87081,
+          "y": 281589
+        },
+        {
+          "id": 1,
+          "x": 29985,
+          "y": 144392
+        },
+        {
+          "id": 2,
+          "x": 51415,
+          "y": 81583
+        },
+        {
+          "id": 3,
+          "x": 108511,
+          "y": 144460
+        },
+        {
+          "id": 4,
+          "x": 73321,
+          "y": 44303
+        },
+        {
+          "id": 5,
+          "x": 80860,
+          "y": 5985
+        },
+        {
+          "id": 6,
+          "x": 55837,
+          "y": 52145
+        },
+        {
+          "id": 7,
+          "x": 80908,
+          "y": 59682
+        },
+        {
+          "id": 8,
+          "x": 107224,
+          "y": 53008
+        },
+        {
+          "id": 9,
+          "x": 135529,
+          "y": 56356
+        }
+      ],
+      "options": {
+        "pixel": false,
+        "wide": true,
+        "minimal": true,
+        "reducedMotion": false
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "dpr": 1
+      },
+      "file": "wide-minimal-before.png",
+      "source": "b9db46ab9b42cb2c3e98d2af82c10eed0b309128",
+      "pngSHA256": "c39af56f6ea05703a367eb87fc2362ccf5f749135ec21ec112ba9aa239ed3b1f"
+    },
+    {
+      "kind": "Canvas-only deterministic input replay; no app HUD",
+      "baseline": false,
+      "stage": 2,
+      "tick": 1065,
+      "clock": 180,
+      "hash": "e3ade08c",
+      "replayVersion": 5,
+      "config": {
+        "seed": 731,
+        "indoor": false,
+        "weather": "clear",
+        "seconds": 720,
+        "difficulty": 1,
+        "teams": [
+          0,
+          1
+        ],
+        "humans": [
+          true,
+          false
+        ],
+        "auto": true,
+        "aftertouch": 2,
+        "knockout": false,
+        "mode": "goalposts"
+      },
+      "score": [
+        2,
+        0
+      ],
+      "camera": {
+        "x": 360,
+        "y": 373.8913525498891,
+        "scale": 1.0824,
+        "vw": 1773.8359201773835,
+        "vh": 997.7827050997782
+      },
+      "geometry": {
+        "center": 95613,
+        "width": 45018,
+        "left": 73104,
+        "right": 118122,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 2
+      },
+      "sign": {
+        "text": "CURRENT STANDARD",
+        "center": 373.48828125,
+        "left": 309.48828125,
+        "right": 437.48828125,
+        "top": -60,
+        "bottom": -41,
+        "width": 128,
+        "height": 19,
+        "font": 11,
+        "baseline": -46
+      },
+      "bounds": {
+        "left": 905.326115625,
+        "right": 1043.873315625,
+        "top": 70.356,
+        "bottom": 90.92160000000001
+      },
+      "players": [
+        {
+          "id": 0,
+          "x": 87081,
+          "y": 281589
+        },
+        {
+          "id": 1,
+          "x": 29985,
+          "y": 144392
+        },
+        {
+          "id": 2,
+          "x": 51415,
+          "y": 81583
+        },
+        {
+          "id": 3,
+          "x": 108511,
+          "y": 144460
+        },
+        {
+          "id": 4,
+          "x": 73321,
+          "y": 44303
+        },
+        {
+          "id": 5,
+          "x": 80860,
+          "y": 5985
+        },
+        {
+          "id": 6,
+          "x": 55837,
+          "y": 52145
+        },
+        {
+          "id": 7,
+          "x": 80908,
+          "y": 59682
+        },
+        {
+          "id": 8,
+          "x": 107224,
+          "y": 53008
+        },
+        {
+          "id": 9,
+          "x": 135529,
+          "y": 56356
+        }
+      ],
+      "options": {
+        "pixel": false,
+        "wide": true,
+        "minimal": true,
+        "reducedMotion": false
+      },
+      "viewport": {
+        "width": 1920,
+        "height": 1080,
+        "dpr": 1
+      },
+      "file": "wide-minimal-after.png",
+      "source": "d7c9b04ae7ac2dfe4381bd97c931395ed1f51d8c",
+      "pngSHA256": "481060fffa6c158cd7847cca313ecf2a42cb73d37cf09c0bc7969eb79a2be9dc"
+    }
+  ],
+  "errors": []
+}

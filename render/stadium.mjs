@@ -78,10 +78,15 @@ export function drawStadiumMotion(c,s,reduced,effects) {
 }
 
 // Actual frame geometry remains visible even with minimal effects / reduced motion.
-export function drawGoalposts(c,s){
+export function standardSign(g,scale=1){
+ const unit=Math.max(1,1/Math.max(.1,scale)),font=11*unit,width=128*unit,height=19*unit;
+ const center=g.center/256,bottom=g.plane/256-g.height/256-5*unit;
+ return {text:'CURRENT STANDARD',center,left:center-width/2,right:center+width/2,top:bottom-height,bottom,width,height,font,baseline:bottom-5*unit};
+}
+export function drawGoalposts(c,s,{scale=1,numerator=1,denominator=1}={}){
  if(!s.goalposts)return;
  for(const end of [0,s.h]){
-  const g=goalGeometry(s,end),l=g.left/256,r=g.right/256,y=end/256,h=g.height/256,depth=end===0?-22:22;
+  const g=goalGeometry(s,end,numerator,denominator),l=g.left/256,r=g.right/256,y=end/256,h=g.height/256,depth=end===0?-22:22;
   c.fillStyle='#b9eee426';c.strokeStyle='#a7e5dc88';c.lineWidth=1;
   c.beginPath();c.moveTo(l,y);c.lineTo(l,y-h);c.lineTo(r,y-h);c.lineTo(r,y);c.closePath();c.fill();
   for(let x=l;x<=r;x+=10){c.beginPath();c.moveTo(x,y);c.lineTo(x,y-h);c.lineTo(x,y-h+depth);c.stroke();}
@@ -89,6 +94,11 @@ export function drawGoalposts(c,s){
   c.strokeStyle=end===0?'#ffe074':'#f4f1df';c.lineWidth=4;
   c.beginPath();c.moveTo(l,y);c.lineTo(l,y-h);c.lineTo(r,y-h);c.lineTo(r,y);c.stroke();
   c.lineWidth=2;c.strokeStyle='#f4ce6577';c.beginPath();c.moveTo(l,y);c.lineTo(r,y);c.stroke();
-  if(end===0){c.fillStyle='#ffe074';c.font='bold 11px monospace';c.textAlign='center';c.fillText(s.goalposts.stage===2?'GOAL = 1 · CURVED SHOT = 2':'CURRENT STANDARD',g.center/256,y-h-12);}
+  if(end===0){
+   const sign=standardSign(g,scale);c.fillStyle='#162b25f5';c.fillRect(sign.left,sign.top,sign.width,sign.height);
+   c.strokeStyle='#efd390';c.lineWidth=1/Math.max(.1,scale);c.strokeRect(sign.left,sign.top,sign.width,sign.height);
+   c.beginPath();c.moveTo(sign.center,sign.bottom);c.lineTo(sign.center,y-h-2);c.stroke();
+   c.fillStyle='#ffe7aa';c.font=`bold ${sign.font}px monospace`;c.textAlign='center';c.fillText(sign.text,sign.center,sign.baseline);
+  }
  }
 }

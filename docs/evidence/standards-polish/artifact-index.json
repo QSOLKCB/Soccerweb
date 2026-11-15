@@ -1,0 +1,96 @@
+{
+  "run": "https://github.com/QSOLKCB/Soccerweb/actions/runs/43703287983",
+  "artifact": "https://github.com/QSOLKCB/Soccerweb/actions/runs/43703287983/artifacts/14157174860",
+  "artifactSHA256": "16de5ec5a98262f2a91aa8dd10b7249b6d585befa5ef0f098b66f00c33f020df",
+  "featureSource": "ff90756fecf1794463a51ff62a98c2d76a531d8a",
+  "testedMergeSource": "d7c9b04ae7ac2dfe4381bd97c931395ed1f51d8c",
+  "baseline": "b9db46ab9b42cb2c3e98d2af82c10eed0b309128",
+  "note": "Unmodified selected artifacts. Reports also list captures retained only in the complete workflow artifact. Screenshots are not part of the shipped runtime.",
+  "files": [
+    {
+      "file": "chromium/report.json",
+      "bytes": 5871,
+      "sha256": "7250f49eec1fa67f994331a5e6d90c49786b4c6bcf6afc53bd59b7a869fd9c6a"
+    },
+    {
+      "file": "chromium/goalposts-replay.json",
+      "bytes": 24768,
+      "sha256": "708a48b38f82fd93dfef23d33a60074d0cca3f82dcac011d507f63823a1ec033"
+    },
+    {
+      "file": "chromium/stage-1.png",
+      "bytes": 302252,
+      "sha256": "791b9dc57fadc413d4bde313bfa1f4aadf0516252e36b5fe70a2a465edc161d1"
+    },
+    {
+      "file": "chromium/stage-2.png",
+      "bytes": 292258,
+      "sha256": "4fef9e0df17368bf5fa20fe951ac5142e016ad95dbc0eacf414e4df67c929f0c"
+    },
+    {
+      "file": "chromium/stage-3.png",
+      "bytes": 294865,
+      "sha256": "845f98eb26ee4c488c78ce71f483d2f409060fe473b599550872316936e050db"
+    },
+    {
+      "file": "chromium/victory.png",
+      "bytes": 240706,
+      "sha256": "b3f1d1eff0c9b5c16ecfec92eae7707b1452c029aabf254c41c26077353592ac"
+    },
+    {
+      "file": "chromium/victory-narrow-reduced.png",
+      "bytes": 92864,
+      "sha256": "3bed064638f1395fe2f9f3ab3856e1404d86b922cce3cbe719f24e2d3e358ab2"
+    },
+    {
+      "file": "chromium/comparison/report.json",
+      "bytes": 35958,
+      "sha256": "479659969b4db31bee826371408eafa206fe1f32d1a2ebdcf27b731e2f8b1728"
+    },
+    {
+      "file": "chromium/comparison/stage-3-before.png",
+      "bytes": 316002,
+      "sha256": "25db5eb4758547b0a660ba62dc08851b8dee8426ddeff30d1142a77edf842ea1"
+    },
+    {
+      "file": "chromium/comparison/stage-3-after.png",
+      "bytes": 315803,
+      "sha256": "48f970531a9ef6fc004dfcb71354a6c363c9ea21ef9904a01489706676026c0b"
+    },
+    {
+      "file": "chromium/comparison/narrow-reduced-after.png",
+      "bytes": 86464,
+      "sha256": "d9e1ac0456592ad641be1901f5ed5701aec4dbd92971762c1d288b930c130ef4"
+    },
+    {
+      "file": "chromium/comparison/pixel-after.png",
+      "bytes": 292915,
+      "sha256": "b99febda96a2a66d2b6c895b742f500e3bbcd9522149467e5338492b621fedc0"
+    },
+    {
+      "file": "chromium/comparison/wide-minimal-after.png",
+      "bytes": 392265,
+      "sha256": "481060fffa6c158cd7847cca313ecf2a42cb73d37cf09c0bc7969eb79a2be9dc"
+    },
+    {
+      "file": "firefox/report.json",
+      "bytes": 5827,
+      "sha256": "8b2428872b92b13af09f3254c9f3b29aa350b3804c07ddb4ced3a02bcaff7a80"
+    },
+    {
+      "file": "firefox/victory.png",
+      "bytes": 251551,
+      "sha256": "d148699c6342a1297704393e73b88f6d6ba73de5f5bcc22cf05b96ad4eb83e6c"
+    },
+    {
+      "file": "firefox/comparison/report.json",
+      "bytes": 35951,
+      "sha256": "bc8903bf0b396794d297d2cc9f356a1e4b35081095734e50a8eaf7c414fd84d7"
+    },
+    {
+      "file": "firefox/comparison/dpr2-after.png",
+      "bytes": 310105,
+      "sha256": "5c60ea73c3e61fe312ca94cf22a63290129f17515709bb78c6ccd1acb7b284c4"
+    }
+  ]
+}

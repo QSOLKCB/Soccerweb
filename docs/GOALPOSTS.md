@@ -2,6 +2,8 @@
 
 An optional outdoor **5 v 5, solo** arcade challenge, added to merged Phase 3 (`b086c70a0d9e9490384ec09ce0c1b811cfe32d66`). Quick Match, local two-player, Cup, Challenge and Practice retain their rules. Open **GOALPOSTS** in the clubhouse, choose Club/Pro/Elite and accept the current standard. The optional dedication contains no likeness, personal details, attribution of fictional dialogue, allegation or implied endorsement.
 
+[The Standards Have Changed](GOALPOSTS-POLISH-001.md) adds fictional committee notices, numbered revisions, approval stamps and a victory ledger while preserving these rules, replay v5 and the huge-pitch/tiny-player view. **CURRENT STANDARD** remains attached to the real opening in every stage. Settings → Minimal motion & effects or OS reduced motion suppresses the short stamp animation; gameplay warnings and actual post motion remain visible.
+
 ## Complete three standards
 
 | Stage | Attacking opening | Objective |

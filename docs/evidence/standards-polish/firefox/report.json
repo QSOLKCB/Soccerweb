@@ -1,0 +1,255 @@
+{
+  "status": "PASS",
+  "source": "d7c9b04ae7ac2dfe4381bd97c931395ed1f51d8c",
+  "browser": "firefox",
+  "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:142.0) Gecko/20100101 Firefox/142.0",
+  "captures": [
+    {
+      "file": "stage-1.png",
+      "tickBefore": 274,
+      "tickAfter": 279,
+      "hashBefore": "73b89c54",
+      "standardsBefore": {
+        "stage": 0,
+        "revision": 1,
+        "serial": 2,
+        "headline": "THE TARGET HAS RECEIVED A NEW ADDRESS.",
+        "detail": "Score once. The 180-pixel opening slides; your own goal stays fixed.",
+        "stamp": "REVISED",
+        "kind": "relocate",
+        "flash": false
+      },
+      "viewport": {
+        "width": 1365,
+        "height": 1000
+      },
+      "dpr": 1
+    },
+    {
+      "file": "stage-2.png",
+      "tickBefore": 610,
+      "tickAfter": 615,
+      "hashBefore": "b6d5e1e9",
+      "standardsBefore": {
+        "stage": 1,
+        "revision": 0,
+        "serial": 5,
+        "headline": "STANDARD 02 IS NOW IN FORCE.",
+        "detail": "Score once. The opening resizes; watch the current gold posts.",
+        "stamp": "IN FORCE",
+        "kind": "stage",
+        "flash": false
+      },
+      "viewport": {
+        "width": 1365,
+        "height": 1000
+      },
+      "dpr": 1
+    },
+    {
+      "file": "stage-3.png",
+      "tickBefore": 934,
+      "tickAfter": 938,
+      "hashBefore": "63412e71",
+      "standardsBefore": {
+        "stage": 2,
+        "revision": 0,
+        "serial": 8,
+        "headline": "STANDARD 03 IS NOW IN FORCE.",
+        "detail": "Earn 2 points. Any goal = 1; a shot curved at release = 2. Sliding + resizing.",
+        "stamp": "IN FORCE",
+        "kind": "stage",
+        "flash": false
+      },
+      "viewport": {
+        "width": 1365,
+        "height": 1000
+      },
+      "dpr": 1
+    },
+    {
+      "file": "victory.png",
+      "tickBefore": 1089,
+      "tickAfter": 1089,
+      "hashBefore": "b9268fbf",
+      "standardsBefore": {
+        "stage": 2,
+        "revision": 0,
+        "serial": 10,
+        "headline": "YOU HAVE SUCCESSFULLY MET EVERY STANDARD.",
+        "detail": "A NEW STANDARD IS NOW UNDER REVIEW.",
+        "stamp": "APPROVED",
+        "kind": "victory",
+        "flash": false
+      },
+      "viewport": {
+        "width": 1365,
+        "height": 1000
+      },
+      "dpr": 1
+    },
+    {
+      "file": "victory-narrow-reduced.png",
+      "tickBefore": 1089,
+      "tickAfter": 1089,
+      "hashBefore": "b9268fbf",
+      "standardsBefore": {
+        "stage": 2,
+        "revision": 0,
+        "serial": 10,
+        "headline": "YOU HAVE SUCCESSFULLY MET EVERY STANDARD.",
+        "detail": "A NEW STANDARD IS NOW UNDER REVIEW.",
+        "stamp": "APPROVED",
+        "kind": "victory",
+        "flash": false
+      },
+      "viewport": {
+        "width": 390,
+        "height": 720
+      },
+      "dpr": 1
+    }
+  ],
+  "captureTiming": "Live inputs and RAF: screenshots occur between tickBefore and tickAfter; browser runs can differ. Paired deterministic comparisons are separate.",
+  "stages": [
+    {
+      "stage": 0,
+      "geometryBefore": {
+        "center": 92160,
+        "width": 46080,
+        "left": 69120,
+        "right": 115200,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 0
+      },
+      "geometryAfter": {
+        "center": 94711,
+        "width": 46080,
+        "left": 71671,
+        "right": 117751,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 0
+      },
+      "history": [
+        {
+          "stage": 0,
+          "ticks": 171,
+          "points": 1,
+          "conceded": 0
+        }
+      ],
+      "score": [
+        1,
+        0
+      ],
+      "hash": "e5f76268"
+    },
+    {
+      "stage": 1,
+      "geometryBefore": {
+        "center": 92160,
+        "width": 46080,
+        "left": 69120,
+        "right": 115200,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 1
+      },
+      "geometryAfter": {
+        "center": 92160,
+        "width": 46080,
+        "left": 69120,
+        "right": 115200,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 1
+      },
+      "history": [
+        {
+          "stage": 0,
+          "ticks": 171,
+          "points": 1,
+          "conceded": 0
+        },
+        {
+          "stage": 1,
+          "ticks": 52,
+          "points": 1,
+          "conceded": 0
+        }
+      ],
+      "score": [
+        2,
+        0
+      ],
+      "hash": "a5289edc"
+    },
+    {
+      "stage": 2,
+      "geometryBefore": {
+        "center": 92160,
+        "width": 46080,
+        "left": 69120,
+        "right": 115200,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 2
+      },
+      "geometryAfter": {
+        "center": 92160,
+        "width": 46080,
+        "left": 69120,
+        "right": 115200,
+        "height": 9216,
+        "plane": 0,
+        "minCenter": 58880,
+        "maxCenter": 125440,
+        "stage": 2
+      },
+      "history": [
+        {
+          "stage": 0,
+          "ticks": 171,
+          "points": 1,
+          "conceded": 0
+        },
+        {
+          "stage": 1,
+          "ticks": 52,
+          "points": 1,
+          "conceded": 0
+        },
+        {
+          "stage": 2,
+          "ticks": 53,
+          "points": 2,
+          "conceded": 0
+        }
+      ],
+      "score": [
+        3,
+        0
+      ],
+      "hash": "b9268fbf"
+    }
+  ],
+  "replayHash": "b9268fbf",
+  "replayTicks": 1089,
+  "failureRetry": true,
+  "offline": true,
+  "physicalGamepad": "NOT RUN",
+  "manualPlaytesting": "NOT RUN",
+  "manualListening": "NOT RUN"
+}

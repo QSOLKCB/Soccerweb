@@ -1,3 +1,15 @@
+# SOCCERWEB 3.1.1 — The Standards Have Changed
+
+- GOALPOSTS gains original committee notices, numbered standards/revisions, approval stamps, factual rule reminders and a final stage ledger. Valid goals remain recorded.
+- **CURRENT STANDARD** stays above the actual opening in all stages, with modest contrast/legibility improvements and smooth geometry interpolation. The huge pitch, tiny players and existing camera remain intact.
+- Short procedural revision/relocation/narrowing/post/award cues; bounded deterministic cosmetic scheduling, polite announcements, reduced-motion and minimal-effects support.
+- Physics, AI, controls, competition isolation and replay **v5** are unchanged. Exact pre-polish fixtures/checkpoints are retained. Offline inventory includes the presentation module.
+- Partial GOALPOSTS replays end neutrally with their recorded progress; failure explanations require an actually failed run.
+
+See [scope, evidence and limits](GOALPOSTS-POLISH-001.md). Physical hardware and human playtesting/listening remain **NOT RUN**.
+
+---
+
 # SOCCERWEB 3.1 — GOALPOSTS and USB SNES controls
 
 - Optional outdoor 5 v 5, three-stage GOALPOSTS challenge: moving/resizing goals, announced rules, authentic scoring, finite timers/concession limits, victory/failure, retry and complete replay support. Physics, renderer and keepers share the same authoritative opening. Normal football retains its Phase 3 rules.

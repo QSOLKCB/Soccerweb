@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import vm from 'node:vm';
 import {EMPTY} from '../game/state.mjs';
 import {routeInput} from './goalposts_route.mjs';
+import {browserShot} from './goalposts_browser_route.mjs';
 import {verifyReplay,stateHash} from '../replay/replay.mjs';
 
 // Execute the actual browser host with a small DOM boundary and deferred fixture work.
@@ -153,4 +154,64 @@ for(const held of [false,true])test(`Next Stage records a rising edge when kick 
  const replay=JSON.parse(JSON.stringify(h.app.replay()));
  assert.equal(replay.frames.at(-1)[0][2],1);if(held)assert.equal(replay.frames.at(-2)[0][2],0);
  assert.equal(stateHash(verifyReplay(replay)),after.hash,'release and press must both replay deterministically');
+});
+
+test('complete GOALPOSTS host presents the committee finale, keeps all scores and resets cleanly',async()=>{
+ const h=await host();h.app.startGoalposts({difficulty:1,aftertouch:2,seed:731});
+ while(!h.app.diagnostics().finished){
+  const s=h.app.diagnostics().state;assert.ok(s.tick<2000);
+  if(s.phase==='stageclear'){
+   assert.equal(h.document.activeElement.id,'stage-next');
+   assert.match(h.elements.get('stage-rule').textContent,/NEXT STANDARD:/);
+   h.elements.get('stage-next').onclick();
+  }
+  assert.equal(h.app.runTick(routeInput(s)),true);
+ }
+ const result=h.app.diagnostics();assert.equal(result.state.goalposts.status,'won');assert.deepEqual(result.state.score,[3,0]);
+ assert.equal(h.elements.get('result-title').textContent,'YOU HAVE SUCCESSFULLY MET EVERY STANDARD.');
+ assert.equal(h.elements.get('result-review').textContent,'A NEW STANDARD IS NOW UNDER REVIEW.');
+ assert.equal(h.elements.get('result-standards').children.length,3);assert.equal(h.document.activeElement.id,'result-next');
+ assert.equal(stateHash(verifyReplay(JSON.parse(JSON.stringify(h.app.replay())))),result.hash);
+ assert.ok(h.storage.has('soccerweb.goalposts.v1'));assert.equal(h.storage.has('soccerweb.competition.v1'),false);
+ h.elements.get('result-next').onclick();assert.equal(h.app.diagnostics().state.goalposts.stage,0);assert.equal(h.app.diagnostics().standards.revision,0);
+ h.app.home();h.app.setMode('quick');h.app.startMatch();await h.app.finish();
+ assert.equal(h.elements.get('result-review').hidden,true);assert.equal(h.elements.get('result-standards').hidden,true);
+});
+
+for(const stop of ['playing','cleared'])test(`partial ${stop} GOALPOSTS replay ends neutrally without failure or best writes`,async()=>{
+ const h=await host();h.app.startGoalposts({difficulty:1,aftertouch:2,seed:731});
+ while(stop==='playing'?h.app.diagnostics().state.tick<150:h.app.diagnostics().state.phase!=='stageclear'){
+  const s=h.app.diagnostics().state;assert.ok(s.tick<1000);h.app.runTick(routeInput(s));
+ }
+ const before=h.app.diagnostics(),saved=structuredClone([...h.storage]);assert.equal(before.state.goalposts.status,stop);
+ assert.equal(stateHash(verifyReplay(JSON.parse(JSON.stringify(h.app.replay())))),before.hash);
+ await h.app.showResult(true);
+ assert.equal(h.elements.get('result-label').textContent,'VERIFIED REPLAY / RECORDING ENDED');
+ assert.equal(h.elements.get('result-title').textContent,'REPLAY COMPLETE.');
+ assert.match(h.elements.get('result-review').textContent,/BEFORE THE RUN IS FINISHED/);
+ assert.match(h.elements.get('result-score').textContent,/Recorded progress only/);
+ assert.doesNotMatch(h.elements.get('result-score').textContent,/expired|conceded|Try again/);
+ assert.equal(h.elements.get('result-standards').children.length,stop==='cleared'?1:0);
+ assert.equal(h.document.activeElement.id,'result-next');assert.equal(h.app.diagnostics().hash,before.hash);assert.deepEqual([...h.storage],saved);
+ h.elements.get('result-next').onclick();assert.equal(h.app.read().playing,false);
+});
+
+test('a genuinely failed GOALPOSTS replay retains its actual failure reason',async()=>{
+ const h=await host();h.app.startGoalposts({difficulty:3,aftertouch:2,seed:731});
+ while(!h.app.diagnostics().finished){assert.ok(h.app.diagnostics().state.tick<10000);h.app.runTick([{...EMPTY},{...EMPTY}]);}
+ assert.equal(h.app.diagnostics().state.goalposts.status,'failed');await h.app.showResult(true);
+ assert.equal(h.elements.get('result-title').textContent,'THE STANDARD SURVIVES.');
+ assert.match(h.elements.get('result-score').textContent,/Two goals conceded|active-time allowance expired/);
+});
+
+test('sampled browser controller route wins through the actual held-kick host progression',async()=>{
+ const h=await host();h.app.startGoalposts({difficulty:1,aftertouch:2,seed:731});
+ while(!h.app.diagnostics().finished){
+  const s=h.app.diagnostics().state;assert.ok(s.tick<2000);
+  if(s.phase==='stageclear')h.elements.get('stage-next').onclick();
+  assert.equal(h.app.runTick([browserShot(s),{...EMPTY}]),true);
+ }
+ const result=h.app.diagnostics();assert.equal(result.state.goalposts.status,'won');assert.deepEqual(result.state.score,[3,0]);
+ assert.equal(result.state.tick,1088);assert.equal(result.hash,'cacd3dd9');
+ assert.equal(stateHash(verifyReplay(JSON.parse(JSON.stringify(h.app.replay())))),result.hash);
 });

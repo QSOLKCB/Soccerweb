@@ -19,6 +19,8 @@ Curl a shot around the keeper. Bounce a pass off the indoor wall. Chase a goal t
 | Outdoor **11 v 11**, rain and curling shots | Indoor **6 v 6**, quick feet and rebounding walls | Two players, independent keyboard or controller layouts |
 | Eight fictional clubs, three AI levels, Cup and Challenge | **GOALPOSTS:** three stages of moving and resizing targets | Common USB SNES preset, live button/axis testing and saved remapping |
 
+**The standards have changed. The maths hasn’t.** [GOALPOSTS](docs/GOALPOSTS-POLISH-001.md) keeps its enormous pitch, tiny footballers and **CURRENT STANDARD** sign, now accompanied by committee notices, approval stamps and a thoroughly bureaucratic victory. Every valid goal stays on the record.
+
 **For the curious:** the new [Tournament Lab](docs/TOURNAMENT-LAB-001.md) runs reproducible AI fixtures, turns telemetry into a review queue, and samples real browser frames. It is a developer tool; ordinary play needs none of its tooling. Local vision review is optional and disabled by default.
 
 ## Play locally

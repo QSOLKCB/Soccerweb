@@ -7,6 +7,14 @@ export function effectRecipe(event,seed=1988){
   const tone=(freq,end,duration,gain,wave='triangle',at=0,fm=0)=>out.push({kind:'tone',freq,end,duration,gain,wave,at,pan,fm});
   const noise=(duration,gain,cutoff,at=0)=>out.push({kind:'noise',duration,gain,cutoff,at,pan,seed:random(rng)});
   switch(event.type){
+    // A quiet, original committee vocabulary; these cosmetic events never reach match RNG.
+    case 'standardrevision':tone(440,440,.07,.028,'triangle');tone(554,554,.09,.024,'triangle',.10);break;
+    case 'standardrelocate':tone(220,330,.18,.03,'sine');tone(330,392,.12,.022,'triangle',.14);break;
+    case 'standardnarrow':tone(523,440,.12,.028,'triangle');tone(440,349,.13,.024,'sine',.10);break;
+    case 'standardstamp':noise(.035,.025,1300);tone(147,98,.09,.035,'triangle');tone(587,587,.12,.023,'sine',.08);break;
+    case 'standardpost':tone(740+speed*5,659,.16,.045,'sine',0,1.2);tone(1175,1046,.11,.018,'sine',.025);break;
+    case 'standardmiss':tone(294,247,.12,.025,'triangle');break;
+    case 'standardreview':for(let i=0;i<4;i++)tone([392,494,587,784][i],[392,494,587,784][i],.19,.028,'triangle',i*.10);tone(554,554,.14,.018,'sine',.52);break;
     case 'shift':tone(210,340,.24,.045,'triangle');tone(340,210,.20,.035,'sine',.18);break;
     case 'revision':tone(440,440,.12,.04);tone(466,466,.16,.035,'triangle',.15);break;
     case 'nearmiss':tone(330,220,.18,.035,'sine');break;
