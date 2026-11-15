@@ -1,0 +1,12 @@
+{
+  "name": "SOCCERWEB — Arcade Football",
+  "short_name": "SOCCERWEB",
+  "description": "The beautiful game. Pure web standards.",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#101e26",
+  "theme_color": "#14252d",
+  "icons": [{"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any"}]
+}
