@@ -93,7 +93,7 @@ try:
         assert page.evaluate('document.activeElement.id') == 'resume'
         page.keyboard.press('Space')
         assert not snapshot(page)['paused']
-        page.wait_for_timeout(2800)  # Let export notification clear before evidence capture.
+        page.wait_for_timeout(2800)  # Exercise sustained audio scheduling before evidence capture.
         page.wait_for_function("window.soccerDiagnostics().audio.state === 'running'")
         assert snapshot(page)['audio']['cursor'] > 0
         assert snapshot(page)['audio']['voices'] <= 64
@@ -168,13 +168,15 @@ try:
         hi.on('pageerror', lambda error: errors.append(str(error)))
         hi.goto(url)
         hi.wait_for_function("document.querySelector('#home-team').options.length === 8")
+        hi.evaluate("async () => { window.soccerDiagnostics = (await import('./app.mjs')).diagnostics; }")
         hi.click('#options-button')
         hi.select_option('#camera', 'wide')
         hi.select_option('#effects', 'minimal')
         hi.click('#options-dialog .close')
         hi.select_option('#difficulty', '3')
         hi.click('#kickoff')
-        hi.wait_for_function("async () => (await import('./app.mjs')).diagnostics()?.state.phase === 'play'")
+        hi.wait_for_function("window.soccerDiagnostics()?.state.phase === 'play'")
+        assert snapshot(hi)['state']['config']['difficulty'] == 3
         assert hi.evaluate("matchMedia('(prefers-reduced-motion: reduce)').matches")
         assert hi.locator('#game').evaluate('c => c.width === Math.round(c.clientWidth*2)')
         assert hi.evaluate('document.documentElement.scrollWidth <= innerWidth')
@@ -187,7 +189,8 @@ try:
         hi.click('#options-dialog .close')
         hi.select_option('#difficulty', '1')
         hi.click('#kickoff')
-        hi.wait_for_function("async () => (await import('./app.mjs')).diagnostics()?.state.tick > 10")
+        hi.wait_for_function("window.soccerDiagnostics()?.state.tick > 10")
+        assert snapshot(hi)['state']['config']['difficulty'] == 1
         assert hi.locator('#game').evaluate('c => c.width === Math.round(c.clientWidth*.65)')
         hi.screenshot(path=str(artifacts / 'low-resolution.png'), full_page=True)
         dpi.close()

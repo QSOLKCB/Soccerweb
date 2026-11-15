@@ -1,49 +1,31 @@
-# Verification record
+# Verification record — Phase 2
 
-Date: 15 November 2026. This record distinguishes executed automation from unperformed manual review.
+Date: 15 November 2026. Automated Chromium execution and screenshot inspection are distinguished from unperformed human playtesting/listening.
 
-## Executed locally
+## Executed checks
 
-`node --test tests/*.test.mjs`: **45 passed, 0 failed**.
+- `node --test tests/*.test.mjs`: **61 passed, 0 failed**. The full Phase 1 suite remains, including stale async fixture success/error guards, frame collision precedence and overlay keyboard navigation.
+- `node tests/gameplay_report.mjs`: all 12 seeded 120-second AI matches reached full time. [Measured comparison](PHASE-2.md) reports improvements and regressions.
+- `node tests/audio_artifacts.mjs`: five event traces, five reference WAVs, SFX recipes and a hash manifest generated successfully.
+- `python3 tests/package.py`: **25 local files plus `.nojekyll`**. Runtime remains buildless and dependency-free.
+- `python3 -m py_compile tests/browser_smoke.py tests/package.py` and `git diff --check`: pass. Syntax compilation alone is not browser execution.
 
-Coverage includes fixed-step determinism, identical replay inputs, malformed replays/checksums, power/trajectory, banana curvature, chips/long passes, volleys/overhead contact, swept goals, high balls, throw-ins/corners/goal kicks, indoor rebounds, ground bounce/friction, goalkeeper catches/rebounds, physical dribbling, switching, tackles, weather, full AI match progression, clocks/halftime/golden goal, equal diagonal speed, host pause semantics, independent keyboards, two simulated gamepads, blur/disconnect handling, remapping, Cup completion, Challenge progression, corrupted saves, audio event generation/reference PCM, relative static paths, offline precache coverage and an executed service-worker cache harness.
+Replay v3 numerical fixture: seed 731, outdoor rain, 4,000 tick-indexed inputs, 13 checkpoints, **`7f1ba5f7`**. Independent resimulations/export/import agree. Versions 1 and 2 are rejected explicitly. Phase 1 v2's historical pin was `7313d98c`.
 
-- Replay numerical fixture: **seed 731, outdoor rain, 4,000 tick-indexed input frames, 13 checkpoints, final hash `7313d98c`**. Two independent runs agree. JSON export/import resimulation verifies every checkpoint and the final hash. The final hash is pinned as the v2 regression baseline.
-- Integer audio reference: **32,000 mono signed-16-bit samples at 16 kHz; hash `789c1fd6`**. Repeated generation agrees and output is non-silent and bounded. This reference is distinct from the complete live Web Audio mix.
-- `python3 tests/package.py`: passed; packaged 19 local files plus `.nojekyll`.
-- `python3 -m py_compile tests/browser_smoke.py tests/package.py`: passed. Compilation alone is not a browser test.
-- Module syntax checks for the browser host, renderer, input, audio and competition modules passed.
+Integer audio reference: 32,000 signed-16-bit mono samples at 16 kHz, **`7787ba01`**. The DSP algorithm is unchanged; the composition input changed. The reference is distinct from the live mix. Theme trace hashes and longer reference WAV hashes are recorded in [Phase 2 evidence](PHASE-2.md).
 
-A separate 12-match, 120-active-second AI sweep covered both grounds, outdoor clear/rain, Club/Elite, seeds 1988/42. Every match reached full time. Outdoor results included wins, losses and draws; indoor scores ranged from 0–2 to 5–6. Several Elite outdoor games were 0–0, including one with no shots. This is evidence for further attacking/pressing balance work, not evidence of a tuned difficulty curve.
+Native coverage includes deterministic simulation/replays, malformed data, all shot/pass/curve/chip/aerial mechanics, swept goals/frame collisions, set pieces, indoor rebounds, wet traction, keeper contacts, switching/tackles, clocks/halftime/golden goal, input/host pause, two keyboards/simulated gamepads, remapping/disconnect, Cup/Challenge persistence, audio and actual service-worker cache behavior. New cases measure pass delivery, lane utility, nearest-contact fairness, dry braking/wet traction, support positions, current-tick aim, keeper saves and whole-match shot creation. Render tests verify immutable snapshots/hashes, cache reuse, camera visibility, DPR/pixel sizing and pose/reduced-motion selection. Audio tests cover five distinct seeded scores, recipes, gain bounds, lifecycle and scheduler limits.
 
-The review regressions exercise the real browser host with deferred fixture completion and a stub DOM: stale successes/errors are ignored after returning home, starting Quick Match, or starting a new cup (including its newer results screen). Current successes still persist and current failures offer retry. Frame tests cover both inner posts and the crossbar at both goal ends, plus adjacent clear goals. Input tests verify that overlays release navigation keys while keeping pause shortcuts and suppressing gamepad gameplay actions.
+## Real Chromium CI
 
-The nine selected regression cases failed against an isolated copy of the pre-fix implementation; all pass with the fixes. Replay tests also reject the older v1 scoring format. The Chromium suite now additionally navigates and activates pause/results controls with Tab, Enter and Space and resumes with Escape/P; consult the current PR check for that extended browser run.
+The workflow serves the checkout beneath a repository-style subpath and uses the actual animation/input/audio loop. It performs keyboard dribble/charge/release, all three difficulty selections, outdoor full time, independent indoor P2 movement, pause/resume with unchanged state hash, Tab/Enter/Space overlay navigation, replay download/import/worker verification/playback, persistence, actual service-worker offline reload/match and no-uncaught-error assertions. Added coverage checks actual AudioContext suspension/resumption and scheduling, wide/minimal/reduced-motion DPR 2, low-resolution backing, HUD placement and page overflow.
 
-## Browser CI
+[Baseline run 43680179948](https://github.com/QSOLKCB/Soccerweb/actions/runs/43680179948) and [visual/gameplay pass 43681360079](https://github.com/QSOLKCB/Soccerweb/actions/runs/43681360079) passed. The [final evidence record](evidence/phase2-after/README.md) identifies the exact runtime commit, final passing run and artifacts. Latest PR checks additionally verify any later documentation/evidence commit. PR deploy jobs are skipped.
 
-The real Chromium suite in `tests/browser_smoke.py` uses a local HTTP server under a repository subpath. It checks:
+Browser input timing varies between runs: each downloaded replay captures those inputs and verifies its own final hash. The fixed numerical fixture above is a separate, stable stream. Screenshots are real full-size captures. Audio traces/WAVs identify their reference-only scope. RAF timing samples and seeded match reports are retained rather than inferring performance or balance from appearance.
 
-1. Main-menu content and nonblank procedural Canvas rendering.
-2. Real keyboard dribbling and a charged shot through the normal browser input loop.
-3. Pause/resume with an unchanged authoritative hash while paused.
-4. Completion of a live 60-active-second match and a result screen.
-5. Actual replay download, file import, worker verification and playback.
-6. Indoor six-a-side with independent P2 keyboard input.
-7. Saved settings after reload.
-8. Actual service-worker-controlled reload and match start with the browser network offline.
-9. No uncaught JavaScript errors.
+## Not performed
 
-CI execution evidence is linked in the pull request. The first setup run failed because the moving `ubuntu-latest` image was unsupported by the pinned browser tooling; CI now pins Ubuntu 24.04. Early smoke runs revealed a premature async wait predicate and a test that tried to shoot after losing possession. The test now waits on a resolved synchronous state snapshot and performs a real dribble-shot before the defender reaches the ball. It does not inject possession, scores, player positions or match time.
+There is no supported local interactive browser-control tool in this environment. Human outdoor/indoor playtesting, audio listening, physical gamepads, Safari/Firefox, mobile installation, cross-browser bit identity and ordinary-laptop profiling were **NOT RUN**. Automated CI gameplay and visual inspection of its screenshots do not replace those reviews. See release notes for product limitations and the indoor balance tradeoff.
 
-**Executed Chromium result: PASS** on commit `46ff855`, [GitHub Actions run 43676536333](https://github.com/QSOLKCB/Soccerweb/actions/runs/43676536333). The live match completed with score 0–1, **4,715 recorded ticks**, and replay hash **`e528151b`**. All nine check groups above passed, including actual offline reload/play and no uncaught JS errors. The workflow packaged its static artifact successfully; the deploy job was correctly skipped for the PR. Browser input timing is captured in the replay, so a separately played browser match can have a different tick count/hash while still verifying exactly.
-
-The latest commit's check status is visible in the PR; the run linked above is retained as concrete evidence rather than claiming an unexecuted final run. PR runs never deploy.
-
-## Not verified here
-
-There is no supported local interactive browser-control tool in this execution environment. Local interactive playtesting, human visual judgment, audio listening, physical gamepad testing, touch/mobile installation and cross-browser replay equivalence were not performed. The automated Chromium CI run is distinct from those manual reviews. No claim is made that this first release has commercial-quality balance or presentation.
-
-## Reproduce
-
-See the README for local server, native tests and Python Playwright setup. All production code is buildless; browser test packages are development-only. The GitHub workflow runs the native and browser suites before packaging, and only the default-branch deploy job can publish to Pages.
+Reproduction commands and development-only Playwright setup are in the README. The GitHub workflow runs native tests, measurements, Chromium and packaging; only verified `main` can deploy after owner-approved merge.
