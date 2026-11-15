@@ -34,6 +34,15 @@ jobs:
         run: |
           python -m pip install playwright==1.56.0
           python -m playwright install --with-deps chromium firefox
+      - name: Configure a virtual audio output for headless browser graph tests
+        run: |
+          sudo apt-get install -y pulseaudio
+          pulseaudio --start --exit-idle-time=-1
+          pactl load-module module-null-sink sink_name=soccerweb_ci
+          pactl set-default-sink soccerweb_ci
+          pactl list short sinks > work/browser/audio-sinks.txt
+          lscpu > work/browser/runner-cpu.txt
+          python tests/audio_device_smoke.py
       - name: Real browser, gameplay, replay and offline smoke tests
         run: python tests/browser_smoke.py
       - name: Sustained input and stage measurements (Chromium)

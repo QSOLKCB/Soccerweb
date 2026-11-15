@@ -17,3 +17,14 @@ export async function measure(options={}){
   stages:Object.fromEntries(Object.entries(samples).map(([k,v])=>[k,summary(v)])),longRAF:samples.raf.filter(n=>n>33.4).length,
   heap:performance.memory?{usedBytes:performance.memory.usedJSHeapSize,totalBytes:performance.memory.totalJSHeapSize}:null};
 }
+
+import {Recorder,verifyReplay,stateHash} from '../replay/replay.mjs';
+export function fixedReplayProbe(){
+ const s=createState({seed:731,weather:'rain',aftertouch:2}),r=new Recorder(s);
+ for(let i=0;i<4000;i++){
+  const input=[{...EMPTY,x:i%170<80?1:-1,y:-1,fire:i%90<50,curve:i%190<95?1:-1},{...EMPTY}];
+  step(s,input);r.record(s,input);
+ }
+ const data=r.export(s),verified=verifyReplay(JSON.parse(JSON.stringify(data)));
+ return{version:s.version,ticks:s.tick,checkpoints:data.checkpoints.length,hash:stateHash(s),verifiedHash:stateHash(verified)};
+}

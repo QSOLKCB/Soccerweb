@@ -71,6 +71,7 @@ try:
       for index in range(6):
         page.click('#practice-button');page.select_option('#practice-drill',str(index));page.click('#practice-start')
         page.wait_for_function('soccerDiagnostics()?.practice !== null')
+        if index==3:page.screenshot(path=str(OUT/'practice-ready.png'),full_page=True)
         if index==0:
           page.keyboard.down('w');page.keyboard.down('d');page.wait_for_timeout(900);page.keyboard.up('w');page.keyboard.up('d')
         elif index==1:
@@ -110,6 +111,9 @@ try:
     (OUT/'performance.json').write_text(json.dumps(perf,indent=2));assert not errors,errors
     # Trusted click starts a separate instance of the production live synth for auditable capture.
     p=context.new_page();p.on('pageerror',lambda e:errors.append(str(e)));p.goto(url+'tests/probe.html')
+    fixed=p.evaluate("async()=>(await import('./performance_probe.mjs')).fixedReplayProbe()")
+    assert fixed['hash']==fixed['verifiedHash']=='67b35352',fixed
+    (OUT/'fixed-replay.json').write_text(json.dumps(fixed,indent=2))
     p.evaluate("async()=>{const {captureLive}=await import('./live_audio_probe.mjs');document.body.onclick=()=>{document.body.onclick=null;captureLive().then(r=>window.captureResult=r).catch(e=>window.captureError=String(e))}}")
     p.locator('p').click();p.wait_for_function('window.captureResult||window.captureError',timeout=30000)
     assert not p.evaluate('window.captureError||null')
