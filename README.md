@@ -72,7 +72,7 @@ node tools/tournament_lab.mjs --out work/tournament-quick --verify
 node tools/tournament_lab.mjs --preset medium --budget-seconds 1200 --out work/tournament-1000
 ```
 
-The [lab guide](docs/TOURNAMENT-LAB-001.md) records executed counts, throughput, limitations and commands for sparse Chromium/Firefox captures. A 10,000-fixture preset is a supported limit, not a claim that it has been benchmarked. No model downloads, GPU jobs or remote inference happen automatically.
+**Measured:** [1,000 complete matches in 432 seconds](docs/evidence/tournament-lab/README.md), with 12 exact reruns. The [lab guide](docs/TOURNAMENT-LAB-001.md) records the source, host, limitations and commands for sparse Chromium/Firefox captures. A 10,000-fixture preset is a supported limit, not a claim that it has been benchmarked. No model downloads, GPU jobs or remote inference happen automatically.
 
 ## Verification
 
