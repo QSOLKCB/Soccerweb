@@ -16,7 +16,20 @@ try:
   browser=getattr(pw,os.environ.get('BROWSER','chromium')).launch();context=browser.new_context(viewport={'width':1365,'height':1000},accept_downloads=True)
   p=context.new_page();errors=[];p.on('pageerror',lambda e:errors.append(str(e)))
   p.goto(url);p.wait_for_function("document.querySelector('#home-team').options.length===8");install(p)
-  p.fill('#seed','731');p.locator('#seed').dispatch_event('change')
+  # Generic SNES USB preset, live test display, remapping and local persistence.
+  p.evaluate("window.testPads=[{id:'Virtual generic USB SNES (test boundary)',axes:[0,0],buttons:Array.from({length:16},()=>({pressed:false}))}];navigator.getGamepads=()=>testPads")
+  p.click('#options-button');p.click('#controller-button');p.select_option('#pad-preset','snes')
+  p.locator('#pad-bindings button').first.click();p.wait_for_timeout(80);p.evaluate('testPads[0].buttons[2].pressed=true');p.wait_for_function("document.querySelector('#pad-message').textContent.startsWith('Assigned')")
+  p.evaluate('testPads[0].axes=[-1,-1]');p.wait_for_function("document.querySelector('#pad-direction').textContent.includes('↑←')")
+  assert 'Kick' in p.locator('#pad-actions').inner_text();p.screenshot(path=str(OUT/'controller-calibration.png'),full_page=True)
+  p.evaluate('testPads[0].axes=[0,0];testPads[0].buttons[2].pressed=false');p.click('#controller-dialog .close');p.click('#options-dialog .close')
+  profile=p.evaluate("localStorage.getItem('soccerweb.controllers.v1')");assert json.loads(profile)['profiles'][0]['buttons']['fire']==2
+  # Controller-only focus navigation and activation of a clubhouse button.
+  p.locator('#kickoff').focus();p.evaluate('testPads[0].axes[1]=1');p.wait_for_function("document.activeElement.id==='goalposts-button'");p.evaluate('testPads[0].axes[1]=0');p.wait_for_timeout(60)
+  p.evaluate('testPads[0].buttons[2].pressed=true');p.wait_for_function("document.querySelector('#goalposts-dialog').open");p.evaluate('testPads[0].buttons[2].pressed=false');p.click('#goalposts-dialog .close')
+  p.reload();install(p);assert p.evaluate("localStorage.getItem('soccerweb.controllers.v1')")==profile
+  p.evaluate("window.testPads=[];navigator.getGamepads=()=>testPads")
+  p.click('#options-button');p.fill('#seed','731');p.locator('#seed').dispatch_event('change');p.click('#options-dialog .close')
   p.click('[data-mode="cup"]');p.click('#kickoff');p.keyboard.press('Escape');p.click('#pause-quit')
   cup=p.evaluate("localStorage.getItem('soccerweb.competition.v1')");prefs=p.evaluate("localStorage.getItem('soccerweb.preferences.v1')")
   p.click('#goalposts-button');assert 'Outdoor' in p.locator('#goalposts-dialog').inner_text();p.screenshot(path=str(OUT/'menu.png'),full_page=True);p.click('#goalposts-start')
@@ -30,17 +43,21 @@ try:
    p.wait_for_function('(stage)=>soccerDiagnostics().state.goalposts.stage===stage&&soccerDiagnostics().state.phase==="play"',arg=stage)
    initial=p.evaluate('goalGeometry(soccerDiagnostics().state,0)')
    if stage==0:clock(p,90)
-   p.keyboard.down('w');p.keyboard.down('d');p.keyboard.down('Space')
+   if stage==2:p.evaluate("testPads=[{axes:[1,-1],buttons:Array.from({length:16},(_,i)=>({pressed:i===2}))}]")
+   else:p.keyboard.down('w');p.keyboard.down('d');p.keyboard.down('Space')
    # Read-only active clock determines when to release real keys; no simulation mutation.
    release=150 if stage==0 else 45
    clock(p,release)
-   p.keyboard.up('d');p.keyboard.down('q');p.keyboard.up('Space')
+   if stage==2:p.evaluate('testPads[0].axes[0]=0;testPads[0].buttons[4].pressed=true;testPads[0].buttons[2].pressed=false')
+   else:p.keyboard.up('d');p.keyboard.down('q');p.keyboard.up('Space')
    # Keep up through one real tick so aiming follows the same control path as a person.
-   p.wait_for_timeout(35);p.keyboard.up('w')
+   p.wait_for_timeout(35)
+   if stage==2:p.evaluate('testPads[0].axes[1]=0')
+   else:p.keyboard.up('w')
    p.screenshot(path=str(OUT/f'stage-{stage+1}.png'),full_page=True)
    if stage<2:p.wait_for_selector('#stage-overlay:not([hidden])',timeout=25000)
    else:p.wait_for_selector('#result-overlay:not([hidden])',timeout=25000)
-   p.keyboard.up('q');s=snap(p);geometry=p.evaluate('goalGeometry(soccerDiagnostics().state,0)')
+   p.keyboard.up('q');p.evaluate('testPads=[]');s=snap(p);geometry=p.evaluate('goalGeometry(soccerDiagnostics().state,0)')
    assert s['state']['score'][0]==stage+1,s
    assert p.evaluate("localStorage.getItem('soccerweb.competition.v1')")==cup
    assert p.evaluate("localStorage.getItem('soccerweb.preferences.v1')")==prefs

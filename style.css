@@ -7,3 +7,7 @@
 .practice-panel{padding:16px 20px;border:1px solid var(--border);background:var(--panel);margin-bottom:12px;line-height:1.5}.practice-panel strong{color:var(--yellow)}.practice-panel p{margin:6px 0}.practice-panel small{color:var(--muted)}#charge-hint{color:var(--cream)}#practice-drill{width:100%;margin:10px 0 22px}.match-readout{gap:12px;flex-wrap:wrap}
 
 .goalposts-button{border-color:#deb860;background:#302d26;color:#ffe28c}.goalposts-button small{display:block;margin-top:6px;font-size:10px;letter-spacing:.12em}.goalposts-panel{border-color:#bb9953;background:#2b2a24}.goalposts-panel strong,.goalposts-dialog h2 span{color:#ffe28c}#goalposts-notice{font-family:monospace;color:#ffe28c;margin:8px 0}.goalposts-dialog li{margin:12px 0}.goalposts-dialog details{margin:18px 0;color:#bdd1cd}.goalposts-dialog summary{cursor:pointer}#stage-overlay .overlay-panel h2{font-size:clamp(24px,4vw,40px)}
+
+.pad-status{overflow-wrap:anywhere;font:12px monospace;color:var(--muted)}
+
+.pad-direction{border:1px solid #a1ccbd;padding:18px;text-align:center;font:bold 22px monospace;color:#ffe28c}#pad-actions{min-height:3em;font:12px monospace;color:#bdd5cc}

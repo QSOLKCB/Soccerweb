@@ -1,3 +1,4 @@
+import {connectedPads,padInput,readPadProfiles} from './gamepads.mjs';
 import { EMPTY } from '../game/state.mjs';
 export const DEFAULT_MAPS = [
   { up:'KeyW',down:'KeyS',left:'KeyA',right:'KeyD',fire:'Space',pass:'KeyF',chip:'KeyR',switch:'Tab',curveLeft:'KeyQ',curveRight:'KeyE' },
@@ -6,7 +7,7 @@ export const DEFAULT_MAPS = [
 export const keyLabel = code => ({Space:'Space',Tab:'Tab',Enter:'Enter',ShiftRight:'R Shift',ControlRight:'R Ctrl',Backslash:'\\',BracketLeft:'[',BracketRight:']',ArrowUp:'↑',ArrowDown:'↓',ArrowLeft:'←',ArrowRight:'→'}[code]||code.replace('Key','').replace('Digit',''));
 export class Controls {
   constructor(onPause, maps = DEFAULT_MAPS) {
-    this.keys=new Set();this.taps=new Set();this.maps=structuredClone(maps);this.active=false;this.gameplayEnabled=true;this.onPause=onPause;this.capture=null;
+    this.keys=new Set();this.taps=new Set();this.maps=structuredClone(maps);this.active=false;this.gameplayEnabled=true;this.onPause=onPause;this.capture=null;this.padProfiles=readPadProfiles(null);this.blockPadActions=false;this.menuPrevious={};
     window.addEventListener('keydown',e=>{
       if(this.capture){e.preventDefault();const cb=this.capture;this.capture=null;cb(e.code);return;}
       if(!this.active)return;
@@ -24,16 +25,26 @@ export class Controls {
   setGameplayEnabled(enabled){if(!enabled)this.cancelPending=true;this.gameplayEnabled=enabled;this.clear();}
   sample(){
     const wasPlaying=this.active&&this.gameplayEnabled;
-    const pads=navigator.getGamepads?Array.from(navigator.getGamepads()).filter(Boolean):[];
-    const pause=pads.some(p=>p.buttons[9]?.pressed);if(pause&&!this.padPause&&this.active)this.onPause();this.padPause=pause;
+    const pads=connectedPads(),padInputs=this.padProfiles.map((profile,t)=>padInput(pads[t],profile));
+    const pause=padInputs.some(p=>p.pause);if(pause&&!this.padPause&&this.active)this.onPause();this.padPause=pause;
     if(!wasPlaying||!this.active||!this.gameplayEnabled)return [{...EMPTY},{...EMPTY}];
+    if(this.blockPadActions&&!padInputs.some(p=>p.fire||p.pass||p.chip||p.switch||p.curve))this.blockPadActions=false;
     const result=this.maps.map((m,t)=>{
-      const down=a=>this.keys.has(m[a])||this.taps.has(m[a]),p=pads[t],button=n=>!!p?.buttons[n]?.pressed;
-      const axis=n=>Math.abs(p?.axes[n]||0)>.28?Math.sign(p.axes[n]):0;
-      return { ...EMPTY,cancel:this.cancelPending,x:(+down('right')-down('left'))||axis(0)||(+button(15)-button(14)),y:(+down('down')-down('up'))||axis(1)||(+button(13)-button(12)),
-        fire:down('fire')||button(0),pass:down('pass')||button(2),chip:down('chip')||button(1),switch:down('switch')||button(3),curve:(+down('curveRight')-down('curveLeft'))||(+button(5)-button(4)) };
+      const down=a=>this.keys.has(m[a])||this.taps.has(m[a]),pad=padInputs[t],p=this.blockPadActions?{}:pad;
+      return { ...EMPTY,cancel:this.cancelPending,x:(+down('right')-down('left'))||pad.x,y:(+down('down')-down('up'))||pad.y,
+        fire:down('fire')||!!p.fire,pass:down('pass')||!!p.pass,chip:down('chip')||!!p.chip,switch:down('switch')||!!p.switch,curve:(+down('curveRight')-down('curveLeft'))||(p.curve||0) };
     });
     this.taps.clear();this.cancelPending=false;return result;
+  }
+  menuAction(enabled){
+    const p=padInput(connectedPads()[0],this.padProfiles[0]),old=this.menuPrevious;this.menuPrevious=p;
+    if(this.blockPadActions){if(p.fire||p.chip||p.pass||p.switch||p.curve)return null;this.blockPadActions=false;}
+    if(!enabled)return null;
+    if(p.fire&&!old.fire){this.blockPadActions=true;return 'confirm';}
+    if(p.chip&&!old.chip){this.blockPadActions=true;return 'back';}
+    if(p.y!==old.y&&p.y)return p.y<0?'up':'down';
+    if(p.x!==old.x&&p.x)return p.x<0?'left':'right';
+    return null;
   }
   remap(player,action,code){
     if(['Escape','KeyP','Unidentified'].includes(code))throw new Error('That key is reserved.');

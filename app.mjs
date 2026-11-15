@@ -1,3 +1,4 @@
+import {PAD_KEY,PAD_ACTIONS,padPreset,readPadProfiles,connectedPads,bindPadButton,padInput} from './input/gamepads.mjs';
 import {STAGES,stageTarget,stageLimit,shiftNotice,BEST_KEY,validBests,updateBest} from './modes/goalposts.mjs';
 import { createPractice, observePractice, practiceCopy, DRILL_NAMES } from './modes/practice.mjs';
 import { createState, EMPTY, attack } from './game/state.mjs';
@@ -12,6 +13,8 @@ const $=id=>document.getElementById(id);
 const audio=new AudioEngine(),controls=new Controls(togglePause),renderer=new Renderer($('game')),preview=new Renderer($('preview'));
 let saved=readSaved('soccerweb.preferences.v1',{}),competition=readSaved('soccerweb.competition.v1',null);
 if(!saved||typeof saved!=='object')saved={};if(!validCompetition(competition))competition=null;
+controls.padProfiles=readPadProfiles(readSaved(PAD_KEY,null));
+let padCapture=null;
 let matchRun=0,practice=null,stageWaiting=false,advanceStage=false;
 let mode='quick',state=null,previous=null,recorder=null,playing=false,paused=false,finished=false,activeCompetition=null;
 let demo=createState({humans:[false,false],seed:1988,seconds:120,difficulty:2}),demoPrev=demo;
@@ -180,6 +183,8 @@ function tick(){
   updateHUD();
 }
 function frame(now){
+  const wasCapturing=!!padCapture;pollControllerSetup();
+  navigateController(controls.menuAction(!$('controller-dialog').open&&!wasCapturing&&!padCapture&&(!playing||paused||finished||stageWaiting)));
   const dt=Math.min(.1,(now-last)/1000||0);last=now;
   if(!paused)audio.update();
   if(playing){
@@ -201,6 +206,64 @@ function frame(now){
   }
   requestAnimationFrame(frame);
 }
+function saveControllers(){
+  if(!save(PAD_KEY,{version:1,profiles:controls.padProfiles}))toast('Controller profile could not be saved.');
+  renderControllers();
+}
+function renderControllers(){
+  const player=Number($('pad-player').value)||0,p=controls.padProfiles[player];
+  $('pad-preset').value=p.name;$('pad-movement').value=p.movement;
+  $('pad-axis-x').value=p.axes[0];$('pad-axis-y').value=p.axes[1];
+  const table=document.createElement('table');
+  for(const [action,label] of Object.entries(PAD_ACTIONS)){
+    const row=document.createElement('tr'),name=document.createElement('td'),cell=document.createElement('td'),button=document.createElement('button');
+    name.textContent=label;button.className='key-button';button.textContent=p.buttons[action]<0?'UNASSIGNED':`BUTTON ${p.buttons[action]}`;
+    button.onclick=()=>{padCapture={player,action,ready:false};$('pad-message').textContent=`Release all buttons, then press ${label}.`;$('pad-cancel').hidden=false;};
+    cell.append(button);row.append(name,cell);table.append(row);
+  }
+  $('pad-bindings').replaceChildren(table);
+}
+function pollControllerSetup(){
+  if(!$('controller-dialog').open){padCapture=null;return;}
+  const pads=connectedPads(),player=Number($('pad-player').value)||0,p=pads[player];
+  const pressed=p?Array.from(p.buttons).flatMap((b,i)=>b.pressed||b.value>.5?[i]:[]):[];
+  $('pad-status').textContent=p?`P${player+1}: ${p.id} · buttons ${pressed.join(', ')||'released'} · axes ${Array.from(p.axes).map(n=>n.toFixed(2)).join(', ')}`:'Connect the controller and press a button to let Chrome detect it.';
+  const logical=padInput(p,controls.padProfiles[player]);$('pad-direction').textContent='D-PAD · '+(logical.y<0?'↑':logical.y>0?'↓':'')+(logical.x<0?'←':logical.x>0?'→':'')+(!logical.x&&!logical.y?'CENTRED':'');
+  $('pad-actions').textContent='ACTIONS · '+(Object.entries(PAD_ACTIONS).filter(([a])=>logical[a]).map(([,label])=>label).join(' · ')||'released');
+  if(!padCapture)return;
+  if(!pressed.length){padCapture.ready=true;return;}
+  if(padCapture.ready){
+    try{controls.padProfiles[padCapture.player]=bindPadButton(controls.padProfiles[padCapture.player],padCapture.action,pressed[0]);saveControllers();$('pad-message').textContent='Assigned. Existing conflicting buttons were swapped.';}catch(e){$('pad-message').textContent=e.message;}
+    padCapture=null;$('pad-cancel').hidden=true;controls.blockPadActions=true;
+  }
+}
+$('controller-button').onclick=()=>{renderControllers();$('controller-dialog').showModal();};
+$('pad-cancel').onclick=()=>{padCapture=null;$('pad-cancel').hidden=true;$('pad-message').textContent='Assignment cancelled.';};
+$('pad-player').onchange=()=>{padCapture=null;renderControllers();};
+$('pad-preset').onchange=()=>{if($('pad-preset').value==='custom')return;controls.padProfiles[Number($('pad-player').value)||0]=padPreset($('pad-preset').value);padCapture=null;saveControllers();};
+for(const id of ['pad-movement','pad-axis-x','pad-axis-y'])$(id).onchange=()=>{
+  const p=controls.padProfiles[Number($('pad-player').value)||0],x=Number($('pad-axis-x').value),y=Number($('pad-axis-y').value);
+  if(x===y){$('pad-message').textContent='Horizontal and vertical axes must differ.';renderControllers();return;}
+  Object.assign(p,{name:'custom',movement:$('pad-movement').value,axes:[x,y]});saveControllers();
+};
+function navigateController(action){
+  if(!action)return;
+  const dialog=Array.from(document.querySelectorAll('dialog[open]')).at(-1),scope=dialog||(!playing?$('menu'):stageWaiting?$('stage-overlay'):finished?$('result-overlay'):$('pause-overlay'));
+  const items=Array.from(scope.querySelectorAll('button,select,input,summary')).filter(el=>!el.disabled&&!el.hidden&&el.getClientRects().length);
+  if(!items.length)return;
+  let focus=document.activeElement,index=items.indexOf(focus);
+  if(action==='back'){if(dialog)dialog.close();else if(paused)togglePause();return;}
+  if(index<0){items[0].focus();return;}
+  if(action==='confirm'){focus.click();return;}
+  if(['left','right'].includes(action)&&focus.tagName==='SELECT'){
+    const d=action==='right'?1:-1;focus.selectedIndex=Math.max(0,Math.min(focus.options.length-1,focus.selectedIndex+d));focus.dispatchEvent(new Event('change',{bubbles:true}));return;
+  }
+  if(['left','right'].includes(action)&&focus.type==='range'){
+    focus.value=Number(focus.value)+(action==='right'?5:-5);focus.dispatchEvent(new Event('input',{bubbles:true}));return;
+  }
+  index=(index+(['up','left'].includes(action)?-1:1)+items.length)%items.length;items[index].focus();items[index].scrollIntoView({block:'nearest'});
+}
+renderControllers();
 function controlsTable(remap=false){
   const table=document.createElement('table');const head=document.createElement('tr');for(const text of ['ACTION','PLAYER 1','PLAYER 2']){const th=document.createElement('th');th.textContent=text;head.append(th);}table.append(head);
   const names={up:'Move up',down:'Move down',left:'Move left',right:'Move right',fire:'Pass / charge shot / tackle',pass:'Pass / first-time pass',chip:'Chip / lofted kick',switch:'Switch player',curveLeft:'Curve left',curveRight:'Curve right'};
