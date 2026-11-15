@@ -106,3 +106,12 @@ test('replay rejects malformed input, bad checksums and unsupported versions', (
   assert.throws(() => validateReplay({...data, frames: [[[99,0,0,0],[0,0,0,0]]]}));
   assert.throws(() => verifyReplay({...data, finalHash: 'deadbeef'}));
 });
+test('eight-direction movement has no diagonal speed advantage',()=>{
+  const run=(x,y)=>{const {s,p}=possession();s.config.auto=false;s.selected[0]=p.id;for(let n=0;n<30;n++)step(s,[{...EMPTY,x,y},EMPTY]);return Math.hypot(p.vx,p.vy);};
+  const cardinal=run(1,0),diagonal=run(1,-1);assert.ok(Math.abs(cardinal-diagonal)<8,`${cardinal} vs ${diagonal}`);
+});
+test('airborne contact supports volleys and overheads',()=>{
+  const a=possession(),b=possession();a.s.ball.z=b.s.ball.z=25*Q;
+  assert.ok(kick(a.s,a.p,'shot',40));assert.equal(a.s.events.at(-1).kind,'volley');
+  assert.ok(kick(b.s,b.p,'overhead',40));assert.equal(b.s.events.at(-1).kind,'overhead');assert.ok(b.s.ball.vy<0);
+});

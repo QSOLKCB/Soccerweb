@@ -46,7 +46,7 @@ export function step(s, inputs = [EMPTY, EMPTY]) {
     let action;
     if (human) {
       const i = ins[p.team], prev = s.previous[p.team];
-      const [x, y] = vector(i.x, i.y, Q); action = { x, y };
+      const [x, y] = vector(i.x * Q, i.y * Q, Q); action = { x, y };
       if (i.fire) p.charge = Math.min(60, p.charge + 1);
       if (i.fire && !prev.fire && (s.ball.owner >= 0 && s.players[s.ball.owner].team !== p.team || distance(p, s.ball) > 32 * Q)) tackle(s, p);
       if ((!i.fire && prev.fire) || i.pass && !prev.pass || i.chip && !prev.chip) {
