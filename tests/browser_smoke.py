@@ -34,6 +34,7 @@ try:
         page.on('pageerror', lambda error: errors.append(str(error)))
         page.goto(url)
         page.wait_for_function("document.querySelector('#home-team').options.length === 8")
+        page.evaluate("async () => { window.soccerDiagnostics = (await import('./app.mjs')).diagnostics; }")
         assert page.title() == 'SOCCERWEB — The beautiful game.'
         page.screenshot(path=str(artifacts / 'clubhouse.png'), full_page=True)
         # Canvas contains actual pitch colours, rather than a blank successful load.
@@ -41,7 +42,7 @@ try:
         assert colors > 30
         page.select_option('#duration', '60')
         page.click('#kickoff')
-        page.wait_for_function("async () => (await import('./app.mjs')).diagnostics()?.state.phase === 'play'")
+        page.wait_for_function("() => window.soccerDiagnostics()?.state.phase === 'play'")
         before = snapshot(page)
         selected = before['state']['selected'][0]
         page.bring_to_front()
@@ -50,7 +51,7 @@ try:
         page.wait_for_timeout(500)
         page.keyboard.up('w')
         after = snapshot(page)
-        print('Movement evidence:', json.dumps({'before':before,'after':after}), flush=True)
+        print('Movement evidence:', json.dumps({'ticks':[before['state']['tick'],after['state']['tick']], 'y':[before['state']['players'][selected]['y'],after['state']['players'][selected]['y']]}), flush=True)
         page.screenshot(path=str(artifacts / 'movement.png'), full_page=True)
         assert after['state']['players'][selected]['y'] < before['state']['players'][selected]['y'] - 256
         page.keyboard.down('Space')
@@ -92,7 +93,7 @@ try:
         page.click('[data-mode="local"]')
         page.select_option('#ground', 'indoor')
         page.click('#kickoff')
-        page.wait_for_function("async () => (await import('./app.mjs')).diagnostics()?.state.phase === 'play'")
+        page.wait_for_function("() => window.soccerDiagnostics()?.state.phase === 'play'")
         before = snapshot(page)
         assert len(before['state']['players']) == 12
         p2 = before['state']['selected'][1]
@@ -110,12 +111,13 @@ try:
         page.wait_for_function('navigator.serviceWorker.controller !== null')
         context.set_offline(True)
         page.reload()
+        page.evaluate("async () => { window.soccerDiagnostics = (await import('./app.mjs')).diagnostics; }")
         page.wait_for_function("document.querySelector('#home-team').options.length === 8")
         page.click('#options-button')
         assert page.locator('#aftertouch').input_value() == '3'
         page.click('#options-dialog .close')
         page.click('#kickoff')
-        page.wait_for_function("async () => (await import('./app.mjs')).diagnostics()?.state.tick > 10")
+        page.wait_for_function("() => window.soccerDiagnostics()?.state.tick > 10")
         assert snapshot(page)['playing']
         assert not errors, errors
         print(json.dumps({'status':'PASS','browser':'Chromium','ticks':result['state']['tick'],
