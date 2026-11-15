@@ -1,0 +1,41 @@
+{
+  "seed": 1988,
+  "reference": "Integer square-wave reference, 16 kHz mono, not the live Web Audio mix",
+  "themes": [
+    {
+      "mode": "menu",
+      "events": 836,
+      "eventHash": "8a3060ba",
+      "samples": 341333,
+      "pcmHash": "2281de64"
+    },
+    {
+      "mode": "outdoor",
+      "events": 836,
+      "eventHash": "ea10d607",
+      "samples": 307200,
+      "pcmHash": "2098259c"
+    },
+    {
+      "mode": "indoor",
+      "events": 1028,
+      "eventHash": "0016a47e",
+      "samples": 238933,
+      "pcmHash": "604ed8a8"
+    },
+    {
+      "mode": "goal",
+      "events": 860,
+      "eventHash": "fab6f8a6",
+      "samples": 204800,
+      "pcmHash": "f7573da2"
+    },
+    {
+      "mode": "victory",
+      "events": 860,
+      "eventHash": "3ee0c6e0",
+      "samples": 307200,
+      "pcmHash": "629fba58"
+    }
+  ]
+}

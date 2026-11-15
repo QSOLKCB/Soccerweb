@@ -1,0 +1,366 @@
+{
+  "simulationVersion": 3,
+  "seconds": 120,
+  "matches": [
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "seed": 1988,
+      "score": [
+        1,
+        0
+      ],
+      "shots": [
+        1,
+        3
+      ],
+      "passes": [
+        28,
+        36
+      ],
+      "completedPasses": [
+        14,
+        18
+      ],
+      "saves": [
+        3,
+        0
+      ],
+      "crowdedTeammatePairsPerSample": 0.067,
+      "shortPossessionPercent": 40,
+      "phase": "fulltime",
+      "ticks": 9160,
+      "hash": "7f09234f"
+    },
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "seed": 42,
+      "score": [
+        0,
+        1
+      ],
+      "shots": [
+        3,
+        3
+      ],
+      "passes": [
+        29,
+        32
+      ],
+      "completedPasses": [
+        14,
+        19
+      ],
+      "saves": [
+        2,
+        3
+      ],
+      "crowdedTeammatePairsPerSample": 0.058,
+      "shortPossessionPercent": 37,
+      "phase": "fulltime",
+      "ticks": 8900,
+      "hash": "f3da1251"
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "seed": 1988,
+      "score": [
+        1,
+        4
+      ],
+      "shots": [
+        4,
+        5
+      ],
+      "passes": [
+        29,
+        25
+      ],
+      "completedPasses": [
+        28,
+        23
+      ],
+      "saves": [
+        2,
+        4
+      ],
+      "crowdedTeammatePairsPerSample": 0.083,
+      "shortPossessionPercent": 50,
+      "phase": "fulltime",
+      "ticks": 9130,
+      "hash": "e0d829a2"
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "seed": 42,
+      "score": [
+        0,
+        2
+      ],
+      "shots": [
+        6,
+        3
+      ],
+      "passes": [
+        32,
+        35
+      ],
+      "completedPasses": [
+        31,
+        32
+      ],
+      "saves": [
+        1,
+        6
+      ],
+      "crowdedTeammatePairsPerSample": 0.067,
+      "shortPossessionPercent": 53,
+      "phase": "fulltime",
+      "ticks": 8535,
+      "hash": "0b75803d"
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "seed": 1988,
+      "score": [
+        1,
+        0
+      ],
+      "shots": [
+        4,
+        2
+      ],
+      "passes": [
+        30,
+        40
+      ],
+      "completedPasses": [
+        27,
+        37
+      ],
+      "saves": [
+        2,
+        3
+      ],
+      "crowdedTeammatePairsPerSample": 0.058,
+      "shortPossessionPercent": 60,
+      "phase": "fulltime",
+      "ticks": 8445,
+      "hash": "f183a96a"
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "seed": 42,
+      "score": [
+        0,
+        0
+      ],
+      "shots": [
+        4,
+        6
+      ],
+      "passes": [
+        35,
+        42
+      ],
+      "completedPasses": [
+        34,
+        38
+      ],
+      "saves": [
+        6,
+        4
+      ],
+      "crowdedTeammatePairsPerSample": 0.079,
+      "shortPossessionPercent": 59,
+      "phase": "fulltime",
+      "ticks": 7770,
+      "hash": "1632f266"
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "seed": 1988,
+      "score": [
+        1,
+        6
+      ],
+      "shots": [
+        17,
+        14
+      ],
+      "passes": [
+        15,
+        16
+      ],
+      "completedPasses": [
+        9,
+        10
+      ],
+      "saves": [
+        8,
+        15
+      ],
+      "crowdedTeammatePairsPerSample": 0.017,
+      "shortPossessionPercent": 64,
+      "phase": "fulltime",
+      "ticks": 9050,
+      "hash": "b8f9fa4b"
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "seed": 42,
+      "score": [
+        7,
+        2
+      ],
+      "shots": [
+        16,
+        16
+      ],
+      "passes": [
+        10,
+        17
+      ],
+      "completedPasses": [
+        8,
+        11
+      ],
+      "saves": [
+        14,
+        10
+      ],
+      "crowdedTeammatePairsPerSample": 0.008,
+      "shortPossessionPercent": 82,
+      "phase": "fulltime",
+      "ticks": 9490,
+      "hash": "f02c2221"
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "seed": 1988,
+      "score": [
+        7,
+        1
+      ],
+      "shots": [
+        11,
+        13
+      ],
+      "passes": [
+        17,
+        18
+      ],
+      "completedPasses": [
+        15,
+        13
+      ],
+      "saves": [
+        12,
+        6
+      ],
+      "crowdedTeammatePairsPerSample": 0.042,
+      "shortPossessionPercent": 88,
+      "phase": "fulltime",
+      "ticks": 9270,
+      "hash": "23601525"
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "seed": 42,
+      "score": [
+        8,
+        2
+      ],
+      "shots": [
+        17,
+        14
+      ],
+      "passes": [
+        13,
+        14
+      ],
+      "completedPasses": [
+        11,
+        11
+      ],
+      "saves": [
+        12,
+        11
+      ],
+      "crowdedTeammatePairsPerSample": 0.013,
+      "shortPossessionPercent": 75,
+      "phase": "fulltime",
+      "ticks": 9710,
+      "hash": "678ca82c"
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "seed": 1988,
+      "score": [
+        3,
+        5
+      ],
+      "shots": [
+        13,
+        13
+      ],
+      "passes": [
+        28,
+        20
+      ],
+      "completedPasses": [
+        22,
+        13
+      ],
+      "saves": [
+        9,
+        10
+      ],
+      "crowdedTeammatePairsPerSample": 0.021,
+      "shortPossessionPercent": 72,
+      "phase": "fulltime",
+      "ticks": 9270,
+      "hash": "23ab031e"
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "seed": 42,
+      "score": [
+        3,
+        4
+      ],
+      "shots": [
+        14,
+        13
+      ],
+      "passes": [
+        20,
+        21
+      ],
+      "completedPasses": [
+        19,
+        19
+      ],
+      "saves": [
+        9,
+        11
+      ],
+      "crowdedTeammatePairsPerSample": 0.021,
+      "shortPossessionPercent": 70,
+      "phase": "fulltime",
+      "ticks": 9050,
+      "hash": "9f210b9b"
+    }
+  ]
+}

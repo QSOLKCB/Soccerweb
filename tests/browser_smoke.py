@@ -22,6 +22,21 @@ url = f'http://127.0.0.1:{server.server_port}/{ROOT.name}/'
 artifacts = ROOT / 'work' / 'browser'
 artifacts.mkdir(parents=True, exist_ok=True)
 
+def frame_sample(page):
+    # RAF intervals in the CI browser, not a claim about ordinary laptop performance.
+    return page.evaluate("""() => new Promise(resolve => {
+      const intervals=[]; let previous;
+      function sample(now) {
+        if(previous !== undefined) intervals.push(now-previous);
+        previous=now;
+        if(intervals.length < 120) requestAnimationFrame(sample);
+        else { intervals.sort((a,b)=>a-b); resolve({frames:120,
+          meanMs:intervals.reduce((a,b)=>a+b,0)/120,p95Ms:intervals[113],maxMs:intervals[119],
+          dpr:devicePixelRatio,width:innerWidth,height:innerHeight}); }
+      }
+      requestAnimationFrame(sample);
+    })""")
+
 def snapshot(page):
     return page.evaluate("async () => (await import('./app.mjs')).diagnostics()")
 
@@ -60,6 +75,7 @@ try:
         assert snapshot(page)['state']['stats']['shots'][0] >= 1
         page.keyboard.press('Escape')
         assert page.locator('#pause-overlay').is_visible()
+        page.wait_for_function("window.soccerDiagnostics().audio.state === 'suspended'")
         paused = snapshot(page)
         page.wait_for_timeout(300)
         assert snapshot(page)['hash'] == paused['hash']
@@ -77,7 +93,13 @@ try:
         assert page.evaluate('document.activeElement.id') == 'resume'
         page.keyboard.press('Space')
         assert not snapshot(page)['paused']
+        page.wait_for_timeout(2800)  # Exercise sustained audio scheduling before evidence capture.
+        page.wait_for_function("window.soccerDiagnostics().audio.state === 'running'")
+        assert snapshot(page)['audio']['cursor'] > 0
+        assert snapshot(page)['audio']['voices'] <= 64
         page.screenshot(path=str(artifacts / 'match.png'), full_page=True)
+        page.screenshot(path=str(artifacts / 'outdoor-match.png'), full_page=True)
+        performance = {'outdoor': frame_sample(page)}
         # Complete a live 60-second match with the normal animation/input loop.
         page.wait_for_selector('#result-overlay:not([hidden])', timeout=240000)
         result = snapshot(page)
@@ -118,6 +140,9 @@ try:
         page.wait_for_timeout(400)
         page.keyboard.up('ArrowRight')
         assert snapshot(page)['state']['players'][p2]['x'] > before['state']['players'][p2]['x'] + 256
+        page.screenshot(path=str(artifacts / 'indoor-match.png'), full_page=True)
+        performance['indoor'] = frame_sample(page)
+        (artifacts / 'frame-timings.json').write_text(json.dumps(performance, indent=2))
         page.keyboard.press('Escape')
         page.click('#pause-quit')
         page.click('#options-button')
@@ -137,11 +162,44 @@ try:
         page.wait_for_function("() => window.soccerDiagnostics()?.state.tick > 10")
         assert snapshot(page)['playing']
         assert not errors, errors
+        # A fresh context exercises real high-DPI backing size, reduced motion and settings.
+        dpi = browser.new_context(viewport={'width': 900, 'height': 900}, device_scale_factor=2, reduced_motion='reduce')
+        hi = dpi.new_page()
+        hi.on('pageerror', lambda error: errors.append(str(error)))
+        hi.goto(url)
+        hi.wait_for_function("document.querySelector('#home-team').options.length === 8")
+        hi.evaluate("async () => { window.soccerDiagnostics = (await import('./app.mjs')).diagnostics; }")
+        hi.click('#options-button')
+        hi.select_option('#camera', 'wide')
+        hi.select_option('#effects', 'minimal')
+        hi.click('#options-dialog .close')
+        hi.select_option('#difficulty', '3')
+        hi.click('#kickoff')
+        hi.wait_for_function("window.soccerDiagnostics()?.state.phase === 'play'")
+        assert snapshot(hi)['state']['config']['difficulty'] == 3
+        assert hi.evaluate("matchMedia('(prefers-reduced-motion: reduce)').matches")
+        assert hi.locator('#game').evaluate('c => c.width === Math.round(c.clientWidth*2)')
+        assert hi.evaluate('document.documentElement.scrollWidth <= innerWidth')
+        assert hi.locator('.scoreboard').evaluate("e => e.getBoundingClientRect().bottom <= document.querySelector('#game').getBoundingClientRect().top")
+        hi.screenshot(path=str(artifacts / 'wide-reduced-motion-dpr2.png'), full_page=True)
+        hi.keyboard.press('Escape')
+        hi.click('#pause-quit')
+        hi.click('#options-button')
+        hi.select_option('#visual', 'pixel')
+        hi.click('#options-dialog .close')
+        hi.select_option('#difficulty', '1')
+        hi.click('#kickoff')
+        hi.wait_for_function("window.soccerDiagnostics()?.state.tick > 10")
+        assert snapshot(hi)['state']['config']['difficulty'] == 1
+        assert hi.locator('#game').evaluate('c => c.width === Math.round(c.clientWidth*.65)')
+        hi.screenshot(path=str(artifacts / 'low-resolution.png'), full_page=True)
+        dpi.close()
+        assert not errors, errors
         print(json.dumps({'status':'PASS','browser':'Chromium','ticks':result['state']['tick'],
             'replay_hash':result['hash'],'score':result['state']['score'],
             'checks':['menu rendering','keyboard movement','charged shot','pause/resume','keyboard overlay navigation and activation','full time',
                       'replay export/import verification','replay playback','indoor local P2',
-                      'saved settings','offline reload and match','GitHub Pages subpath','no JS errors']}, indent=2))
+                      'live Web Audio scheduling and pause/resume','DPR2 and reduced motion','wide and low-resolution rendering','all three difficulty settings','saved settings','offline reload and match','GitHub Pages subpath','no JS errors']}, indent=2))
         browser.close()
 finally:
     server.shutdown()

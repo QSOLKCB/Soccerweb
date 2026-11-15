@@ -41,14 +41,16 @@ export function step(s, inputs = [EMPTY, EMPTY]) {
     }
   }
   for (const p of s.players) {
+    p.control = s.ball.owner === p.id ? p.control + 1 : 0;
     p.cooldown = Math.max(0, p.cooldown - 1); p.dive = Math.max(0, p.dive - 1);
     const human = s.config.humans[p.team] && s.selected[p.team] === p.id;
     let action;
     if (human) {
       const i = ins[p.team], prev = s.previous[p.team];
       const [x, y] = vector(i.x * Q, i.y * Q, Q); action = { x, y };
+      if(x||y){p.fx=x;p.fy=y;} // Aim uses the release tick, not the previous frame.
       if (i.fire) p.charge = Math.min(60, p.charge + 1);
-      if (i.fire && !prev.fire && (s.ball.owner >= 0 && s.players[s.ball.owner].team !== p.team || distance(p, s.ball) > 32 * Q)) tackle(s, p);
+      if (i.fire && !prev.fire && s.ball.z < 12 * Q && (s.ball.owner >= 0 && s.players[s.ball.owner].team !== p.team || distance(p, s.ball) > 32 * Q)) tackle(s, p);
       if ((!i.fire && prev.fire) || i.pass && !prev.pass || i.chip && !prev.chip) {
         let kind = i.pass ? 'pass' : i.chip ? 'chip' : p.charge < 12 ? 'pass' : 'shot';
         if (s.ball.z > 15 * Q && i.y === -attack(s, p.team)) kind = 'overhead';
@@ -65,8 +67,9 @@ export function step(s, inputs = [EMPTY, EMPTY]) {
     else {
       const speed = p.keeper ? (p.dive ? 5 * Q : 3 * Q) : s.config.indoor ? 900 : 790;
       const ax = action.x || 0, ay = action.y || 0;
-      const traction = s.config.weather === 'rain' && !s.config.indoor ? 35 : 58;
       const turn = p.vx * ax + p.vy * ay;
+      const wet = s.config.weather === 'rain' && !s.config.indoor;
+      const traction = wet ? (!ax && !ay ? 44 : turn < 0 ? 46 : 35) : !ax && !ay ? 88 : turn < 0 ? 78 : 62;
       if (s.config.weather === 'rain' && !s.config.indoor && turn < -100000 && random(s) % 180 === 0) { p.slip = 18; s.events.push({ type: 'slip' }); }
       p.vx += mul(mul(ax, speed) - p.vx, traction);
       p.vy += mul(mul(ay, speed) - p.vy, traction);

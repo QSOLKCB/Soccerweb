@@ -37,8 +37,8 @@ The controls can be remapped independently in **Settings**. Turn before releasin
 - Eight-team knockout Cup and seven-opponent International Challenge. Ties use golden goal. Other cup fixtures run the same simulation; they are not random score generators.
 - Acceleration, physical dribbling, interceptions, charging, short/long passes, straight/curved shots, chips, volleys, overhead attempts, tackles and goalkeeper saves/rebounds.
 - Rain alters traction, rolling resistance and seeded slip chances.
-- Original procedural stadium/player graphics, scrolling camera, minimap, optional CRT scanlines and mint palette.
-- Synthesized music, kicks, saves, whistles, impacts, crowd, rain and celebrations, with independent volume controls.
+- Articulated procedural footballers, distinct outdoor/indoor stadiums, ball shading/trails, three camera views, minimap, CRT/mint/pixel styles and reduced-motion support.
+- Five original layered music themes and impact-sensitive synthesized effects, with independent volume controls.
 - Automatic slow-motion goal replays and export/import of complete tick-indexed input replays.
 - Local settings and competition progress; service-worker caching for offline use after the first successful load.
 
@@ -60,7 +60,7 @@ work/test-env/bin/python -m playwright install chromium
 work/test-env/bin/python tests/browser_smoke.py
 ```
 
-Linux hosts may also need `python -m playwright install --with-deps chromium`. CI uses Ubuntu 24.04. The browser suite serves the game under a repository subpath and checks real keyboard movement, shooting, pause/resume, full time, replay export/import/playback, indoor P2 input, saved settings and an offline reload/match. Screenshots and the actual match replay are uploaded as CI artifacts. See [verification evidence and limits](docs/VERIFICATION.md).
+Linux hosts may also need `python -m playwright install --with-deps chromium`. CI uses Ubuntu 24.04. The browser suite serves the game under a repository subpath and checks real keyboard movement, shooting, pause/resume, full time, replay export/import/playback, indoor P2 input, saved settings and an offline reload/match. Screenshots, RAF timings, seeded gameplay reports, audio event traces/reference WAVs and the actual match replay are uploaded as CI artifacts. High DPI, reduced motion, display options and live audio pause/resume are also checked. See [verification evidence and limits](docs/VERIFICATION.md).
 
 ## GitHub Pages
 
@@ -72,6 +72,6 @@ The worker precaches only local runtime assets, retains a coherent app version, 
 
 ## Engineering and release status
 
-Read [architecture and numeric rules](docs/ARCHITECTURE.md), [release notes](docs/RELEASE-NOTES.md), and [verification](docs/VERIFICATION.md). This is a playable first release candidate, not a claim of commercial gameplay polish. Manual multi-browser, physical gamepad, audio listening and extended balance reviews remain part of the next engineering pass. Rules intentionally omit offside, fouls, cards, substitutions and penalty shootouts. Replay hashes detect accidental divergence, not adversarial tampering.
+Read [architecture and numeric rules](docs/ARCHITECTURE.md), [release notes](docs/RELEASE-NOTES.md), and [verification](docs/VERIFICATION.md). Phase 2 improves live-match presentation, support play, passing and control response. See the [before/after evidence](docs/PHASE-2.md) for measured gains and tradeoffs. Manual multi-browser, physical gamepad, audio listening and extended balance reviews remain part of the next engineering pass. Rules intentionally omit offside, fouls, cards, substitutions and penalty shootouts. Replay hashes detect accidental divergence, not adversarial tampering.
 
 Historical references: [MicroProse Soccer overview](https://en.wikipedia.org/wiki/MicroProse_Soccer) and [C64 Wiki mechanics](https://www.c64-wiki.com/wiki/Microprose_Soccer). This is independent software: no original source, sprites, team data, recordings, melodies or branding are included.

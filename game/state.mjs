@@ -1,7 +1,7 @@
 import { Q, clamp, distance } from '../simulation/math.mjs';
 export const EMPTY = Object.freeze({ x: 0, y: 0, fire: false, pass: false, chip: false, switch: false, curve: 0 });
-// v2 resolves goal-frame collisions before goals; v1 recordings use different scoring rules.
-export const VERSION = 2;
+// v3 changes movement, passing, contact selection and team/keeper decisions. Reject v1/v2 recordings.
+export const VERSION = 3;
 export function config(options = {}) {
   return { seed: (Number(options.seed) >>> 0) || 1988, indoor: !!options.indoor,
     weather: options.weather === 'rain' ? 'rain' : 'clear', seconds: clamp(Math.trunc(Number(options.seconds) || 120), 20, 720),
@@ -17,7 +17,7 @@ export function createState(options = {}) {
   const s = { version: VERSION, config: c, rng: c.seed, tick: 0, elapsed: 0, half: 1, w, h, goal: 150 * Q,
     phase: 'kickoff', timer: 90, restartTeam: 0, restartType: 'KICK OFF', score: [0, 0],
     players: [], selected: [1, 1], previous: [{...EMPTY}, {...EMPTY}], ball: {}, events: [],
-    stats: { shots: [0, 0], saves: [0, 0], passes: [0, 0], tackles: [0, 0], possession: [0, 0] }, sudden: false };
+    stats: { shots: [0, 0], saves: [0, 0], passes: [0, 0], tackles: [0, 0], completedPasses: [0, 0], possession: [0, 0] }, sudden: false };
   const count = c.indoor ? 6 : 11;
   for (let t = 0; t < 2; t++) for (let i = 0; i < count; i++) {
     const row = c.indoor ? (i <= 2 ? .25 : .43) : (i <= 4 ? .23 : i <= 8 ? .37 : .46);
@@ -25,7 +25,7 @@ export function createState(options = {}) {
     s.players.push({ id: t * count + i, team: t, number: i + 1, keeper: i === 0,
       hx: i === 0 ? 128 : Math.round((.18 + col * .64) * Q), hy: i === 0 ? 14 : Math.round(row * Q),
       x: 0, y: 0, vx: 0, vy: 0, fx: 0, fy: attack(s, t) * Q,
-      charge: 0, cooldown: 0, slide: 0, slip: 0, dive: 0, think: 0, tx: 0, ty: 0, intent: 'shape' });
+      charge: 0, cooldown: 0, slide: 0, slip: 0, dive: 0, control: 0, think: 0, tx: 0, ty: 0, intent: 'shape' });
   }
   s.selected = [1, count + 1]; resetPositions(s, 0); return s;
 }
@@ -34,11 +34,11 @@ export function resetPositions(s, team) {
     p.x = Math.trunc(s.w * p.hx / Q);
     const fromEnd = Math.trunc(s.h * p.hy / Q);
     p.y = attack(s, p.team) < 0 ? s.h - fromEnd : fromEnd;
-    p.vx = p.vy = p.charge = p.slide = p.slip = p.cooldown = p.dive = 0;
-    p.fx = 0; p.fy = attack(s, p.team) * Q;
+    p.vx = p.vy = p.charge = p.slide = p.slip = p.cooldown = p.dive = p.control = 0;
+    p.fx = 0; p.fy = attack(s, p.team) * Q; p.tx=p.x; p.ty=p.y;
   }
   s.ball = { x: s.w / 2, y: s.h / 2, z: 0, vx: 0, vy: 0, vz: 0, spin: 0, owner: -1, last: team,
-    kicker: -1, immunity: 0, flight: 0 };
+    kicker: -1, immunity: 0, flight: 0, kind: 'loose', receiver: -1 };
   const p = s.players.find(p => p.team === team && p.number === (s.config.indoor ? 6 : 10));
   p.x = s.w / 2; p.y = s.h / 2 - attack(s, team) * 15 * Q; s.selected[team] = p.id;
   s.restartTeam = team;

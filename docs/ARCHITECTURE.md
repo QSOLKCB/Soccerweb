@@ -8,13 +8,13 @@
 | `simulation/math.mjs`, `simulation/physics.mjs` | Integer arithmetic, PRNG, free-ball impulses/collisions, kicks, goals and restarts |
 | `ai/team.mjs` | Positional shape, nearest chaser, support runs, pass utility, shooting, tackling and keeper decisions |
 | `input/controls.mjs` | Independent keyboard maps and Gamepad API input; focus/disconnect handling |
-| `render/canvas.mjs` | Procedural sprites/stadium, depth order, scrolling camera, interpolation and optional visual effects |
-| `audio/synth.mjs` | Seeded musical event generation, oscillator/noise playback, integer reference PCM |
+| `render/canvas.mjs`, `render/players.mjs`, `render/stadium.mjs`, `render/camera.mjs` | Cached stadium layer, articulated poses, ball-last depth order, cosmetic camera/interpolation and adjustable effects |
+| `audio/score.mjs`, `audio/effects.mjs`, `audio/synth.mjs`, `audio/reference.mjs` | Authored seeded scores, deterministic effect recipes, bounded live synth and separate integer PCM reference |
 | `modes/competition.mjs` | Cup/Challenge fixtures, simulated CPU results, persistence helpers |
 | `replay/replay.mjs`, `replay/verify-worker.mjs` | Normalized tick input, serialisation, hashes, validation and isolated verification |
 | `app.mjs` | Browser host, menus, fixed-step accumulator, settings, goal replay playback and result UI |
 
-The simulation imports no DOM, browser clock, rendering or audio code. `step(state, [p1, p2])` is the sole match-state advance. The renderer receives snapshots and may interpolate and sort a copied player array; it cannot influence outcomes. AI, ball contacts and pairwise player separation use stable player ID order. Audio events leave the simulation through an ephemeral `events` array and never feed back.
+The simulation imports no DOM, browser clock, rendering or audio code. `step(state, [p1, p2])` is the sole match-state advance. The renderer receives snapshots and may interpolate and sort a copied player array; it cannot influence outcomes. AI and pairwise player separation use stable player ID order. Eligible ball contacts use nearest distance, then player ID for ties; the first successful contact ends that contact pass. Audio events leave the simulation through an ephemeral `events` array and never feed back.
 
 ## Tick and arithmetic contract
 
@@ -30,9 +30,9 @@ The simulation imports no DOM, browser clock, rendering or audio code. `step(sta
 
 The reproducibility promise is **same release/version + normalized config/seed + the same tick-indexed input = the same final authoritative state**. Regression tests and browser re-import test this promise. Cross-browser CPU/audio bit identity is not claimed without cross-browser evidence. Changing numerical rules requires a replay format/version migration or explicit incompatibility; preserve fixtures before doing so.
 
-## Input and replay format v2
+## Input and replay format v3
 
-Version 2 changes frame-hit scoring precedence. Version 1 files are explicitly rejected because their scores and knockout results can differ; they are not silently replayed under the new rules.
+Version 3 changes movement response, AI, pass impulses, contact arbitration, keeper handling and indoor drag/rebounds, and adds authoritative control/pass metadata. Versions 1 and 2 are explicitly rejected; no migration or silently changed resimulation is attempted. Version 2 previously corrected goal-frame scoring precedence; that correction is preserved.
 
 One frame contains two arrays: `[horizontal, vertical, buttons, curve]`. Axes and curve are integers in -1..1. Button bits: kick=1, pass=2, chip=4, switch=8. Entries are indexed by tick; there is no wall-clock timestamp. Input arrays include both teams even when one is AI-controlled. AI is rerun, not recorded as canned positions.
 
@@ -42,15 +42,27 @@ Imports are limited to 12 MB in the UI and 120,000 frames by the verifier. Schem
 
 ## AI and match flow
 
-Outfield shape uses the stored formation and a ball-relative shift. One player chases the predicted ball location while others defend or support. A carrier chooses a forward run, pressured pass or a shot using distance, space and club tactics. Difficulty changes reaction intervals, interception anticipation, shot error and positional shifts; it does not secretly raise outfielder top speed. Keepers track predicted horizontal ball position, dive under threat, catch slower shots or rebound powerful ones.
+Outfield shape uses formations, goal-side marking, support triangles and teammate separation. A friendly carrier receives support rather than another chaser at their feet. Intended receivers chase free passes. Pass utility penalizes obstructed lanes using pixel-quantized segment distances; short passes lead the receiver and scale speed by distance. Carriers settle for at least eight ticks before shooting and fourteen before passing; shots aim away from the keeper with seeded difficulty-dependent error.
+
+Difficulty changes reaction intervals, interception anticipation, shot error and marking, preserving running speed and keeper reach. Keepers predict goal-plane intersections, dive on incoming threats and hold catches before distribution. Hard shots usually rebound; a close diving contact may catch one. Saves count shot/chip/overhead contacts, not ordinary passes.
+
+Human dry acceleration is 62 Q8 units/tick (was 58), with stronger dry braking and turning; wet acceleration/braking remain lower. Top speeds remain 790 outdoor / 900 indoor. Shot direction reads the current release tick. Aerial kick input no longer initiates an unreachable ground slide. Physical spring dribbling, charge thresholds, aftertouch, switching and arcade rules remain intact. Indoor drag is 252/256 and wall restitution 224/256, separately from outdoor conditions.
 
 State phases: `kickoff → play → goal/restart/halftime/fulltime`. Half time switches attacking ends. Knockout draws enter golden-goal play. No random winner is awarded. Asynchronous cup-fixture completion captures a match-run ID. Leaving the match or entering another invalidates that ID; stale successes and errors cannot update competition state, localStorage, or result controls. Other cup games run AI vs AI in this exact simulation, with bounded execution and an explicit retry error on a fixture exceeding 120,000 ticks.
 
 ## Procedural audio
 
-A seeded event sequencer creates original pitch/rhythm events on a tick grid. Web Audio schedules square, triangle and sine oscillators with envelopes and pitch sweeps, plus seeded filtered noise for crowd, weather and contact. Audio starts after a browser interaction; master, music and SFX gains are separate. Sound scheduling and actual speaker output are inherently browser/device dependent and are not authoritative.
+Five original 32-bar themes (menu/outdoor/indoor/goal/victory) use intro, verse, lift and turnaround sections. Explicit bass, lead, harmony, kick/snare/hat/clap and indoor arpeggio events have seeded fills and a stable tie order. Pure SFX recipes vary envelopes, noise, pitch sweeps and FM with event type and impact speed, using their own seed.
+
+The live Web Audio graph uses separate music/SFX buses, stereo panning, shaped gain ramps and a compressor before master gain. Scheduling uses tick buckets, a 120 ms lookahead, a 16-tick catch-up bound and at most 64 simultaneous voice groups; ended sources disconnect. Theme changes release existing music voices. Serialized suspend/resume transitions follow pause and tab visibility. Audio starts after a browser interaction. Actual speaker output remains browser/device dependent and is never authoritative.
 
 `referencePCM` is a separate, specified 16 kHz mono signed-16-bit square-wave reference. It uses integer millihertz frequency constants, a 16-bit phase accumulator, integer envelopes and saturation. It tests reproducible PCM for the musical event sequence; it is **not** a bit-exact rendering of the complete Web Audio mix, noise, effects or device output.
+
+## Rendering budget and accessibility
+
+The renderer caches the static full-field stadium layer by dimensions/weather/palette, reuses its depth-order array and bounded eight-point ball trail, and renders only cosmetic state. The ball is drawn after players. Follow/wide/close camera views use velocity anticipation, time-based smoothing and a visibility guard for ball height. The score/clock is outside the canvas. Selected-player rings, possession labels, charge feedback and the minimap remain visible.
+
+Backing resolution is capped at DPR 2; optional pixel mode uses a 0.65 backing ratio. Minimal effects and `prefers-reduced-motion` suppress trails, stride bob and camera easing; essential football motion remains. Renderer invariants assert snapshots/hashes are unchanged. CI RAF timings are recorded, but are not a laptop GPU profile.
 
 ## Storage, security and deployment
 

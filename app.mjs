@@ -15,7 +15,7 @@ let mode='quick',state=null,previous=null,recorder=null,playing=false,paused=fal
 let demo=createState({humans:[false,false],seed:1988,seconds:120,difficulty:2}),demoPrev=demo;
 let accumulator=0,last=0,demoAccumulator=0,goalFrames=[],goalPlayback=null,verifiedReplay=null,playback=null,playbackIndex=0,toastTimer;
 let muted=saved.muted===true,importWorker=null;
-const optionIDs=['home-team','away-team','ground','difficulty','duration','weather','master-volume','music-volume','sfx-volume','aftertouch','selection','visual','seed'];
+const optionIDs=['home-team','away-team','ground','difficulty','duration','weather','master-volume','music-volume','sfx-volume','aftertouch','selection','visual','camera','effects','seed'];
 for(const id of ['home-team','away-team'])for(let i=0;i<TEAMS.length;i++){
   const option=document.createElement('option');option.value=i;option.textContent=TEAMS[i].name;$(id).append(option);
 }
@@ -30,7 +30,7 @@ function toast(message){$('toast').textContent=message;$('toast').hidden=false;c
 function savePreferences(){const prefs={maps:controls.maps,muted};for(const id of optionIDs)prefs[id]=$(id).value;if(!save('soccerweb.preferences.v1',prefs))toast('Browser storage is unavailable. Settings last for this session.');applyOptions();}
 function applyOptions(){
   audio.volumes(muted?0:Number($('master-volume').value)/100,Number($('music-volume').value)/100,Number($('sfx-volume').value)/100);
-  for(const r of [renderer,preview]){r.retro=$('visual').value==='crt';r.palette=$('visual').value==='mint'?'mint':'classic';}
+  for(const r of [renderer,preview]){r.retro=$('visual').value==='crt';r.palette=$('visual').value==='mint'?'mint':'classic';r.pixelated=$('visual').value==='pixel';r.zoom=$('camera').value;r.effects=$('effects').value;}
   $('weather').disabled=$('ground').value==='indoor';
 }
 function updateTeams(){
@@ -52,9 +52,9 @@ function enterMatch(s,label){
   matchRun++;
   state=s;previous=structuredClone(s);recorder=new Recorder(s);playing=true;paused=false;finished=false;controls.setGameplayEnabled(true);controls.active=true;
   accumulator=0;goalFrames=[];goalPlayback=null;renderer.reset();$('menu').hidden=true;$('match').hidden=false;$('pause-overlay').hidden=true;$('result-overlay').hidden=true;$('replay-tag').hidden=true;
-  $('match-kind').textContent=label;$('record-status').textContent=playback?'▶ VERIFIED PLAYBACK':'● RECORDING';
+  $('pause-button').textContent='Ⅱ PAUSE';$('action-hint').textContent='FIND THE SPACE. PLAY THE PASS.';$('match-kind').textContent=label;$('record-status').textContent=playback?'▶ VERIFIED PLAYBACK':'● RECORDING';
   $('game').focus();audio.start();applyOptions();$('sound-toggle').innerHTML=muted?'♫ <span>SOUND OFF</span>':'♫ <span>SOUND ON</span>';
-  audio.setMode('match',s.config.weather==='rain'&&!s.config.indoor);audio.event({type:'whistle'});updateHUD();window.scrollTo({top:0});
+  audio.setPaused(false);audio.setMode(s.config.indoor?'indoor':'outdoor',s.config.weather==='rain'&&!s.config.indoor,s.config.seed);audio.event({type:'whistle'});updateHUD();window.scrollTo({top:0});
 }
 function startMatch({continueCup=false,demoMode=false}={}){
   playback=null;playbackIndex=0;activeCompetition=null;const conf=matchConfig();
@@ -66,12 +66,12 @@ function startMatch({continueCup=false,demoMode=false}={}){
 }
 $('kickoff').onclick=()=>startMatch();$('continue').onclick=()=>startMatch({continueCup:true});$('watch-demo').onclick=()=>startMatch({demoMode:true});
 function togglePause(force=false){
-  if(!playing||finished)return;if(force&&paused)return;paused=force||!paused;controls.setGameplayEnabled(!paused);accumulator=0;$('pause-overlay').hidden=!paused;$('pause-button').textContent=paused?'▶ RESUME':'Ⅱ PAUSE';
+  if(!playing||finished)return;if(force&&paused)return;paused=force||!paused;audio.setPaused(paused);controls.setGameplayEnabled(!paused);accumulator=0;$('pause-overlay').hidden=!paused;$('pause-button').textContent=paused?'▶ RESUME':'Ⅱ PAUSE';
   if(paused)$('resume').focus();else $('game').focus();
 }
 $('pause-button').onclick=()=>togglePause();$('resume').onclick=()=>togglePause();
 $('exit-match').onclick=()=>togglePause(true);
-function home(){matchRun++;playing=false;paused=false;controls.active=false;controls.setGameplayEnabled(false);state=null;goalPlayback=null;playback=null;activeCompetition=null;$('match').hidden=true;$('menu').hidden=false;updateContinue();audio.setMode('menu');preview.reset();$('kickoff').focus();}
+function home(){matchRun++;playing=false;paused=false;controls.active=false;controls.setGameplayEnabled(false);state=null;goalPlayback=null;playback=null;activeCompetition=null;$('match').hidden=true;$('menu').hidden=false;updateContinue();audio.setPaused(false);audio.setMode('menu');preview.reset();$('kickoff').focus();}
 $('pause-quit').onclick=home;$('result-home').onclick=home;
 function exportReplay(){
   if(!state||!recorder)return;const data=playback||recorder.export(state),blob=new Blob([JSON.stringify(data)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');
@@ -79,10 +79,13 @@ function exportReplay(){
 }
 for(const id of ['pause-save','result-export'])$(id).onclick=exportReplay;
 function updateHUD(){
-  if(!state)return;const a=TEAMS[state.config.teams[0]],b=TEAMS[state.config.teams[1]];
+  if(!state)return;const owner=state.ball.owner<0?null:state.players[state.ball.owner];
+  const ownership=owner?`${TEAMS[state.config.teams[owner.team]].short} · ${owner.keeper?'KEEPER':'#'+owner.number} IN CONTROL`:state.ball.z>12*256?'BALL IN THE AIR':'LOOSE BALL';
+  if($('possession-hint').textContent!==ownership)$('possession-hint').textContent=ownership;
+  const a=TEAMS[state.config.teams[0]],b=TEAMS[state.config.teams[1]];
   $('score-home').textContent=a.short;$('score-home').style.borderColor=a.color;$('score-away').textContent=b.short;$('score-away').style.borderColor=b.color;
-  $('score').innerHTML=`${state.score[0]} <i>:</i> ${state.score[1]}`;
-  const seconds=Math.floor(state.elapsed/60);$('clock').textContent=`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')} · ${state.sudden?'GOLDEN GOAL':state.half===1?'1ST':'2ND'}`;
+  const scoreHTML=`${state.score[0]} <i>:</i> ${state.score[1]}`;if($('score').innerHTML!==scoreHTML)$('score').innerHTML=scoreHTML;
+  const seconds=Math.floor(state.elapsed/60);const clockText=`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')} · ${state.sudden?'GOLDEN GOAL':state.half===1?'1ST':'2ND'}`;if($('clock').textContent!==clockText)$('clock').textContent=clockText;
   const banner=$('match-banner');
   if(goalPlayback){banner.textContent='';return;}
   if(state.phase==='kickoff')banner.innerHTML=`${state.restartType}<small>${TEAMS[state.config.teams[state.restartTeam]].name} · P1 ATTACK ${attack(state,0)<0?'↑':'↓'}</small>`;
@@ -94,7 +97,7 @@ function updateHUD(){
 async function showResult(replayEnd=false){
   const resultRun=matchRun;
   finished=true;controls.active=false;controls.setGameplayEnabled(false);$('result-overlay').hidden=false;$('result-label').textContent=replayEnd?'REPLAY COMPLETE':'FULL TIME';
-  const score=state.score;$('result-title').textContent=replayEnd?'EVERY TICK VERIFIED.':score[0]===score[1]?'HONOURS EVEN.':score[0]>score[1]?'THAT’S A WIN.':'NEXT TIME, CHAMP.';
+  const score=state.score;const winner=score[0]===score[1]?-1:score[0]>score[1]?0:1;audio.setMode(!replayEnd&&winner>=0&&state.config.humans[winner]?'victory':'menu');$('result-title').textContent=replayEnd?'EVERY TICK VERIFIED.':score[0]===score[1]?'HONOURS EVEN.':score[0]>score[1]?'THAT’S A WIN.':'NEXT TIME, CHAMP.';
   $('result-score').textContent=`${TEAMS[state.config.teams[0]].short} ${score[0]} — ${score[1]} ${TEAMS[state.config.teams[1]].short}`;
   $('result-stats').replaceChildren();for(const [key,label] of [['shots','SHOTS'],['saves','SAVES'],['passes','PASSES']]){const div=document.createElement('div');div.textContent=state.stats[key].join(' — ');const small=document.createElement('small');small.textContent=label;div.append(small);$('result-stats').append(div);}
   const next=$('result-next');next.disabled=false;next.textContent=replayEnd?'RETURN TO CLUBHOUSE →':'PLAY AGAIN →';next.onclick=replayEnd?home:()=>startMatch();
@@ -115,7 +118,8 @@ function tick(){
   previous=structuredClone(state);const inputs=playback?playback.frames[playbackIndex].map(unpack):controls.sample();
   if(paused)return;
   step(state,inputs);if(!playback)recorder.record(state,inputs);else playbackIndex++;
-  for(const event of state.events)audio.event(event);
+  for(const event of state.events){if(event.type==='goal')audio.setMode('goal',false,state.config.seed);audio.event(event);if(event.type==='kick')$('action-hint').textContent=`${TEAMS[state.config.teams[event.team]].short} · ${event.kind.toUpperCase()}${event.power>40?' · FULL POWER':''}`;else if(event.type==='save')$('action-hint').textContent=event.caught?'KEEPER HOLDS IT.':'PARRIED! CHASE THE REBOUND.';else if(event.type==='post')$('action-hint').textContent='OFF THE FRAME!';}
+  if(state.phase==='play'&&audio.mode==='goal')audio.setMode(state.config.indoor?'indoor':'outdoor',state.config.weather==='rain'&&!state.config.indoor,state.config.seed);
   if(state.tick%3===0){goalFrames.push(structuredClone(state));if(goalFrames.length>100)goalFrames.shift();}
   if(state.events.some(e=>e.type==='goal')&&goalFrames.length>12){goalPlayback={frames:goalFrames.slice(),time:0};$('replay-tag').hidden=false;}
   if(playback&&playbackIndex>=playback.frames.length){
@@ -138,11 +142,11 @@ function frame(now){
         accumulator+=dt;while(accumulator>=1/60&&!finished&&!paused&&!goalPlayback){if(playback&&playbackIndex>=playback.frames.length){showResult(true);break;}tick();accumulator-=1/60;}
       }
     }
-    if(goalPlayback){const index=Math.min(goalPlayback.frames.length-1,Math.floor(goalPlayback.time*20));renderer.draw(goalPlayback.frames[index]);}
-    else if(state)renderer.draw(state,previous,Math.min(1,accumulator*60));
+    if(goalPlayback){const index=Math.min(goalPlayback.frames.length-1,Math.floor(goalPlayback.time*20));renderer.draw(goalPlayback.frames[index],goalPlayback.frames[index],1,false,dt);}
+    else if(state)renderer.draw(state,previous,Math.min(1,accumulator*60),false,dt);
   }else{
     demoAccumulator+=dt;while(demoAccumulator>=1/60){demoPrev=structuredClone(demo);step(demo);demoAccumulator-=1/60;if(demo.phase==='fulltime'){demo=createState({...demo.config,seed:demo.config.seed+1});demoPrev=demo;preview.reset();}}
-    preview.draw(demo,demoPrev,demoAccumulator*60,true);$('demo-score').textContent=`SOL ${demo.score[0]} : ${demo.score[1]} NEO`;
+    preview.draw(demo,demoPrev,demoAccumulator*60,true,dt);$('demo-score').textContent=`SOL ${demo.score[0]} : ${demo.score[1]} NEO`;
   }
   requestAnimationFrame(frame);
 }
@@ -180,10 +184,11 @@ $('replay-file').onchange=async e=>{
   worker.postMessage(await file.text());
 };
 $('watch-replay').onclick=()=>{if(!verifiedReplay)return;activeCompetition=null;playback=verifiedReplay;playbackIndex=0;$('replays-dialog').close();enterMatch(createState(playback.config),'REPLAY STUDIO / VERIFIED INPUT STREAM');if(playback.frames.length===0)showResult(true);};
+document.addEventListener('visibilitychange',()=>audio.setPaused(document.hidden||paused));
 applyOptions();updateTeams();updateContinue();renderMappings();requestAnimationFrame(frame);
 if('serviceWorker'in navigator&&location.protocol!=='file:')navigator.serviceWorker.register('./sw.js').then(async registration=>{
-  const ready=await navigator.serviceWorker.ready;if(ready.active)$('offline-status').textContent='OFFLINE READY · V1.0';
+  const ready=await navigator.serviceWorker.ready;if(ready.active)$('offline-status').textContent='OFFLINE READY · V2.0';
   if(registration.waiting)toast('A game update is ready. Close other Soccerweb tabs and reopen to update.');
 }).catch(()=>$('offline-status').textContent='ONLINE MODE · CACHE UNAVAILABLE');
 // Read-only diagnostics used by the browser smoke suite; never exposes mutable simulation objects.
-export function diagnostics(){return state?{state:structuredClone(state),paused,playing,finished,hash:stateHash(state),recordedTicks:recorder?.frames.length||0}:null;}
+export function diagnostics(){return state?{state:structuredClone(state),paused,playing,finished,hash:stateHash(state),recordedTicks:recorder?.frames.length||0,audio:{mode:audio.mode,state:audio.ctx?.state||'uninitialized',voices:audio.voices.size,cursor:audio.cursor}}:null;}

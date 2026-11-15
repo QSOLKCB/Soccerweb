@@ -20,11 +20,11 @@ Gamepad: left stick/D-pad moves, A kicks, X passes, B chips, Y switches, shoulde
 
 ## Play with one button
 
-Tap kick for fewer than 12 simulation ticks (0.2 seconds) to pass. Hold for up to 60 ticks, then release to shoot; the bar beneath your player shows power. Aiming follows the direction you last ran. Without possession, pressing kick starts a sliding tackle. A mistimed slide has a cooldown, so defend with movement first.
+Tap kick for fewer than 12 simulation ticks (0.2 seconds) to pass. Hold for up to 60 ticks, then release to shoot; the bar beneath your player shows power. Aiming follows the movement direction on the release tick, or your last direction when stationary. Without possession, pressing kick starts a sliding tackle. A mistimed slide has a cooldown, so defend with movement first.
 
 ## Add technique
 
-- **Short pass:** tap kick or use the dedicated pass button. Teammates are chosen by direction, forward progress, distance and available space.
+- **Short pass:** tap kick or use the dedicated pass button. Teammates are chosen by direction, forward progress, distance, available space and passing-lane obstruction.
 - **Long pass:** hold kick to charge, then press pass before releasing. Beyond 42 charge ticks the pass is lofted. Release kick afterwards.
 - **Chip:** use the chip button. Hold kick first for more loft, then chip.
 - **Banana shot:** apply a curve key at release. Steer with left/right or the curve keys while the ball is in flight. Settings adjusts aftertouch from off to wild; base curve at release remains available.
@@ -40,8 +40,12 @@ Indoor is six-a-side with faster movement, a smaller pitch and rebounding walls.
 
 Matches have two equal active-play halves. Restarts, halftime and goal replays stop the match clock. Quick and local matches can draw. Cup and Challenge ties continue until a golden goal decides them. Cup has three rounds; Challenge has seven opponents with increasing difficulty. A defeat ends your run. Progress saves after each completed round, so leaving an unfinished match lets you replay that round later.
 
+## View and feedback
+
+Settings offers Follow, Wide tactical and Close cameras; Clean, CRT, Mint and Low-resolution pixel styles; and Minimal effects. The system reduced-motion preference also limits camera easing, stride bob and trails. Ball/player movement remains visible because it is essential to play. The scoreboard sits above the pitch, possession is shown beneath it, and action feedback identifies shots, parries and frame hits. Sprint animation reflects speed; there is no extra sprint button.
+
 ## Replays, sound and offline use
 
-Pause or finish a match to export its replay JSON. Open **Replay studio**, import the file and wait for verification. A matching hash enables playback. This works for partial as well as complete recordings. A goal automatically triggers a slower visual replay of recent recorded states.
+Pause or finish a match to export its replay JSON. Open **Replay studio**, import the file and wait for verification. A matching hash enables playback. This works for partial as well as complete v3 recordings. Phase 1 v1/v2 files are rejected because the simulation changed. A goal automatically triggers a slower visual replay of recent recorded states.
 
-Audio requires a click or kickoff to satisfy browser autoplay rules. Adjust master, music and effects volumes independently. Offline play becomes available after successful asset caching, indicated in the footer. Installation is optional; an offline browser reload also works after caching. Close old tabs and reopen after an update to activate the new cached release.
+Audio requires a click or kickoff to satisfy browser autoplay rules. Menu, outdoor, indoor, goal and victory have separate original themes. Adjust master, music and effects volumes independently; pausing suspends audio, and resuming restarts it. Offline play becomes available after successful asset caching, indicated in the footer. Installation is optional; an offline browser reload also works after caching. Close old tabs and reopen after an update to activate the new cached release.
