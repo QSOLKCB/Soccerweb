@@ -86,11 +86,13 @@ jobs:
       - name: Play all stages, replay, failure, retry and offline (Firefox)
         run: BROWSER=firefox python tests/goalposts_browser.py
       - name: Extract the merged-main presentation reference
+        if: ${{ !cancelled() }}
         run: |
           git fetch --depth=1 origin b9db46ab9b42cb2c3e98d2af82c10eed0b309128
           mkdir -p work/standards-base
           git archive b9db46ab9b42cb2c3e98d2af82c10eed0b309128 game simulation ai modes input render audio replay tests/goalposts_route.mjs | tar -x -C work/standards-base
       - name: Matched production-renderer screenshots and layout variants
+        if: ${{ !cancelled() }}
         run: |
           python tests/standards_browser.py
           BROWSER=firefox python tests/standards_browser.py
