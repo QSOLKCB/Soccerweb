@@ -1,0 +1,8 @@
+{
+  "source": "acdb6ae495191c9ef790ccc51af69f766c7a9d89",
+  "command": "node --test tests/*.test.mjs",
+  "exitCode": 0,
+  "wallSeconds": 7.425906158998259,
+  "cpuSeconds": 16.913139,
+  "peakRSSKiB": 83804
+}

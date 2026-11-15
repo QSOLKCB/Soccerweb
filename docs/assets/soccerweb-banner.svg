@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="420" viewBox="0 0 1280 420" role="img" aria-labelledby="title desc">
+ <title id="title">SOCCERWEB — The beautiful game. Pure web standards.</title>
+ <desc id="desc">Original arcade football banner: a floodlit green pitch, gold ball and curved shot trail on a deep blue stadium background.</desc>
+ <defs>
+  <linearGradient id="night" x2="1" y2="1"><stop stop-color="#10293c"/><stop offset="1" stop-color="#071723"/></linearGradient>
+  <linearGradient id="turf" x2="1" y2="1"><stop stop-color="#1d7764"/><stop offset="1" stop-color="#124439"/></linearGradient>
+  <radialGradient id="light"><stop stop-color="#afffde" stop-opacity=".16"/><stop offset="1" stop-color="#afffde" stop-opacity="0"/></radialGradient>
+  <pattern id="stripes" width="100" height="400" patternUnits="userSpaceOnUse"><rect width="50" height="400" fill="#e0ffeb" opacity=".035"/></pattern>
+ </defs>
+ <rect width="1280" height="420" rx="20" fill="url(#night)"/>
+ <circle cx="1020" cy="30" r="470" fill="url(#light)"/>
+ <path d="M0 398H1280" stroke="#79dfb6" stroke-width="3"/>
+ <g transform="translate(855 42) rotate(12 160 160)">
+  <rect width="290" height="340" rx="18" fill="url(#turf)" stroke="#8ce4c0" stroke-opacity=".25" stroke-width="2"/>
+  <rect width="290" height="340" rx="18" fill="url(#stripes)"/>
+  <g fill="none" stroke="#b7f4d7" stroke-opacity=".5" stroke-width="2">
+   <path d="M20 20H270V320H20ZM20 170H270M87 20V74H203V20M87 320V266H203V320"/>
+   <circle cx="145" cy="170" r="42"/><circle cx="145" cy="170" r="3" fill="#b7f4d7"/>
+   <path d="M113 20V0H177V20M113 320V340H177V320"/>
+  </g>
+  <path d="M55 272C-12 160 190 174 168 60" fill="none" stroke="#ffe397" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 12"/>
+  <circle cx="168" cy="60" r="19" fill="#ffe5a2" stroke="#10293c" stroke-width="3"/>
+  <path d="m168 50 10 7-4 11h-12l-4-11Z" fill="#173c44"/>
+  <g fill="#69ccff" stroke="#123242" stroke-width="3"><circle cx="68" cy="130" r="9"/><circle cx="215" cy="226" r="9"/><circle cx="85" cy="275" r="9"/></g>
+  <g fill="#fa896e" stroke="#123242" stroke-width="3"><circle cx="206" cy="112" r="9"/><circle cx="119" cy="222" r="9"/><circle cx="137" cy="36" r="9"/></g>
+ </g>
+ <g font-family="ui-monospace, SFMono-Regular, Consolas, monospace">
+  <text x="64" y="78" fill="#84dcb6" font-size="16" font-weight="700" letter-spacing="5">QSOL–IMC PRESENTS</text>
+  <text x="56" y="192" fill="#06131f" font-size="100" font-weight="900" letter-spacing="-5">SOCCERWEB</text>
+  <text x="54" y="184" fill="#fff1c9" font-size="100" font-weight="900" letter-spacing="-5">SOCCERWEB</text>
+  <text x="64" y="238" fill="#daeee5" font-size="23">THE BEAUTIFUL GAME.</text>
+  <text x="64" y="273" fill="#daeee5" font-size="23">PURE WEB STANDARDS.</text>
+  <rect x="64" y="318" width="640" height="34" rx="17" fill="#244437"/>
+  <text x="84" y="340" fill="#a7e8c5" font-size="14" letter-spacing="1">OUTDOOR · INDOOR · GOALPOSTS · LOCAL TWO-PLAYER</text>
+ </g>
+</svg>

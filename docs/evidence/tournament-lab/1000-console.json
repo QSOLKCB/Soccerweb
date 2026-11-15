@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "fixtures": 1000,
+  "wallSeconds": 432.028217473,
+  "cpuSeconds": 431.971543,
+  "peakRSSKiB": 101872,
+  "ticks": 8879500,
+  "matchesPerSecond": 2.314663625096423,
+  "ticksPerSecond": 20553.05565904369,
+  "output": "/workspace/soccerweb/work/tournament-1000"
+}

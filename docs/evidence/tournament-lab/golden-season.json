@@ -1,0 +1,5726 @@
+{
+  "version": 5,
+  "seeds": [
+    42,
+    1988,
+    731,
+    19,
+    2026,
+    805,
+    99,
+    31415
+  ],
+  "seconds": 120,
+  "definitions": {
+    "possession": "Consecutive active ticks with the same player owning the ball; stopped play closes a spell.",
+    "short": "Spell <20 ticks.",
+    "firstTouchLoss": "Spell <3 ticks, including kicks and losses; not necessarily a turnover.",
+    "interception": "During continuous play, a pass changes last-touch team, including deflections; restart assignment excluded.",
+    "blowout": "Absolute final goal margin >=5.",
+    "conversion": "Goals / shot attempts; descriptive, not shot-level xG."
+  },
+  "summary": [
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "fixtures": 16,
+      "goals": 22,
+      "shots": 104,
+      "passes": 908,
+      "completedPasses": 425,
+      "saves": 82,
+      "interceptions": 397,
+      "firstTouchLosses": 20,
+      "shortPossessionPercent": 28.12687013764213,
+      "meanPossessionTicks": 33.62716935966487,
+      "meanGoalMargin": 0.75,
+      "blowouts": 0,
+      "sideWins": [
+        5,
+        5
+      ],
+      "draws": 6,
+      "crowdedPairsPerSample": 0.03685382304839126
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "fixtures": 16,
+      "goals": 30,
+      "shots": 158,
+      "passes": 918,
+      "completedPasses": 854,
+      "saves": 128,
+      "interceptions": 44,
+      "firstTouchLosses": 51,
+      "shortPossessionPercent": 44.41284030881755,
+      "meanPossessionTicks": 27.561560341324665,
+      "meanGoalMargin": 1,
+      "blowouts": 0,
+      "sideWins": [
+        8,
+        4
+      ],
+      "draws": 4,
+      "crowdedPairsPerSample": 0.060352511663746125
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "fixtures": 16,
+      "goals": 15,
+      "shots": 117,
+      "passes": 1112,
+      "completedPasses": 991,
+      "saves": 99,
+      "interceptions": 61,
+      "firstTouchLosses": 49,
+      "shortPossessionPercent": 57.6545842217484,
+      "meanPossessionTicks": 27.533049040511727,
+      "meanGoalMargin": 0.6875,
+      "blowouts": 0,
+      "sideWins": [
+        3,
+        7
+      ],
+      "draws": 6,
+      "crowdedPairsPerSample": 0.0758625719820398
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "fixtures": 16,
+      "goals": 103,
+      "shots": 486,
+      "passes": 456,
+      "completedPasses": 290,
+      "saves": 388,
+      "interceptions": 142,
+      "firstTouchLosses": 59,
+      "shortPossessionPercent": 48.94908921064923,
+      "meanPossessionTicks": 24.170481083605793,
+      "meanGoalMargin": 2.9375,
+      "blowouts": 3,
+      "sideWins": [
+        7,
+        8
+      ],
+      "draws": 1,
+      "crowdedPairsPerSample": 0.015586306557105262
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "fixtures": 16,
+      "goals": 101,
+      "shots": 383,
+      "passes": 529,
+      "completedPasses": 433,
+      "saves": 293,
+      "interceptions": 29,
+      "firstTouchLosses": 32,
+      "shortPossessionPercent": 57.630979498861045,
+      "meanPossessionTicks": 21.56492027334852,
+      "meanGoalMargin": 1.6875,
+      "blowouts": 0,
+      "sideWins": [
+        11,
+        4
+      ],
+      "draws": 1,
+      "crowdedPairsPerSample": 0.02452561616030636
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "fixtures": 16,
+      "goals": 71,
+      "shots": 303,
+      "passes": 652,
+      "completedPasses": 522,
+      "saves": 237,
+      "interceptions": 44,
+      "firstTouchLosses": 59,
+      "shortPossessionPercent": 65.43610547667343,
+      "meanPossessionTicks": 21.323326572008114,
+      "meanGoalMargin": 1.6875,
+      "blowouts": 0,
+      "sideWins": [
+        3,
+        10
+      ],
+      "draws": 3,
+      "crowdedPairsPerSample": 0.01947843661598186
+    }
+  ],
+  "matches": [
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "seed": 42,
+      "teams": [
+        0,
+        3
+      ],
+      "reverse": false,
+      "score": [
+        1,
+        1
+      ],
+      "shots": [
+        3,
+        2
+      ],
+      "saves": [
+        1,
+        2
+      ],
+      "passes": [
+        30,
+        35
+      ],
+      "tackles": [
+        8,
+        3
+      ],
+      "completedPasses": [
+        14,
+        20
+      ],
+      "possession": [
+        1691,
+        1945
+      ],
+      "interceptions": [
+        12,
+        13
+      ],
+      "firstTouchLosses": [
+        0,
+        2
+      ],
+      "directTurnovers": 29,
+      "spells": 113,
+      "shortSpells": 33,
+      "meanPossessionTicks": 32.36283185840708,
+      "p50PossessionTicks": 33,
+      "p90PossessionTicks": 51,
+      "looseTicks": 3543,
+      "crowdedPairsPerSample": 0.049586776859504134,
+      "goalShotRatio": 0.4,
+      "phase": "fulltime",
+      "ticks": 9315,
+      "hash": "62dc8520"
+    },
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "seed": 42,
+      "teams": [
+        3,
+        0
+      ],
+      "reverse": true,
+      "score": [
+        0,
+        1
+      ],
+      "shots": [
+        6,
+        1
+      ],
+      "saves": [
+        0,
+        6
+      ],
+      "passes": [
+        20,
+        29
+      ],
+      "tackles": [
+        6,
+        9
+      ],
+      "completedPasses": [
+        9,
+        15
+      ],
+      "possession": [
+        1830,
+        1768
+      ],
+      "interceptions": [
+        16,
+        6
+      ],
+      "firstTouchLosses": [
+        0,
+        1
+      ],
+      "directTurnovers": 28,
+      "spells": 101,
+      "shortSpells": 28,
+      "meanPossessionTicks": 35.78217821782178,
+      "p50PossessionTicks": 33,
+      "p90PossessionTicks": 74,
+      "looseTicks": 3586,
+      "crowdedPairsPerSample": 0.0371900826446281,
+      "goalShotRatio": 0.14285714285714285,
+      "phase": "fulltime",
+      "ticks": 8770,
+      "hash": "0548e2a6"
+    },
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "seed": 1988,
+      "teams": [
+        1,
+        4
+      ],
+      "reverse": false,
+      "score": [
+        1,
+        0
+      ],
+      "shots": [
+        3,
+        1
+      ],
+      "saves": [
+        1,
+        2
+      ],
+      "passes": [
+        25,
+        38
+      ],
+      "tackles": [
+        8,
+        7
+      ],
+      "completedPasses": [
+        13,
+        23
+      ],
+      "possession": [
+        1548,
+        1825
+      ],
+      "interceptions": [
+        11,
+        9
+      ],
+      "firstTouchLosses": [
+        0,
+        1
+      ],
+      "directTurnovers": 29,
+      "spells": 110,
+      "shortSpells": 39,
+      "meanPossessionTicks": 30.818181818181817,
+      "p50PossessionTicks": 32,
+      "p90PossessionTicks": 66,
+      "looseTicks": 3810,
+      "crowdedPairsPerSample": 0.0371900826446281,
+      "goalShotRatio": 0.25,
+      "phase": "fulltime",
+      "ticks": 8835,
+      "hash": "f4a19a53"
+    },
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "seed": 1988,
+      "teams": [
+        4,
+        1
+      ],
+      "reverse": true,
+      "score": [
+        1,
+        1
+      ],
+      "shots": [
+        6,
+        5
+      ],
+      "saves": [
+        4,
+        6
+      ],
+      "passes": [
+        23,
+        25
+      ],
+      "tackles": [
+        6,
+        8
+      ],
+      "completedPasses": [
+        9,
+        9
+      ],
+      "possession": [
+        1471,
+        1792
+      ],
+      "interceptions": [
+        16,
+        11
+      ],
+      "firstTouchLosses": [
+        1,
+        1
+      ],
+      "directTurnovers": 23,
+      "spells": 101,
+      "shortSpells": 34,
+      "meanPossessionTicks": 32.48514851485149,
+      "p50PossessionTicks": 32,
+      "p90PossessionTicks": 66,
+      "looseTicks": 3919,
+      "crowdedPairsPerSample": 0.029166666666666667,
+      "goalShotRatio": 0.18181818181818182,
+      "phase": "fulltime",
+      "ticks": 9120,
+      "hash": "dc9b5c94"
+    },
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "seed": 731,
+      "teams": [
+        2,
+        5
+      ],
+      "reverse": false,
+      "score": [
+        2,
+        0
+      ],
+      "shots": [
+        5,
+        3
+      ],
+      "saves": [
+        3,
+        3
+      ],
+      "passes": [
+        27,
+        27
+      ],
+      "tackles": [
+        10,
+        6
+      ],
+      "completedPasses": [
+        11,
+        12
+      ],
+      "possession": [
+        1592,
+        1745
+      ],
+      "interceptions": [
+        13,
+        12
+      ],
+      "firstTouchLosses": [
+        1,
+        0
+      ],
+      "directTurnovers": 20,
+      "spells": 100,
+      "shortSpells": 23,
+      "meanPossessionTicks": 33.58,
+      "p50PossessionTicks": 33,
+      "p90PossessionTicks": 66,
+      "looseTicks": 3842,
+      "crowdedPairsPerSample": 0.016666666666666666,
+      "goalShotRatio": 0.25,
+      "phase": "fulltime",
+      "ticks": 9315,
+      "hash": "48b785d9"
+    },
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "seed": 731,
+      "teams": [
+        5,
+        2
+      ],
+      "reverse": true,
+      "score": [
+        0,
+        1
+      ],
+      "shots": [
+        2,
+        4
+      ],
+      "saves": [
+        3,
+        2
+      ],
+      "passes": [
+        29,
+        32
+      ],
+      "tackles": [
+        6,
+        3
+      ],
+      "completedPasses": [
+        12,
+        13
+      ],
+      "possession": [
+        1583,
+        1877
+      ],
+      "interceptions": [
+        15,
+        12
+      ],
+      "firstTouchLosses": [
+        0,
+        1
+      ],
+      "directTurnovers": 21,
+      "spells": 97,
+      "shortSpells": 19,
+      "meanPossessionTicks": 35.896907216494846,
+      "p50PossessionTicks": 33,
+      "p90PossessionTicks": 66,
+      "looseTicks": 3718,
+      "crowdedPairsPerSample": 0.020833333333333332,
+      "goalShotRatio": 0.16666666666666666,
+      "phase": "fulltime",
+      "ticks": 9160,
+      "hash": "d4a6b33c"
+    },
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "seed": 19,
+      "teams": [
+        3,
+        6
+      ],
+      "reverse": false,
+      "score": [
+        0,
+        1
+      ],
+      "shots": [
+        2,
+        3
+      ],
+      "saves": [
+        2,
+        2
+      ],
+      "passes": [
+        28,
+        31
+      ],
+      "tackles": [
+        10,
+        5
+      ],
+      "completedPasses": [
+        14,
+        18
+      ],
+      "possession": [
+        1557,
+        1815
+      ],
+      "interceptions": [
+        13,
+        8
+      ],
+      "firstTouchLosses": [
+        1,
+        0
+      ],
+      "directTurnovers": 26,
+      "spells": 106,
+      "shortSpells": 32,
+      "meanPossessionTicks": 32.028301886792455,
+      "p50PossessionTicks": 33,
+      "p90PossessionTicks": 53,
+      "looseTicks": 3805,
+      "crowdedPairsPerSample": 0.028925619834710745,
+      "goalShotRatio": 0.2,
+      "phase": "fulltime",
+      "ticks": 9225,
+      "hash": "64ce1eee"
+    },
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "seed": 19,
+      "teams": [
+        6,
+        3
+      ],
+      "reverse": true,
+      "score": [
+        0,
+        2
+      ],
+      "shots": [
+        1,
+        3
+      ],
+      "saves": [
+        1,
+        1
+      ],
+      "passes": [
+        37,
+        22
+      ],
+      "tackles": [
+        12,
+        4
+      ],
+      "completedPasses": [
+        13,
+        14
+      ],
+      "possession": [
+        1721,
+        1727
+      ],
+      "interceptions": [
+        17,
+        12
+      ],
+      "firstTouchLosses": [
+        0,
+        2
+      ],
+      "directTurnovers": 23,
+      "spells": 104,
+      "shortSpells": 23,
+      "meanPossessionTicks": 33.31730769230769,
+      "p50PossessionTicks": 33,
+      "p90PossessionTicks": 56,
+      "looseTicks": 3735,
+      "crowdedPairsPerSample": 0.01680672268907563,
+      "goalShotRatio": 0.5,
+      "phase": "fulltime",
+      "ticks": 9055,
+      "hash": "82529cde"
+    },
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "seed": 2026,
+      "teams": [
+        4,
+        7
+      ],
+      "reverse": false,
+      "score": [
+        1,
+        2
+      ],
+      "shots": [
+        5,
+        2
+      ],
+      "saves": [
+        0,
+        4
+      ],
+      "passes": [
+        26,
+        36
+      ],
+      "tackles": [
+        8,
+        5
+      ],
+      "completedPasses": [
+        11,
+        17
+      ],
+      "possession": [
+        1717,
+        1753
+      ],
+      "interceptions": [
+        12,
+        16
+      ],
+      "firstTouchLosses": [
+        0,
+        3
+      ],
+      "directTurnovers": 16,
+      "spells": 101,
+      "shortSpells": 22,
+      "meanPossessionTicks": 34.53465346534654,
+      "p50PossessionTicks": 33,
+      "p90PossessionTicks": 48,
+      "looseTicks": 3712,
+      "crowdedPairsPerSample": 0.008333333333333333,
+      "goalShotRatio": 0.42857142857142855,
+      "phase": "fulltime",
+      "ticks": 9340,
+      "hash": "f801d8ab"
+    },
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "seed": 2026,
+      "teams": [
+        7,
+        4
+      ],
+      "reverse": true,
+      "score": [
+        1,
+        0
+      ],
+      "shots": [
+        7,
+        1
+      ],
+      "saves": [
+        1,
+        6
+      ],
+      "passes": [
+        24,
+        31
+      ],
+      "tackles": [
+        3,
+        4
+      ],
+      "completedPasses": [
+        12,
+        13
+      ],
+      "possession": [
+        1920,
+        1479
+      ],
+      "interceptions": [
+        14,
+        10
+      ],
+      "firstTouchLosses": [
+        0,
+        1
+      ],
+      "directTurnovers": 26,
+      "spells": 99,
+      "shortSpells": 28,
+      "meanPossessionTicks": 34.525252525252526,
+      "p50PossessionTicks": 33,
+      "p90PossessionTicks": 66,
+      "looseTicks": 3782,
+      "crowdedPairsPerSample": 0.03347280334728033,
+      "goalShotRatio": 0.125,
+      "phase": "fulltime",
+      "ticks": 8965,
+      "hash": "215b7976"
+    },
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "seed": 805,
+      "teams": [
+        5,
+        0
+      ],
+      "reverse": false,
+      "score": [
+        1,
+        1
+      ],
+      "shots": [
+        3,
+        3
+      ],
+      "saves": [
+        2,
+        2
+      ],
+      "passes": [
+        33,
+        27
+      ],
+      "tackles": [
+        5,
+        2
+      ],
+      "completedPasses": [
+        17,
+        14
+      ],
+      "possession": [
+        1749,
+        1891
+      ],
+      "interceptions": [
+        17,
+        6
+      ],
+      "firstTouchLosses": [
+        0,
+        1
+      ],
+      "directTurnovers": 27,
+      "spells": 104,
+      "shortSpells": 27,
+      "meanPossessionTicks": 35.20192307692308,
+      "p50PossessionTicks": 33,
+      "p90PossessionTicks": 74,
+      "looseTicks": 3539,
+      "crowdedPairsPerSample": 0.05761316872427984,
+      "goalShotRatio": 0.3333333333333333,
+      "phase": "fulltime",
+      "ticks": 9315,
+      "hash": "0f717b0f"
+    },
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "seed": 805,
+      "teams": [
+        0,
+        5
+      ],
+      "reverse": true,
+      "score": [
+        0,
+        0
+      ],
+      "shots": [
+        4,
+        1
+      ],
+      "saves": [
+        1,
+        4
+      ],
+      "passes": [
+        30,
+        23
+      ],
+      "tackles": [
+        12,
+        6
+      ],
+      "completedPasses": [
+        17,
+        10
+      ],
+      "possession": [
+        1943,
+        1873
+      ],
+      "interceptions": [
+        14,
+        8
+      ],
+      "firstTouchLosses": [
+        0,
+        0
+      ],
+      "directTurnovers": 30,
+      "spells": 110,
+      "shortSpells": 37,
+      "meanPossessionTicks": 34.93636363636364,
+      "p50PossessionTicks": 31,
+      "p90PossessionTicks": 74,
+      "looseTicks": 3357,
+      "crowdedPairsPerSample": 0.07083333333333333,
+      "goalShotRatio": 0,
+      "phase": "fulltime",
+      "ticks": 9265,
+      "hash": "9536e916"
+    },
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "seed": 99,
+      "teams": [
+        6,
+        1
+      ],
+      "reverse": false,
+      "score": [
+        2,
+        1
+      ],
+      "shots": [
+        6,
+        3
+      ],
+      "saves": [
+        2,
+        3
+      ],
+      "passes": [
+        20,
+        31
+      ],
+      "tackles": [
+        10,
+        13
+      ],
+      "completedPasses": [
+        11,
+        10
+      ],
+      "possession": [
+        1756,
+        2039
+      ],
+      "interceptions": [
+        19,
+        9
+      ],
+      "firstTouchLosses": [
+        0,
+        1
+      ],
+      "directTurnovers": 30,
+      "spells": 115,
+      "shortSpells": 36,
+      "meanPossessionTicks": 33.15652173913043,
+      "p50PossessionTicks": 29,
+      "p90PossessionTicks": 66,
+      "looseTicks": 3387,
+      "crowdedPairsPerSample": 0.05,
+      "goalShotRatio": 0.3333333333333333,
+      "phase": "fulltime",
+      "ticks": 9340,
+      "hash": "2aff35fb"
+    },
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "seed": 99,
+      "teams": [
+        1,
+        6
+      ],
+      "reverse": true,
+      "score": [
+        0,
+        0
+      ],
+      "shots": [
+        3,
+        4
+      ],
+      "saves": [
+        4,
+        3
+      ],
+      "passes": [
+        28,
+        29
+      ],
+      "tackles": [
+        7,
+        5
+      ],
+      "completedPasses": [
+        14,
+        12
+      ],
+      "possession": [
+        1616,
+        1728
+      ],
+      "interceptions": [
+        16,
+        7
+      ],
+      "firstTouchLosses": [
+        1,
+        1
+      ],
+      "directTurnovers": 22,
+      "spells": 99,
+      "shortSpells": 25,
+      "meanPossessionTicks": 34.01010101010101,
+      "p50PossessionTicks": 33,
+      "p90PossessionTicks": 74,
+      "looseTicks": 3833,
+      "crowdedPairsPerSample": 0.05371900826446281,
+      "goalShotRatio": 0,
+      "phase": "fulltime",
+      "ticks": 9005,
+      "hash": "81d61e9a"
+    },
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "seed": 31415,
+      "teams": [
+        7,
+        2
+      ],
+      "reverse": false,
+      "score": [
+        1,
+        0
+      ],
+      "shots": [
+        6,
+        2
+      ],
+      "saves": [
+        2,
+        5
+      ],
+      "passes": [
+        23,
+        31
+      ],
+      "tackles": [
+        4,
+        9
+      ],
+      "completedPasses": [
+        12,
+        11
+      ],
+      "possession": [
+        1953,
+        1641
+      ],
+      "interceptions": [
+        13,
+        14
+      ],
+      "firstTouchLosses": [
+        0,
+        0
+      ],
+      "directTurnovers": 28,
+      "spells": 102,
+      "shortSpells": 26,
+      "meanPossessionTicks": 35.411764705882355,
+      "p50PossessionTicks": 33,
+      "p90PossessionTicks": 74,
+      "looseTicks": 3588,
+      "crowdedPairsPerSample": 0.03765690376569038,
+      "goalShotRatio": 0.125,
+      "phase": "fulltime",
+      "ticks": 8900,
+      "hash": "384ebefb"
+    },
+    {
+      "indoor": false,
+      "difficulty": 1,
+      "seed": 31415,
+      "teams": [
+        2,
+        7
+      ],
+      "reverse": true,
+      "score": [
+        0,
+        0
+      ],
+      "shots": [
+        2,
+        2
+      ],
+      "saves": [
+        2,
+        2
+      ],
+      "passes": [
+        26,
+        32
+      ],
+      "tackles": [
+        7,
+        9
+      ],
+      "completedPasses": [
+        12,
+        13
+      ],
+      "possession": [
+        1585,
+        1737
+      ],
+      "interceptions": [
+        15,
+        11
+      ],
+      "firstTouchLosses": [
+        0,
+        1
+      ],
+      "directTurnovers": 30,
+      "spells": 109,
+      "shortSpells": 38,
+      "meanPossessionTicks": 30.706422018348626,
+      "p50PossessionTicks": 33,
+      "p90PossessionTicks": 47,
+      "looseTicks": 3853,
+      "crowdedPairsPerSample": 0.041666666666666664,
+      "goalShotRatio": 0,
+      "phase": "fulltime",
+      "ticks": 9135,
+      "hash": "7ea31252"
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "seed": 42,
+      "teams": [
+        0,
+        3
+      ],
+      "reverse": false,
+      "score": [
+        2,
+        0
+      ],
+      "shots": [
+        6,
+        1
+      ],
+      "saves": [
+        1,
+        4
+      ],
+      "passes": [
+        32,
+        28
+      ],
+      "tackles": [
+        20,
+        15
+      ],
+      "completedPasses": [
+        30,
+        22
+      ],
+      "possession": [
+        2470,
+        1845
+      ],
+      "interceptions": [
+        4,
+        2
+      ],
+      "firstTouchLosses": [
+        1,
+        2
+      ],
+      "directTurnovers": 58,
+      "spells": 163,
+      "shortSpells": 75,
+      "meanPossessionTicks": 26.558282208588956,
+      "p50PossessionTicks": 24,
+      "p90PossessionTicks": 45,
+      "looseTicks": 2871,
+      "crowdedPairsPerSample": 0.07883817427385892,
+      "goalShotRatio": 0.2857142857142857,
+      "phase": "fulltime",
+      "ticks": 8860,
+      "hash": "35eebd37"
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "seed": 42,
+      "teams": [
+        3,
+        0
+      ],
+      "reverse": true,
+      "score": [
+        2,
+        0
+      ],
+      "shots": [
+        6,
+        5
+      ],
+      "saves": [
+        5,
+        4
+      ],
+      "passes": [
+        33,
+        26
+      ],
+      "tackles": [
+        14,
+        9
+      ],
+      "completedPasses": [
+        30,
+        23
+      ],
+      "possession": [
+        2337,
+        2264
+      ],
+      "interceptions": [
+        2,
+        3
+      ],
+      "firstTouchLosses": [
+        3,
+        4
+      ],
+      "directTurnovers": 69,
+      "spells": 163,
+      "shortSpells": 80,
+      "meanPossessionTicks": 28.263803680981596,
+      "p50PossessionTicks": 20,
+      "p90PossessionTicks": 60,
+      "looseTicks": 2593,
+      "crowdedPairsPerSample": 0.04979253112033195,
+      "goalShotRatio": 0.18181818181818182,
+      "phase": "fulltime",
+      "ticks": 8340,
+      "hash": "1fa4c84d"
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "seed": 1988,
+      "teams": [
+        1,
+        4
+      ],
+      "reverse": false,
+      "score": [
+        0,
+        1
+      ],
+      "shots": [
+        3,
+        5
+      ],
+      "saves": [
+        4,
+        3
+      ],
+      "passes": [
+        24,
+        24
+      ],
+      "tackles": [
+        16,
+        15
+      ],
+      "completedPasses": [
+        23,
+        24
+      ],
+      "possession": [
+        1878,
+        2202
+      ],
+      "interceptions": [
+        0,
+        1
+      ],
+      "firstTouchLosses": [
+        3,
+        0
+      ],
+      "directTurnovers": 45,
+      "spells": 137,
+      "shortSpells": 61,
+      "meanPossessionTicks": 29.905109489051096,
+      "p50PossessionTicks": 24,
+      "p90PossessionTicks": 65,
+      "looseTicks": 3103,
+      "crowdedPairsPerSample": 0.08641975308641975,
+      "goalShotRatio": 0.125,
+      "phase": "fulltime",
+      "ticks": 8835,
+      "hash": "5511d776"
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "seed": 1988,
+      "teams": [
+        4,
+        1
+      ],
+      "reverse": true,
+      "score": [
+        1,
+        0
+      ],
+      "shots": [
+        5,
+        4
+      ],
+      "saves": [
+        4,
+        4
+      ],
+      "passes": [
+        31,
+        28
+      ],
+      "tackles": [
+        15,
+        8
+      ],
+      "completedPasses": [
+        31,
+        27
+      ],
+      "possession": [
+        2088,
+        2127
+      ],
+      "interceptions": [
+        1,
+        0
+      ],
+      "firstTouchLosses": [
+        0,
+        2
+      ],
+      "directTurnovers": 63,
+      "spells": 157,
+      "shortSpells": 64,
+      "meanPossessionTicks": 26.89171974522293,
+      "p50PossessionTicks": 26,
+      "p90PossessionTicks": 52,
+      "looseTicks": 2978,
+      "crowdedPairsPerSample": 0.07883817427385892,
+      "goalShotRatio": 0.1111111111111111,
+      "phase": "fulltime",
+      "ticks": 8185,
+      "hash": "8d3d3584"
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "seed": 731,
+      "teams": [
+        2,
+        5
+      ],
+      "reverse": false,
+      "score": [
+        1,
+        1
+      ],
+      "shots": [
+        6,
+        5
+      ],
+      "saves": [
+        4,
+        5
+      ],
+      "passes": [
+        33,
+        27
+      ],
+      "tackles": [
+        14,
+        6
+      ],
+      "completedPasses": [
+        31,
+        23
+      ],
+      "possession": [
+        2139,
+        1995
+      ],
+      "interceptions": [
+        3,
+        2
+      ],
+      "firstTouchLosses": [
+        0,
+        2
+      ],
+      "directTurnovers": 44,
+      "spells": 137,
+      "shortSpells": 54,
+      "meanPossessionTicks": 30.233576642335766,
+      "p50PossessionTicks": 26,
+      "p90PossessionTicks": 62,
+      "looseTicks": 3058,
+      "crowdedPairsPerSample": 0.03292181069958848,
+      "goalShotRatio": 0.18181818181818182,
+      "phase": "fulltime",
+      "ticks": 8470,
+      "hash": "0cf2697c"
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "seed": 731,
+      "teams": [
+        5,
+        2
+      ],
+      "reverse": true,
+      "score": [
+        0,
+        1
+      ],
+      "shots": [
+        5,
+        3
+      ],
+      "saves": [
+        2,
+        5
+      ],
+      "passes": [
+        28,
+        28
+      ],
+      "tackles": [
+        15,
+        17
+      ],
+      "completedPasses": [
+        27,
+        28
+      ],
+      "possession": [
+        2003,
+        2211
+      ],
+      "interceptions": [
+        0,
+        1
+      ],
+      "firstTouchLosses": [
+        2,
+        3
+      ],
+      "directTurnovers": 56,
+      "spells": 156,
+      "shortSpells": 71,
+      "meanPossessionTicks": 27.076923076923077,
+      "p50PossessionTicks": 22,
+      "p90PossessionTicks": 46,
+      "looseTicks": 2976,
+      "crowdedPairsPerSample": 0.045454545454545456,
+      "goalShotRatio": 0.125,
+      "phase": "fulltime",
+      "ticks": 8380,
+      "hash": "e7d9e2f1"
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "seed": 19,
+      "teams": [
+        3,
+        6
+      ],
+      "reverse": false,
+      "score": [
+        1,
+        0
+      ],
+      "shots": [
+        5,
+        3
+      ],
+      "saves": [
+        3,
+        4
+      ],
+      "passes": [
+        28,
+        27
+      ],
+      "tackles": [
+        11,
+        22
+      ],
+      "completedPasses": [
+        26,
+        26
+      ],
+      "possession": [
+        2348,
+        1753
+      ],
+      "interceptions": [
+        0,
+        2
+      ],
+      "firstTouchLosses": [
+        2,
+        0
+      ],
+      "directTurnovers": 65,
+      "spells": 162,
+      "shortSpells": 77,
+      "meanPossessionTicks": 25.35185185185185,
+      "p50PossessionTicks": 22,
+      "p90PossessionTicks": 51,
+      "looseTicks": 3093,
+      "crowdedPairsPerSample": 0.041666666666666664,
+      "goalShotRatio": 0.125,
+      "phase": "fulltime",
+      "ticks": 8120,
+      "hash": "fe024ab3"
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "seed": 19,
+      "teams": [
+        6,
+        3
+      ],
+      "reverse": true,
+      "score": [
+        1,
+        1
+      ],
+      "shots": [
+        5,
+        5
+      ],
+      "saves": [
+        4,
+        4
+      ],
+      "passes": [
+        28,
+        28
+      ],
+      "tackles": [
+        14,
+        12
+      ],
+      "completedPasses": [
+        24,
+        27
+      ],
+      "possession": [
+        2119,
+        1886
+      ],
+      "interceptions": [
+        0,
+        3
+      ],
+      "firstTouchLosses": [
+        0,
+        0
+      ],
+      "directTurnovers": 51,
+      "spells": 144,
+      "shortSpells": 57,
+      "meanPossessionTicks": 27.868055555555557,
+      "p50PossessionTicks": 25,
+      "p90PossessionTicks": 52,
+      "looseTicks": 3187,
+      "crowdedPairsPerSample": 0.037815126050420166,
+      "goalShotRatio": 0.2,
+      "phase": "fulltime",
+      "ticks": 8470,
+      "hash": "855d24c0"
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "seed": 2026,
+      "teams": [
+        4,
+        7
+      ],
+      "reverse": false,
+      "score": [
+        0,
+        1
+      ],
+      "shots": [
+        6,
+        4
+      ],
+      "saves": [
+        3,
+        6
+      ],
+      "passes": [
+        33,
+        23
+      ],
+      "tackles": [
+        17,
+        9
+      ],
+      "completedPasses": [
+        31,
+        22
+      ],
+      "possession": [
+        2196,
+        2197
+      ],
+      "interceptions": [
+        1,
+        0
+      ],
+      "firstTouchLosses": [
+        2,
+        3
+      ],
+      "directTurnovers": 68,
+      "spells": 160,
+      "shortSpells": 79,
+      "meanPossessionTicks": 27.49375,
+      "p50PossessionTicks": 20,
+      "p90PossessionTicks": 52,
+      "looseTicks": 2801,
+      "crowdedPairsPerSample": 0.09205020920502092,
+      "goalShotRatio": 0.1,
+      "phase": "fulltime",
+      "ticks": 8120,
+      "hash": "ec6edb96"
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "seed": 2026,
+      "teams": [
+        7,
+        4
+      ],
+      "reverse": true,
+      "score": [
+        2,
+        1
+      ],
+      "shots": [
+        7,
+        3
+      ],
+      "saves": [
+        2,
+        5
+      ],
+      "passes": [
+        38,
+        21
+      ],
+      "tackles": [
+        12,
+        12
+      ],
+      "completedPasses": [
+        36,
+        20
+      ],
+      "possession": [
+        2445,
+        1697
+      ],
+      "interceptions": [
+        0,
+        2
+      ],
+      "firstTouchLosses": [
+        2,
+        1
+      ],
+      "directTurnovers": 51,
+      "spells": 146,
+      "shortSpells": 58,
+      "meanPossessionTicks": 28.445205479452056,
+      "p50PossessionTicks": 24,
+      "p90PossessionTicks": 52,
+      "looseTicks": 3047,
+      "crowdedPairsPerSample": 0.04979253112033195,
+      "goalShotRatio": 0.3,
+      "phase": "fulltime",
+      "ticks": 8885,
+      "hash": "68759b36"
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "seed": 805,
+      "teams": [
+        5,
+        0
+      ],
+      "reverse": false,
+      "score": [
+        3,
+        2
+      ],
+      "shots": [
+        7,
+        5
+      ],
+      "saves": [
+        3,
+        5
+      ],
+      "passes": [
+        40,
+        34
+      ],
+      "tackles": [
+        16,
+        8
+      ],
+      "completedPasses": [
+        38,
+        31
+      ],
+      "possession": [
+        2365,
+        1888
+      ],
+      "interceptions": [
+        1,
+        1
+      ],
+      "firstTouchLosses": [
+        1,
+        2
+      ],
+      "directTurnovers": 64,
+      "spells": 172,
+      "shortSpells": 77,
+      "meanPossessionTicks": 24.75,
+      "p50PossessionTicks": 25,
+      "p90PossessionTicks": 52,
+      "looseTicks": 2943,
+      "crowdedPairsPerSample": 0.020833333333333332,
+      "goalShotRatio": 0.4166666666666667,
+      "phase": "fulltime",
+      "ticks": 8870,
+      "hash": "7bb162b8"
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "seed": 805,
+      "teams": [
+        0,
+        5
+      ],
+      "reverse": true,
+      "score": [
+        1,
+        1
+      ],
+      "shots": [
+        6,
+        5
+      ],
+      "saves": [
+        4,
+        5
+      ],
+      "passes": [
+        35,
+        17
+      ],
+      "tackles": [
+        19,
+        10
+      ],
+      "completedPasses": [
+        32,
+        16
+      ],
+      "possession": [
+        2254,
+        1951
+      ],
+      "interceptions": [
+        1,
+        1
+      ],
+      "firstTouchLosses": [
+        0,
+        2
+      ],
+      "directTurnovers": 68,
+      "spells": 162,
+      "shortSpells": 80,
+      "meanPossessionTicks": 26.049382716049383,
+      "p50PossessionTicks": 20,
+      "p90PossessionTicks": 52,
+      "looseTicks": 2980,
+      "crowdedPairsPerSample": 0.07024793388429752,
+      "goalShotRatio": 0.18181818181818182,
+      "phase": "fulltime",
+      "ticks": 8925,
+      "hash": "86a93970"
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "seed": 99,
+      "teams": [
+        6,
+        1
+      ],
+      "reverse": false,
+      "score": [
+        2,
+        0
+      ],
+      "shots": [
+        8,
+        6
+      ],
+      "saves": [
+        6,
+        5
+      ],
+      "passes": [
+        28,
+        24
+      ],
+      "tackles": [
+        11,
+        14
+      ],
+      "completedPasses": [
+        27,
+        22
+      ],
+      "possession": [
+        2301,
+        2122
+      ],
+      "interceptions": [
+        1,
+        1
+      ],
+      "firstTouchLosses": [
+        1,
+        3
+      ],
+      "directTurnovers": 52,
+      "spells": 144,
+      "shortSpells": 59,
+      "meanPossessionTicks": 30.791666666666668,
+      "p50PossessionTicks": 26,
+      "p90PossessionTicks": 52,
+      "looseTicks": 2766,
+      "crowdedPairsPerSample": 0.07112970711297072,
+      "goalShotRatio": 0.14285714285714285,
+      "phase": "fulltime",
+      "ticks": 8665,
+      "hash": "c77d881e"
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "seed": 99,
+      "teams": [
+        1,
+        6
+      ],
+      "reverse": true,
+      "score": [
+        1,
+        1
+      ],
+      "shots": [
+        7,
+        4
+      ],
+      "saves": [
+        3,
+        6
+      ],
+      "passes": [
+        24,
+        26
+      ],
+      "tackles": [
+        18,
+        13
+      ],
+      "completedPasses": [
+        23,
+        26
+      ],
+      "possession": [
+        2049,
+        2164
+      ],
+      "interceptions": [
+        0,
+        1
+      ],
+      "firstTouchLosses": [
+        1,
+        3
+      ],
+      "directTurnovers": 64,
+      "spells": 159,
+      "shortSpells": 75,
+      "meanPossessionTicks": 26.547169811320753,
+      "p50PossessionTicks": 21,
+      "p90PossessionTicks": 52,
+      "looseTicks": 2979,
+      "crowdedPairsPerSample": 0.05042016806722689,
+      "goalShotRatio": 0.18181818181818182,
+      "phase": "fulltime",
+      "ticks": 8470,
+      "hash": "71b06d69"
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "seed": 31415,
+      "teams": [
+        7,
+        2
+      ],
+      "reverse": false,
+      "score": [
+        0,
+        2
+      ],
+      "shots": [
+        5,
+        6
+      ],
+      "saves": [
+        4,
+        5
+      ],
+      "passes": [
+        26,
+        28
+      ],
+      "tackles": [
+        6,
+        16
+      ],
+      "completedPasses": [
+        22,
+        24
+      ],
+      "possession": [
+        2140,
+        2148
+      ],
+      "interceptions": [
+        4,
+        2
+      ],
+      "firstTouchLosses": [
+        1,
+        1
+      ],
+      "directTurnovers": 50,
+      "spells": 137,
+      "shortSpells": 55,
+      "meanPossessionTicks": 31.32846715328467,
+      "p50PossessionTicks": 26,
+      "p90PossessionTicks": 60,
+      "looseTicks": 2908,
+      "crowdedPairsPerSample": 0.1087866108786611,
+      "goalShotRatio": 0.18181818181818182,
+      "phase": "fulltime",
+      "ticks": 8210,
+      "hash": "63be0d99"
+    },
+    {
+      "indoor": false,
+      "difficulty": 2,
+      "seed": 31415,
+      "teams": [
+        2,
+        7
+      ],
+      "reverse": true,
+      "score": [
+        1,
+        0
+      ],
+      "shots": [
+        5,
+        2
+      ],
+      "saves": [
+        2,
+        4
+      ],
+      "passes": [
+        37,
+        31
+      ],
+      "tackles": [
+        15,
+        11
+      ],
+      "completedPasses": [
+        33,
+        29
+      ],
+      "possession": [
+        2245,
+        1859
+      ],
+      "interceptions": [
+        1,
+        3
+      ],
+      "firstTouchLosses": [
+        2,
+        2
+      ],
+      "directTurnovers": 62,
+      "spells": 162,
+      "shortSpells": 71,
+      "meanPossessionTicks": 25.382716049382715,
+      "p50PossessionTicks": 21,
+      "p90PossessionTicks": 48,
+      "looseTicks": 3088,
+      "crowdedPairsPerSample": 0.05063291139240506,
+      "goalShotRatio": 0.14285714285714285,
+      "phase": "fulltime",
+      "ticks": 8250,
+      "hash": "c921b59f"
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "seed": 42,
+      "teams": [
+        0,
+        3
+      ],
+      "reverse": false,
+      "score": [
+        0,
+        2
+      ],
+      "shots": [
+        3,
+        4
+      ],
+      "saves": [
+        2,
+        3
+      ],
+      "passes": [
+        40,
+        28
+      ],
+      "tackles": [
+        14,
+        15
+      ],
+      "completedPasses": [
+        35,
+        26
+      ],
+      "possession": [
+        2113,
+        1851
+      ],
+      "interceptions": [
+        1,
+        1
+      ],
+      "firstTouchLosses": [
+        2,
+        3
+      ],
+      "directTurnovers": 49,
+      "spells": 150,
+      "shortSpells": 89,
+      "meanPossessionTicks": 26.453333333333333,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 46,
+      "looseTicks": 3232,
+      "crowdedPairsPerSample": 0.06666666666666667,
+      "goalShotRatio": 0.2857142857142857,
+      "phase": "fulltime",
+      "ticks": 8210,
+      "hash": "e096cec6"
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "seed": 42,
+      "teams": [
+        3,
+        0
+      ],
+      "reverse": true,
+      "score": [
+        1,
+        0
+      ],
+      "shots": [
+        5,
+        5
+      ],
+      "saves": [
+        5,
+        4
+      ],
+      "passes": [
+        33,
+        38
+      ],
+      "tackles": [
+        13,
+        8
+      ],
+      "completedPasses": [
+        29,
+        36
+      ],
+      "possession": [
+        1843,
+        2051
+      ],
+      "interceptions": [
+        1,
+        3
+      ],
+      "firstTouchLosses": [
+        0,
+        2
+      ],
+      "directTurnovers": 35,
+      "spells": 136,
+      "shortSpells": 78,
+      "meanPossessionTicks": 28.691176470588236,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 46,
+      "looseTicks": 3298,
+      "crowdedPairsPerSample": 0.08333333333333333,
+      "goalShotRatio": 0.1,
+      "phase": "fulltime",
+      "ticks": 8250,
+      "hash": "4c809ed3"
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "seed": 1988,
+      "teams": [
+        1,
+        4
+      ],
+      "reverse": false,
+      "score": [
+        0,
+        0
+      ],
+      "shots": [
+        8,
+        4
+      ],
+      "saves": [
+        4,
+        8
+      ],
+      "passes": [
+        32,
+        22
+      ],
+      "tackles": [
+        16,
+        7
+      ],
+      "completedPasses": [
+        28,
+        20
+      ],
+      "possession": [
+        2500,
+        1147
+      ],
+      "interceptions": [
+        0,
+        3
+      ],
+      "firstTouchLosses": [
+        0,
+        0
+      ],
+      "directTurnovers": 29,
+      "spells": 116,
+      "shortSpells": 64,
+      "meanPossessionTicks": 31.50862068965517,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 70,
+      "looseTicks": 3545,
+      "crowdedPairsPerSample": 0.058333333333333334,
+      "goalShotRatio": 0,
+      "phase": "fulltime",
+      "ticks": 8030,
+      "hash": "4f628fa7"
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "seed": 1988,
+      "teams": [
+        4,
+        1
+      ],
+      "reverse": true,
+      "score": [
+        0,
+        0
+      ],
+      "shots": [
+        3,
+        2
+      ],
+      "saves": [
+        2,
+        3
+      ],
+      "passes": [
+        32,
+        32
+      ],
+      "tackles": [
+        14,
+        20
+      ],
+      "completedPasses": [
+        30,
+        28
+      ],
+      "possession": [
+        2086,
+        2144
+      ],
+      "interceptions": [
+        2,
+        1
+      ],
+      "firstTouchLosses": [
+        1,
+        1
+      ],
+      "directTurnovers": 57,
+      "spells": 161,
+      "shortSpells": 91,
+      "meanPossessionTicks": 26.322981366459626,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 49,
+      "looseTicks": 2962,
+      "crowdedPairsPerSample": 0.06666666666666667,
+      "goalShotRatio": 0,
+      "phase": "fulltime",
+      "ticks": 8030,
+      "hash": "0e9429e5"
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "seed": 731,
+      "teams": [
+        2,
+        5
+      ],
+      "reverse": false,
+      "score": [
+        0,
+        1
+      ],
+      "shots": [
+        3,
+        4
+      ],
+      "saves": [
+        3,
+        3
+      ],
+      "passes": [
+        52,
+        28
+      ],
+      "tackles": [
+        16,
+        17
+      ],
+      "completedPasses": [
+        46,
+        25
+      ],
+      "possession": [
+        2254,
+        1848
+      ],
+      "interceptions": [
+        1,
+        3
+      ],
+      "firstTouchLosses": [
+        3,
+        2
+      ],
+      "directTurnovers": 33,
+      "spells": 151,
+      "shortSpells": 90,
+      "meanPossessionTicks": 27.218543046357617,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 46,
+      "looseTicks": 3090,
+      "crowdedPairsPerSample": 0.0875,
+      "goalShotRatio": 0.14285714285714285,
+      "phase": "fulltime",
+      "ticks": 8250,
+      "hash": "ad851759"
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "seed": 731,
+      "teams": [
+        5,
+        2
+      ],
+      "reverse": true,
+      "score": [
+        0,
+        1
+      ],
+      "shots": [
+        3,
+        5
+      ],
+      "saves": [
+        4,
+        2
+      ],
+      "passes": [
+        32,
+        31
+      ],
+      "tackles": [
+        12,
+        16
+      ],
+      "completedPasses": [
+        28,
+        28
+      ],
+      "possession": [
+        2138,
+        1820
+      ],
+      "interceptions": [
+        1,
+        3
+      ],
+      "firstTouchLosses": [
+        1,
+        2
+      ],
+      "directTurnovers": 28,
+      "spells": 126,
+      "shortSpells": 59,
+      "meanPossessionTicks": 31.476190476190474,
+      "p50PossessionTicks": 21,
+      "p90PossessionTicks": 57,
+      "looseTicks": 3234,
+      "crowdedPairsPerSample": 0.07916666666666666,
+      "goalShotRatio": 0.125,
+      "phase": "fulltime",
+      "ticks": 8250,
+      "hash": "59abba88"
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "seed": 19,
+      "teams": [
+        3,
+        6
+      ],
+      "reverse": false,
+      "score": [
+        1,
+        2
+      ],
+      "shots": [
+        1,
+        4
+      ],
+      "saves": [
+        2,
+        0
+      ],
+      "passes": [
+        43,
+        29
+      ],
+      "tackles": [
+        18,
+        13
+      ],
+      "completedPasses": [
+        40,
+        27
+      ],
+      "possession": [
+        2071,
+        2026
+      ],
+      "interceptions": [
+        1,
+        3
+      ],
+      "firstTouchLosses": [
+        3,
+        1
+      ],
+      "directTurnovers": 40,
+      "spells": 151,
+      "shortSpells": 86,
+      "meanPossessionTicks": 27.211920529801326,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 46,
+      "looseTicks": 3091,
+      "crowdedPairsPerSample": 0.07407407407407407,
+      "goalShotRatio": 0.6,
+      "phase": "fulltime",
+      "ticks": 8950,
+      "hash": "0282881b"
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "seed": 19,
+      "teams": [
+        6,
+        3
+      ],
+      "reverse": true,
+      "score": [
+        0,
+        1
+      ],
+      "shots": [
+        4,
+        1
+      ],
+      "saves": [
+        0,
+        4
+      ],
+      "passes": [
+        47,
+        35
+      ],
+      "tackles": [
+        14,
+        11
+      ],
+      "completedPasses": [
+        41,
+        30
+      ],
+      "possession": [
+        2399,
+        1703
+      ],
+      "interceptions": [
+        1,
+        3
+      ],
+      "firstTouchLosses": [
+        0,
+        1
+      ],
+      "directTurnovers": 47,
+      "spells": 155,
+      "shortSpells": 97,
+      "meanPossessionTicks": 26.509677419354837,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 43,
+      "looseTicks": 3091,
+      "crowdedPairsPerSample": 0.08298755186721991,
+      "goalShotRatio": 0.2,
+      "phase": "fulltime",
+      "ticks": 8185,
+      "hash": "818fbd30"
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "seed": 2026,
+      "teams": [
+        4,
+        7
+      ],
+      "reverse": false,
+      "score": [
+        0,
+        0
+      ],
+      "shots": [
+        2,
+        4
+      ],
+      "saves": [
+        3,
+        2
+      ],
+      "passes": [
+        24,
+        59
+      ],
+      "tackles": [
+        13,
+        11
+      ],
+      "completedPasses": [
+        23,
+        53
+      ],
+      "possession": [
+        1621,
+        2434
+      ],
+      "interceptions": [
+        3,
+        1
+      ],
+      "firstTouchLosses": [
+        0,
+        3
+      ],
+      "directTurnovers": 33,
+      "spells": 145,
+      "shortSpells": 85,
+      "meanPossessionTicks": 27.986206896551725,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 49,
+      "looseTicks": 3142,
+      "crowdedPairsPerSample": 0.07083333333333333,
+      "goalShotRatio": 0,
+      "phase": "fulltime",
+      "ticks": 7705,
+      "hash": "7069397e"
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "seed": 2026,
+      "teams": [
+        7,
+        4
+      ],
+      "reverse": true,
+      "score": [
+        1,
+        1
+      ],
+      "shots": [
+        2,
+        5
+      ],
+      "saves": [
+        4,
+        1
+      ],
+      "passes": [
+        45,
+        40
+      ],
+      "tackles": [
+        10,
+        13
+      ],
+      "completedPasses": [
+        41,
+        37
+      ],
+      "possession": [
+        2181,
+        1807
+      ],
+      "interceptions": [
+        3,
+        1
+      ],
+      "firstTouchLosses": [
+        3,
+        2
+      ],
+      "directTurnovers": 39,
+      "spells": 152,
+      "shortSpells": 88,
+      "meanPossessionTicks": 26.269736842105264,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 46,
+      "looseTicks": 3207,
+      "crowdedPairsPerSample": 0.05416666666666667,
+      "goalShotRatio": 0.2857142857142857,
+      "phase": "fulltime",
+      "ticks": 8275,
+      "hash": "de0347b3"
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "seed": 805,
+      "teams": [
+        5,
+        0
+      ],
+      "reverse": false,
+      "score": [
+        0,
+        0
+      ],
+      "shots": [
+        7,
+        3
+      ],
+      "saves": [
+        2,
+        7
+      ],
+      "passes": [
+        28,
+        23
+      ],
+      "tackles": [
+        16,
+        16
+      ],
+      "completedPasses": [
+        25,
+        20
+      ],
+      "possession": [
+        2513,
+        1698
+      ],
+      "interceptions": [
+        0,
+        2
+      ],
+      "firstTouchLosses": [
+        3,
+        2
+      ],
+      "directTurnovers": 66,
+      "spells": 158,
+      "shortSpells": 88,
+      "meanPossessionTicks": 26.72151898734177,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 54,
+      "looseTicks": 2978,
+      "crowdedPairsPerSample": 0.100418410041841,
+      "goalShotRatio": 0,
+      "phase": "fulltime",
+      "ticks": 8225,
+      "hash": "9fa241c2"
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "seed": 805,
+      "teams": [
+        0,
+        5
+      ],
+      "reverse": true,
+      "score": [
+        1,
+        0
+      ],
+      "shots": [
+        7,
+        3
+      ],
+      "saves": [
+        3,
+        6
+      ],
+      "passes": [
+        46,
+        23
+      ],
+      "tackles": [
+        13,
+        11
+      ],
+      "completedPasses": [
+        40,
+        21
+      ],
+      "possession": [
+        2446,
+        1561
+      ],
+      "interceptions": [
+        0,
+        4
+      ],
+      "firstTouchLosses": [
+        1,
+        0
+      ],
+      "directTurnovers": 52,
+      "spells": 155,
+      "shortSpells": 94,
+      "meanPossessionTicks": 25.90967741935484,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 46,
+      "looseTicks": 3184,
+      "crowdedPairsPerSample": 0.08298755186721991,
+      "goalShotRatio": 0.1,
+      "phase": "fulltime",
+      "ticks": 8315,
+      "hash": "6d8bd45f"
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "seed": 99,
+      "teams": [
+        6,
+        1
+      ],
+      "reverse": false,
+      "score": [
+        0,
+        1
+      ],
+      "shots": [
+        2,
+        3
+      ],
+      "saves": [
+        2,
+        2
+      ],
+      "passes": [
+        31,
+        32
+      ],
+      "tackles": [
+        18,
+        16
+      ],
+      "completedPasses": [
+        25,
+        29
+      ],
+      "possession": [
+        1980,
+        2130
+      ],
+      "interceptions": [
+        2,
+        6
+      ],
+      "firstTouchLosses": [
+        0,
+        1
+      ],
+      "directTurnovers": 51,
+      "spells": 156,
+      "shortSpells": 90,
+      "meanPossessionTicks": 26.423076923076923,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 46,
+      "looseTicks": 3078,
+      "crowdedPairsPerSample": 0.09090909090909091,
+      "goalShotRatio": 0.2,
+      "phase": "fulltime",
+      "ticks": 8510,
+      "hash": "9532835b"
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "seed": 99,
+      "teams": [
+        1,
+        6
+      ],
+      "reverse": true,
+      "score": [
+        1,
+        0
+      ],
+      "shots": [
+        5,
+        2
+      ],
+      "saves": [
+        2,
+        4
+      ],
+      "passes": [
+        36,
+        24
+      ],
+      "tackles": [
+        14,
+        12
+      ],
+      "completedPasses": [
+        32,
+        20
+      ],
+      "possession": [
+        2348,
+        1550
+      ],
+      "interceptions": [
+        1,
+        1
+      ],
+      "firstTouchLosses": [
+        2,
+        1
+      ],
+      "directTurnovers": 52,
+      "spells": 142,
+      "shortSpells": 84,
+      "meanPossessionTicks": 27.514084507042252,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 58,
+      "looseTicks": 3293,
+      "crowdedPairsPerSample": 0.08264462809917356,
+      "goalShotRatio": 0.14285714285714285,
+      "phase": "fulltime",
+      "ticks": 8315,
+      "hash": "40bd5af1"
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "seed": 31415,
+      "teams": [
+        7,
+        2
+      ],
+      "reverse": false,
+      "score": [
+        0,
+        0
+      ],
+      "shots": [
+        5,
+        2
+      ],
+      "saves": [
+        2,
+        5
+      ],
+      "passes": [
+        34,
+        30
+      ],
+      "tackles": [
+        14,
+        16
+      ],
+      "completedPasses": [
+        28,
+        22
+      ],
+      "possession": [
+        2141,
+        2013
+      ],
+      "interceptions": [
+        3,
+        4
+      ],
+      "firstTouchLosses": [
+        2,
+        3
+      ],
+      "directTurnovers": 51,
+      "spells": 149,
+      "shortSpells": 88,
+      "meanPossessionTicks": 27.926174496644297,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 49,
+      "looseTicks": 3039,
+      "crowdedPairsPerSample": 0.07112970711297072,
+      "goalShotRatio": 0,
+      "phase": "fulltime",
+      "ticks": 7965,
+      "hash": "89fff216"
+    },
+    {
+      "indoor": false,
+      "difficulty": 3,
+      "seed": 31415,
+      "teams": [
+        2,
+        7
+      ],
+      "reverse": true,
+      "score": [
+        0,
+        1
+      ],
+      "shots": [
+        2,
+        4
+      ],
+      "saves": [
+        3,
+        2
+      ],
+      "passes": [
+        35,
+        48
+      ],
+      "tackles": [
+        16,
+        11
+      ],
+      "completedPasses": [
+        33,
+        45
+      ],
+      "possession": [
+        1850,
+        2164
+      ],
+      "interceptions": [
+        0,
+        2
+      ],
+      "firstTouchLosses": [
+        1,
+        3
+      ],
+      "directTurnovers": 22,
+      "spells": 142,
+      "shortSpells": 81,
+      "meanPossessionTicks": 28.37323943661972,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 46,
+      "looseTicks": 3171,
+      "crowdedPairsPerSample": 0.06198347107438017,
+      "goalShotRatio": 0.16666666666666666,
+      "phase": "fulltime",
+      "ticks": 8705,
+      "hash": "01308a52"
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "seed": 42,
+      "teams": [
+        0,
+        3
+      ],
+      "reverse": false,
+      "score": [
+        12,
+        0
+      ],
+      "shots": [
+        22,
+        13
+      ],
+      "saves": [
+        12,
+        10
+      ],
+      "passes": [
+        7,
+        18
+      ],
+      "tackles": [
+        8,
+        6
+      ],
+      "completedPasses": [
+        4,
+        14
+      ],
+      "possession": [
+        1529,
+        1890
+      ],
+      "interceptions": [
+        4,
+        2
+      ],
+      "firstTouchLosses": [
+        0,
+        0
+      ],
+      "directTurnovers": 68,
+      "spells": 140,
+      "shortSpells": 72,
+      "meanPossessionTicks": 24.42142857142857,
+      "p50PossessionTicks": 18,
+      "p90PossessionTicks": 60,
+      "looseTicks": 3781,
+      "crowdedPairsPerSample": 0.020833333333333332,
+      "goalShotRatio": 0.34285714285714286,
+      "phase": "fulltime",
+      "ticks": 10150,
+      "hash": "77859f8d"
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "seed": 42,
+      "teams": [
+        3,
+        0
+      ],
+      "reverse": true,
+      "score": [
+        4,
+        7
+      ],
+      "shots": [
+        15,
+        21
+      ],
+      "saves": [
+        14,
+        12
+      ],
+      "passes": [
+        11,
+        10
+      ],
+      "tackles": [
+        9,
+        5
+      ],
+      "completedPasses": [
+        8,
+        9
+      ],
+      "possession": [
+        1663,
+        1758
+      ],
+      "interceptions": [
+        1,
+        2
+      ],
+      "firstTouchLosses": [
+        2,
+        2
+      ],
+      "directTurnovers": 72,
+      "spells": 145,
+      "shortSpells": 75,
+      "meanPossessionTicks": 23.593103448275862,
+      "p50PossessionTicks": 18,
+      "p90PossessionTicks": 56,
+      "looseTicks": 3779,
+      "crowdedPairsPerSample": 0.012605042016806723,
+      "goalShotRatio": 0.3055555555555556,
+      "phase": "fulltime",
+      "ticks": 9930,
+      "hash": "2cd536b2"
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "seed": 1988,
+      "teams": [
+        1,
+        4
+      ],
+      "reverse": false,
+      "score": [
+        1,
+        1
+      ],
+      "shots": [
+        12,
+        14
+      ],
+      "saves": [
+        13,
+        11
+      ],
+      "passes": [
+        14,
+        16
+      ],
+      "tackles": [
+        5,
+        7
+      ],
+      "completedPasses": [
+        7,
+        12
+      ],
+      "possession": [
+        1492,
+        1605
+      ],
+      "interceptions": [
+        4,
+        6
+      ],
+      "firstTouchLosses": [
+        1,
+        2
+      ],
+      "directTurnovers": 43,
+      "spells": 111,
+      "shortSpells": 43,
+      "meanPossessionTicks": 27.9009009009009,
+      "p50PossessionTicks": 25,
+      "p90PossessionTicks": 60,
+      "looseTicks": 4103,
+      "crowdedPairsPerSample": 0.008298755186721992,
+      "goalShotRatio": 0.07692307692307693,
+      "phase": "fulltime",
+      "ticks": 7950,
+      "hash": "0e85ec8b"
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "seed": 1988,
+      "teams": [
+        4,
+        1
+      ],
+      "reverse": true,
+      "score": [
+        0,
+        4
+      ],
+      "shots": [
+        13,
+        16
+      ],
+      "saves": [
+        12,
+        13
+      ],
+      "passes": [
+        9,
+        15
+      ],
+      "tackles": [
+        8,
+        5
+      ],
+      "completedPasses": [
+        9,
+        13
+      ],
+      "possession": [
+        1203,
+        1762
+      ],
+      "interceptions": [
+        2,
+        0
+      ],
+      "firstTouchLosses": [
+        1,
+        3
+      ],
+      "directTurnovers": 47,
+      "spells": 114,
+      "shortSpells": 52,
+      "meanPossessionTicks": 26.00877192982456,
+      "p50PossessionTicks": 22,
+      "p90PossessionTicks": 54,
+      "looseTicks": 4235,
+      "crowdedPairsPerSample": 0.0041841004184100415,
+      "goalShotRatio": 0.13793103448275862,
+      "phase": "fulltime",
+      "ticks": 8390,
+      "hash": "9773d68f"
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "seed": 731,
+      "teams": [
+        2,
+        5
+      ],
+      "reverse": false,
+      "score": [
+        4,
+        6
+      ],
+      "shots": [
+        15,
+        17
+      ],
+      "saves": [
+        11,
+        11
+      ],
+      "passes": [
+        13,
+        23
+      ],
+      "tackles": [
+        8,
+        7
+      ],
+      "completedPasses": [
+        6,
+        17
+      ],
+      "possession": [
+        1701,
+        1812
+      ],
+      "interceptions": [
+        6,
+        6
+      ],
+      "firstTouchLosses": [
+        1,
+        2
+      ],
+      "directTurnovers": 64,
+      "spells": 147,
+      "shortSpells": 69,
+      "meanPossessionTicks": 23.897959183673468,
+      "p50PossessionTicks": 20,
+      "p90PossessionTicks": 50,
+      "looseTicks": 3687,
+      "crowdedPairsPerSample": 0.029166666666666667,
+      "goalShotRatio": 0.3125,
+      "phase": "fulltime",
+      "ticks": 9710,
+      "hash": "e6c57f5d"
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "seed": 731,
+      "teams": [
+        5,
+        2
+      ],
+      "reverse": true,
+      "score": [
+        4,
+        2
+      ],
+      "shots": [
+        19,
+        12
+      ],
+      "saves": [
+        10,
+        15
+      ],
+      "passes": [
+        11,
+        18
+      ],
+      "tackles": [
+        12,
+        9
+      ],
+      "completedPasses": [
+        6,
+        11
+      ],
+      "possession": [
+        1519,
+        1740
+      ],
+      "interceptions": [
+        6,
+        5
+      ],
+      "firstTouchLosses": [
+        1,
+        2
+      ],
+      "directTurnovers": 53,
+      "spells": 134,
+      "shortSpells": 66,
+      "meanPossessionTicks": 24.32089552238806,
+      "p50PossessionTicks": 20,
+      "p90PossessionTicks": 52,
+      "looseTicks": 3941,
+      "crowdedPairsPerSample": 0.02074688796680498,
+      "goalShotRatio": 0.1935483870967742,
+      "phase": "fulltime",
+      "ticks": 8830,
+      "hash": "29a36747"
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "seed": 19,
+      "teams": [
+        3,
+        6
+      ],
+      "reverse": false,
+      "score": [
+        2,
+        4
+      ],
+      "shots": [
+        14,
+        12
+      ],
+      "saves": [
+        8,
+        13
+      ],
+      "passes": [
+        16,
+        13
+      ],
+      "tackles": [
+        12,
+        9
+      ],
+      "completedPasses": [
+        11,
+        8
+      ],
+      "possession": [
+        1799,
+        1539
+      ],
+      "interceptions": [
+        4,
+        5
+      ],
+      "firstTouchLosses": [
+        4,
+        1
+      ],
+      "directTurnovers": 55,
+      "spells": 135,
+      "shortSpells": 62,
+      "meanPossessionTicks": 24.725925925925925,
+      "p50PossessionTicks": 21,
+      "p90PossessionTicks": 49,
+      "looseTicks": 3862,
+      "crowdedPairsPerSample": 0.012448132780082987,
+      "goalShotRatio": 0.23076923076923078,
+      "phase": "fulltime",
+      "ticks": 8830,
+      "hash": "e1714146"
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "seed": 19,
+      "teams": [
+        6,
+        3
+      ],
+      "reverse": true,
+      "score": [
+        5,
+        2
+      ],
+      "shots": [
+        15,
+        9
+      ],
+      "saves": [
+        7,
+        11
+      ],
+      "passes": [
+        19,
+        15
+      ],
+      "tackles": [
+        8,
+        12
+      ],
+      "completedPasses": [
+        8,
+        5
+      ],
+      "possession": [
+        1621,
+        1276
+      ],
+      "interceptions": [
+        10,
+        9
+      ],
+      "firstTouchLosses": [
+        5,
+        5
+      ],
+      "directTurnovers": 48,
+      "spells": 129,
+      "shortSpells": 63,
+      "meanPossessionTicks": 22.45736434108527,
+      "p50PossessionTicks": 20,
+      "p90PossessionTicks": 49,
+      "looseTicks": 4303,
+      "crowdedPairsPerSample": 0.016666666666666666,
+      "goalShotRatio": 0.2916666666666667,
+      "phase": "fulltime",
+      "ticks": 9050,
+      "hash": "1478b980"
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "seed": 2026,
+      "teams": [
+        4,
+        7
+      ],
+      "reverse": false,
+      "score": [
+        2,
+        1
+      ],
+      "shots": [
+        13,
+        13
+      ],
+      "saves": [
+        12,
+        12
+      ],
+      "passes": [
+        10,
+        15
+      ],
+      "tackles": [
+        14,
+        10
+      ],
+      "completedPasses": [
+        6,
+        11
+      ],
+      "possession": [
+        1540,
+        1651
+      ],
+      "interceptions": [
+        2,
+        3
+      ],
+      "firstTouchLosses": [
+        2,
+        3
+      ],
+      "directTurnovers": 53,
+      "spells": 129,
+      "shortSpells": 67,
+      "meanPossessionTicks": 24.73643410852713,
+      "p50PossessionTicks": 18,
+      "p90PossessionTicks": 52,
+      "looseTicks": 4009,
+      "crowdedPairsPerSample": 0.012396694214876033,
+      "goalShotRatio": 0.11538461538461539,
+      "phase": "fulltime",
+      "ticks": 8170,
+      "hash": "bd0d487c"
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "seed": 2026,
+      "teams": [
+        7,
+        4
+      ],
+      "reverse": true,
+      "score": [
+        2,
+        5
+      ],
+      "shots": [
+        18,
+        20
+      ],
+      "saves": [
+        13,
+        16
+      ],
+      "passes": [
+        7,
+        15
+      ],
+      "tackles": [
+        11,
+        6
+      ],
+      "completedPasses": [
+        5,
+        12
+      ],
+      "possession": [
+        1199,
+        1982
+      ],
+      "interceptions": [
+        3,
+        2
+      ],
+      "firstTouchLosses": [
+        0,
+        2
+      ],
+      "directTurnovers": 64,
+      "spells": 141,
+      "shortSpells": 71,
+      "meanPossessionTicks": 22.56028368794326,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 49,
+      "looseTicks": 4019,
+      "crowdedPairsPerSample": 0.016666666666666666,
+      "goalShotRatio": 0.18421052631578946,
+      "phase": "fulltime",
+      "ticks": 9050,
+      "hash": "972d3897"
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "seed": 805,
+      "teams": [
+        5,
+        0
+      ],
+      "reverse": false,
+      "score": [
+        3,
+        4
+      ],
+      "shots": [
+        19,
+        10
+      ],
+      "saves": [
+        6,
+        16
+      ],
+      "passes": [
+        17,
+        14
+      ],
+      "tackles": [
+        9,
+        8
+      ],
+      "completedPasses": [
+        12,
+        8
+      ],
+      "possession": [
+        1996,
+        1367
+      ],
+      "interceptions": [
+        6,
+        4
+      ],
+      "firstTouchLosses": [
+        2,
+        1
+      ],
+      "directTurnovers": 61,
+      "spells": 139,
+      "shortSpells": 62,
+      "meanPossessionTicks": 24.194244604316548,
+      "p50PossessionTicks": 23,
+      "p90PossessionTicks": 49,
+      "looseTicks": 3837,
+      "crowdedPairsPerSample": 0.012448132780082987,
+      "goalShotRatio": 0.2413793103448276,
+      "phase": "fulltime",
+      "ticks": 9050,
+      "hash": "001dbb2c"
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "seed": 805,
+      "teams": [
+        0,
+        5
+      ],
+      "reverse": true,
+      "score": [
+        2,
+        3
+      ],
+      "shots": [
+        11,
+        19
+      ],
+      "saves": [
+        16,
+        10
+      ],
+      "passes": [
+        12,
+        18
+      ],
+      "tackles": [
+        13,
+        4
+      ],
+      "completedPasses": [
+        5,
+        12
+      ],
+      "possession": [
+        1255,
+        1931
+      ],
+      "interceptions": [
+        4,
+        7
+      ],
+      "firstTouchLosses": [
+        1,
+        1
+      ],
+      "directTurnovers": 59,
+      "spells": 136,
+      "shortSpells": 65,
+      "meanPossessionTicks": 23.426470588235293,
+      "p50PossessionTicks": 20,
+      "p90PossessionTicks": 49,
+      "looseTicks": 4014,
+      "crowdedPairsPerSample": 0.0125,
+      "goalShotRatio": 0.16666666666666666,
+      "phase": "fulltime",
+      "ticks": 8610,
+      "hash": "e8a7e081"
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "seed": 99,
+      "teams": [
+        6,
+        1
+      ],
+      "reverse": false,
+      "score": [
+        0,
+        1
+      ],
+      "shots": [
+        10,
+        14
+      ],
+      "saves": [
+        14,
+        10
+      ],
+      "passes": [
+        18,
+        21
+      ],
+      "tackles": [
+        12,
+        7
+      ],
+      "completedPasses": [
+        8,
+        11
+      ],
+      "possession": [
+        1277,
+        1752
+      ],
+      "interceptions": [
+        6,
+        8
+      ],
+      "firstTouchLosses": [
+        1,
+        1
+      ],
+      "directTurnovers": 42,
+      "spells": 120,
+      "shortSpells": 59,
+      "meanPossessionTicks": 25.241666666666667,
+      "p50PossessionTicks": 21,
+      "p90PossessionTicks": 50,
+      "looseTicks": 4171,
+      "crowdedPairsPerSample": 0.016597510373443983,
+      "goalShotRatio": 0.041666666666666664,
+      "phase": "fulltime",
+      "ticks": 7730,
+      "hash": "4f0c7ff7"
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "seed": 99,
+      "teams": [
+        1,
+        6
+      ],
+      "reverse": true,
+      "score": [
+        5,
+        0
+      ],
+      "shots": [
+        28,
+        7
+      ],
+      "saves": [
+        7,
+        23
+      ],
+      "passes": [
+        8,
+        16
+      ],
+      "tackles": [
+        5,
+        10
+      ],
+      "completedPasses": [
+        6,
+        7
+      ],
+      "possession": [
+        1902,
+        1309
+      ],
+      "interceptions": [
+        9,
+        1
+      ],
+      "firstTouchLosses": [
+        5,
+        0
+      ],
+      "directTurnovers": 42,
+      "spells": 118,
+      "shortSpells": 56,
+      "meanPossessionTicks": 27.21186440677966,
+      "p50PossessionTicks": 23,
+      "p90PossessionTicks": 62,
+      "looseTicks": 3989,
+      "crowdedPairsPerSample": 0.0371900826446281,
+      "goalShotRatio": 0.14285714285714285,
+      "phase": "fulltime",
+      "ticks": 8610,
+      "hash": "0a4b64ab"
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "seed": 31415,
+      "teams": [
+        7,
+        2
+      ],
+      "reverse": false,
+      "score": [
+        7,
+        2
+      ],
+      "shots": [
+        16,
+        16
+      ],
+      "saves": [
+        14,
+        9
+      ],
+      "passes": [
+        8,
+        17
+      ],
+      "tackles": [
+        11,
+        10
+      ],
+      "completedPasses": [
+        6,
+        9
+      ],
+      "possession": [
+        1368,
+        1750
+      ],
+      "interceptions": [
+        6,
+        2
+      ],
+      "firstTouchLosses": [
+        3,
+        1
+      ],
+      "directTurnovers": 66,
+      "spells": 146,
+      "shortSpells": 80,
+      "meanPossessionTicks": 21.356164383561644,
+      "p50PossessionTicks": 18,
+      "p90PossessionTicks": 49,
+      "looseTicks": 4082,
+      "crowdedPairsPerSample": 0.012448132780082987,
+      "goalShotRatio": 0.28125,
+      "phase": "fulltime",
+      "ticks": 9490,
+      "hash": "320bb8ff"
+    },
+    {
+      "indoor": true,
+      "difficulty": 1,
+      "seed": 31415,
+      "teams": [
+        2,
+        7
+      ],
+      "reverse": true,
+      "score": [
+        5,
+        3
+      ],
+      "shots": [
+        18,
+        15
+      ],
+      "saves": [
+        13,
+        14
+      ],
+      "passes": [
+        16,
+        16
+      ],
+      "tackles": [
+        10,
+        7
+      ],
+      "completedPasses": [
+        12,
+        12
+      ],
+      "possession": [
+        1938,
+        1623
+      ],
+      "interceptions": [
+        3,
+        4
+      ],
+      "firstTouchLosses": [
+        2,
+        2
+      ],
+      "directTurnovers": 68,
+      "spells": 157,
+      "shortSpells": 86,
+      "meanPossessionTicks": 22.681528662420384,
+      "p50PossessionTicks": 16,
+      "p90PossessionTicks": 51,
+      "looseTicks": 3639,
+      "crowdedPairsPerSample": 0.0041841004184100415,
+      "goalShotRatio": 0.24242424242424243,
+      "phase": "fulltime",
+      "ticks": 9270,
+      "hash": "8ae4e2ed"
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "seed": 42,
+      "teams": [
+        0,
+        3
+      ],
+      "reverse": false,
+      "score": [
+        3,
+        2
+      ],
+      "shots": [
+        14,
+        11
+      ],
+      "saves": [
+        9,
+        11
+      ],
+      "passes": [
+        17,
+        22
+      ],
+      "tackles": [
+        19,
+        18
+      ],
+      "completedPasses": [
+        13,
+        19
+      ],
+      "possession": [
+        1524,
+        1776
+      ],
+      "interceptions": [
+        1,
+        1
+      ],
+      "firstTouchLosses": [
+        1,
+        4
+      ],
+      "directTurnovers": 57,
+      "spells": 154,
+      "shortSpells": 87,
+      "meanPossessionTicks": 21.428571428571427,
+      "p50PossessionTicks": 18,
+      "p90PossessionTicks": 42,
+      "looseTicks": 3900,
+      "crowdedPairsPerSample": 0.016597510373443983,
+      "goalShotRatio": 0.2,
+      "phase": "fulltime",
+      "ticks": 8610,
+      "hash": "1e5d731b"
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "seed": 42,
+      "teams": [
+        3,
+        0
+      ],
+      "reverse": true,
+      "score": [
+        0,
+        1
+      ],
+      "shots": [
+        9,
+        17
+      ],
+      "saves": [
+        16,
+        9
+      ],
+      "passes": [
+        13,
+        28
+      ],
+      "tackles": [
+        13,
+        8
+      ],
+      "completedPasses": [
+        10,
+        23
+      ],
+      "possession": [
+        1263,
+        2168
+      ],
+      "interceptions": [
+        2,
+        1
+      ],
+      "firstTouchLosses": [
+        0,
+        2
+      ],
+      "directTurnovers": 52,
+      "spells": 137,
+      "shortSpells": 67,
+      "meanPossessionTicks": 25.043795620437955,
+      "p50PossessionTicks": 20,
+      "p90PossessionTicks": 51,
+      "looseTicks": 3769,
+      "crowdedPairsPerSample": 0.020833333333333332,
+      "goalShotRatio": 0.038461538461538464,
+      "phase": "fulltime",
+      "ticks": 7730,
+      "hash": "0eaafeb2"
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "seed": 1988,
+      "teams": [
+        1,
+        4
+      ],
+      "reverse": false,
+      "score": [
+        5,
+        2
+      ],
+      "shots": [
+        14,
+        9
+      ],
+      "saves": [
+        7,
+        10
+      ],
+      "passes": [
+        19,
+        15
+      ],
+      "tackles": [
+        19,
+        14
+      ],
+      "completedPasses": [
+        16,
+        10
+      ],
+      "possession": [
+        1879,
+        1472
+      ],
+      "interceptions": [
+        4,
+        1
+      ],
+      "firstTouchLosses": [
+        1,
+        0
+      ],
+      "directTurnovers": 62,
+      "spells": 154,
+      "shortSpells": 83,
+      "meanPossessionTicks": 21.75974025974026,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 43,
+      "looseTicks": 3849,
+      "crowdedPairsPerSample": 0.02074688796680498,
+      "goalShotRatio": 0.30434782608695654,
+      "phase": "fulltime",
+      "ticks": 9050,
+      "hash": "f5f0c1b4"
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "seed": 1988,
+      "teams": [
+        4,
+        1
+      ],
+      "reverse": true,
+      "score": [
+        3,
+        3
+      ],
+      "shots": [
+        11,
+        11
+      ],
+      "saves": [
+        8,
+        10
+      ],
+      "passes": [
+        15,
+        20
+      ],
+      "tackles": [
+        16,
+        15
+      ],
+      "completedPasses": [
+        14,
+        16
+      ],
+      "possession": [
+        1767,
+        1727
+      ],
+      "interceptions": [
+        0,
+        1
+      ],
+      "firstTouchLosses": [
+        1,
+        3
+      ],
+      "directTurnovers": 82,
+      "spells": 170,
+      "shortSpells": 102,
+      "meanPossessionTicks": 20.55294117647059,
+      "p50PossessionTicks": 18,
+      "p90PossessionTicks": 44,
+      "looseTicks": 3706,
+      "crowdedPairsPerSample": 0.02074688796680498,
+      "goalShotRatio": 0.2727272727272727,
+      "phase": "fulltime",
+      "ticks": 8830,
+      "hash": "a3ace4c3"
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "seed": 731,
+      "teams": [
+        2,
+        5
+      ],
+      "reverse": false,
+      "score": [
+        3,
+        1
+      ],
+      "shots": [
+        11,
+        9
+      ],
+      "saves": [
+        8,
+        8
+      ],
+      "passes": [
+        18,
+        16
+      ],
+      "tackles": [
+        16,
+        20
+      ],
+      "completedPasses": [
+        16,
+        13
+      ],
+      "possession": [
+        1902,
+        1939
+      ],
+      "interceptions": [
+        0,
+        0
+      ],
+      "firstTouchLosses": [
+        2,
+        1
+      ],
+      "directTurnovers": 87,
+      "spells": 174,
+      "shortSpells": 103,
+      "meanPossessionTicks": 22.07471264367816,
+      "p50PossessionTicks": 17,
+      "p90PossessionTicks": 46,
+      "looseTicks": 3359,
+      "crowdedPairsPerSample": 0.020833333333333332,
+      "goalShotRatio": 0.2,
+      "phase": "fulltime",
+      "ticks": 8390,
+      "hash": "84f0f8b7"
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "seed": 731,
+      "teams": [
+        5,
+        2
+      ],
+      "reverse": true,
+      "score": [
+        7,
+        4
+      ],
+      "shots": [
+        13,
+        11
+      ],
+      "saves": [
+        6,
+        6
+      ],
+      "passes": [
+        15,
+        20
+      ],
+      "tackles": [
+        24,
+        14
+      ],
+      "completedPasses": [
+        12,
+        16
+      ],
+      "possession": [
+        1952,
+        1884
+      ],
+      "interceptions": [
+        0,
+        1
+      ],
+      "firstTouchLosses": [
+        0,
+        1
+      ],
+      "directTurnovers": 99,
+      "spells": 189,
+      "shortSpells": 115,
+      "meanPossessionTicks": 20.296296296296298,
+      "p50PossessionTicks": 16,
+      "p90PossessionTicks": 42,
+      "looseTicks": 3364,
+      "crowdedPairsPerSample": 0.004149377593360996,
+      "goalShotRatio": 0.4583333333333333,
+      "phase": "fulltime",
+      "ticks": 9930,
+      "hash": "2b47506b"
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "seed": 19,
+      "teams": [
+        3,
+        6
+      ],
+      "reverse": false,
+      "score": [
+        1,
+        4
+      ],
+      "shots": [
+        14,
+        9
+      ],
+      "saves": [
+        6,
+        13
+      ],
+      "passes": [
+        23,
+        17
+      ],
+      "tackles": [
+        14,
+        15
+      ],
+      "completedPasses": [
+        16,
+        13
+      ],
+      "possession": [
+        2057,
+        1700
+      ],
+      "interceptions": [
+        1,
+        3
+      ],
+      "firstTouchLosses": [
+        0,
+        1
+      ],
+      "directTurnovers": 55,
+      "spells": 143,
+      "shortSpells": 70,
+      "meanPossessionTicks": 26.272727272727273,
+      "p50PossessionTicks": 20,
+      "p90PossessionTicks": 49,
+      "looseTicks": 3443,
+      "crowdedPairsPerSample": 0.03319502074688797,
+      "goalShotRatio": 0.21739130434782608,
+      "phase": "fulltime",
+      "ticks": 8610,
+      "hash": "68a0f53b"
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "seed": 19,
+      "teams": [
+        6,
+        3
+      ],
+      "reverse": true,
+      "score": [
+        6,
+        4
+      ],
+      "shots": [
+        12,
+        9
+      ],
+      "saves": [
+        7,
+        7
+      ],
+      "passes": [
+        9,
+        22
+      ],
+      "tackles": [
+        19,
+        23
+      ],
+      "completedPasses": [
+        4,
+        16
+      ],
+      "possession": [
+        1672,
+        2238
+      ],
+      "interceptions": [
+        4,
+        0
+      ],
+      "firstTouchLosses": [
+        1,
+        2
+      ],
+      "directTurnovers": 99,
+      "spells": 196,
+      "shortSpells": 122,
+      "meanPossessionTicks": 19.948979591836736,
+      "p50PossessionTicks": 16,
+      "p90PossessionTicks": 42,
+      "looseTicks": 3290,
+      "crowdedPairsPerSample": 0.0635593220338983,
+      "goalShotRatio": 0.47619047619047616,
+      "phase": "fulltime",
+      "ticks": 9710,
+      "hash": "0974f23d"
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "seed": 2026,
+      "teams": [
+        4,
+        7
+      ],
+      "reverse": false,
+      "score": [
+        3,
+        2
+      ],
+      "shots": [
+        18,
+        9
+      ],
+      "saves": [
+        7,
+        15
+      ],
+      "passes": [
+        13,
+        17
+      ],
+      "tackles": [
+        14,
+        12
+      ],
+      "completedPasses": [
+        12,
+        14
+      ],
+      "possession": [
+        1803,
+        1478
+      ],
+      "interceptions": [
+        2,
+        0
+      ],
+      "firstTouchLosses": [
+        0,
+        2
+      ],
+      "directTurnovers": 57,
+      "spells": 139,
+      "shortSpells": 76,
+      "meanPossessionTicks": 23.60431654676259,
+      "p50PossessionTicks": 18,
+      "p90PossessionTicks": 51,
+      "looseTicks": 3919,
+      "crowdedPairsPerSample": 0.020833333333333332,
+      "goalShotRatio": 0.18518518518518517,
+      "phase": "fulltime",
+      "ticks": 8610,
+      "hash": "6c3e32e6"
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "seed": 2026,
+      "teams": [
+        7,
+        4
+      ],
+      "reverse": true,
+      "score": [
+        3,
+        4
+      ],
+      "shots": [
+        17,
+        11
+      ],
+      "saves": [
+        7,
+        14
+      ],
+      "passes": [
+        12,
+        15
+      ],
+      "tackles": [
+        16,
+        15
+      ],
+      "completedPasses": [
+        8,
+        12
+      ],
+      "possession": [
+        1785,
+        1664
+      ],
+      "interceptions": [
+        2,
+        1
+      ],
+      "firstTouchLosses": [
+        0,
+        1
+      ],
+      "directTurnovers": 61,
+      "spells": 145,
+      "shortSpells": 74,
+      "meanPossessionTicks": 23.786206896551725,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 48,
+      "looseTicks": 3751,
+      "crowdedPairsPerSample": 0.0125,
+      "goalShotRatio": 0.25,
+      "phase": "fulltime",
+      "ticks": 9050,
+      "hash": "ada12716"
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "seed": 805,
+      "teams": [
+        5,
+        0
+      ],
+      "reverse": false,
+      "score": [
+        3,
+        2
+      ],
+      "shots": [
+        17,
+        7
+      ],
+      "saves": [
+        5,
+        14
+      ],
+      "passes": [
+        20,
+        8
+      ],
+      "tackles": [
+        14,
+        17
+      ],
+      "completedPasses": [
+        18,
+        8
+      ],
+      "possession": [
+        1983,
+        1286
+      ],
+      "interceptions": [
+        0,
+        0
+      ],
+      "firstTouchLosses": [
+        1,
+        1
+      ],
+      "directTurnovers": 73,
+      "spells": 156,
+      "shortSpells": 87,
+      "meanPossessionTicks": 20.955128205128204,
+      "p50PossessionTicks": 16,
+      "p90PossessionTicks": 42,
+      "looseTicks": 3931,
+      "crowdedPairsPerSample": 0.029535864978902954,
+      "goalShotRatio": 0.20833333333333334,
+      "phase": "fulltime",
+      "ticks": 8610,
+      "hash": "6dc675f2"
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "seed": 805,
+      "teams": [
+        0,
+        5
+      ],
+      "reverse": true,
+      "score": [
+        3,
+        2
+      ],
+      "shots": [
+        12,
+        10
+      ],
+      "saves": [
+        8,
+        9
+      ],
+      "passes": [
+        14,
+        19
+      ],
+      "tackles": [
+        18,
+        17
+      ],
+      "completedPasses": [
+        11,
+        19
+      ],
+      "possession": [
+        1658,
+        1930
+      ],
+      "interceptions": [
+        0,
+        1
+      ],
+      "firstTouchLosses": [
+        0,
+        3
+      ],
+      "directTurnovers": 91,
+      "spells": 181,
+      "shortSpells": 113,
+      "meanPossessionTicks": 19.823204419889503,
+      "p50PossessionTicks": 16,
+      "p90PossessionTicks": 42,
+      "looseTicks": 3612,
+      "crowdedPairsPerSample": 0.029166666666666667,
+      "goalShotRatio": 0.22727272727272727,
+      "phase": "fulltime",
+      "ticks": 8610,
+      "hash": "62a3251f"
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "seed": 99,
+      "teams": [
+        6,
+        1
+      ],
+      "reverse": false,
+      "score": [
+        7,
+        4
+      ],
+      "shots": [
+        15,
+        10
+      ],
+      "saves": [
+        6,
+        9
+      ],
+      "passes": [
+        13,
+        16
+      ],
+      "tackles": [
+        23,
+        16
+      ],
+      "completedPasses": [
+        10,
+        11
+      ],
+      "possession": [
+        1962,
+        1795
+      ],
+      "interceptions": [
+        1,
+        1
+      ],
+      "firstTouchLosses": [
+        0,
+        0
+      ],
+      "directTurnovers": 82,
+      "spells": 176,
+      "shortSpells": 109,
+      "meanPossessionTicks": 21.34659090909091,
+      "p50PossessionTicks": 16,
+      "p90PossessionTicks": 49,
+      "looseTicks": 3443,
+      "crowdedPairsPerSample": 0.0371900826446281,
+      "goalShotRatio": 0.44,
+      "phase": "fulltime",
+      "ticks": 9930,
+      "hash": "71802c59"
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "seed": 99,
+      "teams": [
+        1,
+        6
+      ],
+      "reverse": true,
+      "score": [
+        6,
+        3
+      ],
+      "shots": [
+        15,
+        9
+      ],
+      "saves": [
+        7,
+        10
+      ],
+      "passes": [
+        19,
+        14
+      ],
+      "tackles": [
+        21,
+        19
+      ],
+      "completedPasses": [
+        15,
+        12
+      ],
+      "possession": [
+        2052,
+        1617
+      ],
+      "interceptions": [
+        0,
+        0
+      ],
+      "firstTouchLosses": [
+        0,
+        1
+      ],
+      "directTurnovers": 99,
+      "spells": 198,
+      "shortSpells": 134,
+      "meanPossessionTicks": 18.53030303030303,
+      "p50PossessionTicks": 16,
+      "p90PossessionTicks": 42,
+      "looseTicks": 3531,
+      "crowdedPairsPerSample": 0.01652892561983471,
+      "goalShotRatio": 0.375,
+      "phase": "fulltime",
+      "ticks": 9490,
+      "hash": "b3cc927f"
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "seed": 31415,
+      "teams": [
+        7,
+        2
+      ],
+      "reverse": false,
+      "score": [
+        3,
+        2
+      ],
+      "shots": [
+        17,
+        10
+      ],
+      "saves": [
+        8,
+        15
+      ],
+      "passes": [
+        11,
+        18
+      ],
+      "tackles": [
+        13,
+        15
+      ],
+      "completedPasses": [
+        11,
+        16
+      ],
+      "possession": [
+        1739,
+        1457
+      ],
+      "interceptions": [
+        0,
+        0
+      ],
+      "firstTouchLosses": [
+        0,
+        2
+      ],
+      "directTurnovers": 55,
+      "spells": 144,
+      "shortSpells": 76,
+      "meanPossessionTicks": 22.194444444444443,
+      "p50PossessionTicks": 18,
+      "p90PossessionTicks": 43,
+      "looseTicks": 4004,
+      "crowdedPairsPerSample": 0.024896265560165973,
+      "goalShotRatio": 0.18518518518518517,
+      "phase": "fulltime",
+      "ticks": 8610,
+      "hash": "873630c4"
+    },
+    {
+      "indoor": true,
+      "difficulty": 2,
+      "seed": 31415,
+      "teams": [
+        2,
+        7
+      ],
+      "reverse": true,
+      "score": [
+        2,
+        3
+      ],
+      "shots": [
+        8,
+        14
+      ],
+      "saves": [
+        11,
+        7
+      ],
+      "passes": [
+        6,
+        25
+      ],
+      "tackles": [
+        14,
+        29
+      ],
+      "completedPasses": [
+        5,
+        24
+      ],
+      "possession": [
+        1420,
+        2253
+      ],
+      "interceptions": [
+        1,
+        0
+      ],
+      "firstTouchLosses": [
+        1,
+        0
+      ],
+      "directTurnovers": 77,
+      "spells": 178,
+      "shortSpells": 100,
+      "meanPossessionTicks": 20.634831460674157,
+      "p50PossessionTicks": 17,
+      "p90PossessionTicks": 42,
+      "looseTicks": 3527,
+      "crowdedPairsPerSample": 0.02109704641350211,
+      "goalShotRatio": 0.22727272727272727,
+      "phase": "fulltime",
+      "ticks": 8610,
+      "hash": "eba6b553"
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "seed": 42,
+      "teams": [
+        0,
+        3
+      ],
+      "reverse": false,
+      "score": [
+        1,
+        4
+      ],
+      "shots": [
+        9,
+        11
+      ],
+      "saves": [
+        7,
+        8
+      ],
+      "passes": [
+        19,
+        25
+      ],
+      "tackles": [
+        14,
+        18
+      ],
+      "completedPasses": [
+        15,
+        18
+      ],
+      "possession": [
+        1352,
+        1827
+      ],
+      "interceptions": [
+        4,
+        2
+      ],
+      "firstTouchLosses": [
+        1,
+        1
+      ],
+      "directTurnovers": 51,
+      "spells": 144,
+      "shortSpells": 101,
+      "meanPossessionTicks": 22.07638888888889,
+      "p50PossessionTicks": 18,
+      "p90PossessionTicks": 38,
+      "looseTicks": 4021,
+      "crowdedPairsPerSample": 0.012448132780082987,
+      "goalShotRatio": 0.25,
+      "phase": "fulltime",
+      "ticks": 8610,
+      "hash": "86fc8cff"
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "seed": 42,
+      "teams": [
+        3,
+        0
+      ],
+      "reverse": true,
+      "score": [
+        2,
+        1
+      ],
+      "shots": [
+        6,
+        12
+      ],
+      "saves": [
+        11,
+        4
+      ],
+      "passes": [
+        12,
+        33
+      ],
+      "tackles": [
+        21,
+        12
+      ],
+      "completedPasses": [
+        12,
+        20
+      ],
+      "possession": [
+        1129,
+        1992
+      ],
+      "interceptions": [
+        2,
+        0
+      ],
+      "firstTouchLosses": [
+        0,
+        4
+      ],
+      "directTurnovers": 46,
+      "spells": 134,
+      "shortSpells": 86,
+      "meanPossessionTicks": 23.291044776119403,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 46,
+      "looseTicks": 4079,
+      "crowdedPairsPerSample": 0.029045643153526972,
+      "goalShotRatio": 0.16666666666666666,
+      "phase": "fulltime",
+      "ticks": 8170,
+      "hash": "5a0bc4ee"
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "seed": 1988,
+      "teams": [
+        1,
+        4
+      ],
+      "reverse": false,
+      "score": [
+        0,
+        2
+      ],
+      "shots": [
+        14,
+        8
+      ],
+      "saves": [
+        6,
+        14
+      ],
+      "passes": [
+        24,
+        7
+      ],
+      "tackles": [
+        18,
+        16
+      ],
+      "completedPasses": [
+        20,
+        6
+      ],
+      "possession": [
+        1804,
+        1128
+      ],
+      "interceptions": [
+        0,
+        1
+      ],
+      "firstTouchLosses": [
+        0,
+        1
+      ],
+      "directTurnovers": 55,
+      "spells": 139,
+      "shortSpells": 87,
+      "meanPossessionTicks": 21.093525179856115,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 36,
+      "looseTicks": 4268,
+      "crowdedPairsPerSample": 0.016597510373443983,
+      "goalShotRatio": 0.09090909090909091,
+      "phase": "fulltime",
+      "ticks": 7950,
+      "hash": "346bb8d8"
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "seed": 1988,
+      "teams": [
+        4,
+        1
+      ],
+      "reverse": true,
+      "score": [
+        3,
+        4
+      ],
+      "shots": [
+        11,
+        8
+      ],
+      "saves": [
+        4,
+        8
+      ],
+      "passes": [
+        13,
+        22
+      ],
+      "tackles": [
+        21,
+        24
+      ],
+      "completedPasses": [
+        11,
+        17
+      ],
+      "possession": [
+        1501,
+        1903
+      ],
+      "interceptions": [
+        4,
+        0
+      ],
+      "firstTouchLosses": [
+        1,
+        3
+      ],
+      "directTurnovers": 89,
+      "spells": 186,
+      "shortSpells": 131,
+      "meanPossessionTicks": 18.301075268817204,
+      "p50PossessionTicks": 16,
+      "p90PossessionTicks": 35,
+      "looseTicks": 3796,
+      "crowdedPairsPerSample": 0.016666666666666666,
+      "goalShotRatio": 0.3684210526315789,
+      "phase": "fulltime",
+      "ticks": 9050,
+      "hash": "cef32d13"
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "seed": 731,
+      "teams": [
+        2,
+        5
+      ],
+      "reverse": false,
+      "score": [
+        2,
+        3
+      ],
+      "shots": [
+        10,
+        8
+      ],
+      "saves": [
+        5,
+        8
+      ],
+      "passes": [
+        29,
+        17
+      ],
+      "tackles": [
+        17,
+        21
+      ],
+      "completedPasses": [
+        23,
+        14
+      ],
+      "possession": [
+        1824,
+        1548
+      ],
+      "interceptions": [
+        2,
+        3
+      ],
+      "firstTouchLosses": [
+        1,
+        2
+      ],
+      "directTurnovers": 59,
+      "spells": 157,
+      "shortSpells": 103,
+      "meanPossessionTicks": 21.477707006369428,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 38,
+      "looseTicks": 3828,
+      "crowdedPairsPerSample": 0.02074688796680498,
+      "goalShotRatio": 0.2777777777777778,
+      "phase": "fulltime",
+      "ticks": 8610,
+      "hash": "62b5bab3"
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "seed": 731,
+      "teams": [
+        5,
+        2
+      ],
+      "reverse": true,
+      "score": [
+        2,
+        3
+      ],
+      "shots": [
+        6,
+        6
+      ],
+      "saves": [
+        4,
+        5
+      ],
+      "passes": [
+        18,
+        24
+      ],
+      "tackles": [
+        26,
+        20
+      ],
+      "completedPasses": [
+        14,
+        17
+      ],
+      "possession": [
+        1390,
+        2046
+      ],
+      "interceptions": [
+        2,
+        1
+      ],
+      "firstTouchLosses": [
+        0,
+        5
+      ],
+      "directTurnovers": 54,
+      "spells": 147,
+      "shortSpells": 89,
+      "meanPossessionTicks": 23.374149659863946,
+      "p50PossessionTicks": 18,
+      "p90PossessionTicks": 48,
+      "looseTicks": 3764,
+      "crowdedPairsPerSample": 0.04583333333333333,
+      "goalShotRatio": 0.4166666666666667,
+      "phase": "fulltime",
+      "ticks": 8610,
+      "hash": "24cea209"
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "seed": 19,
+      "teams": [
+        3,
+        6
+      ],
+      "reverse": false,
+      "score": [
+        2,
+        2
+      ],
+      "shots": [
+        8,
+        6
+      ],
+      "saves": [
+        4,
+        7
+      ],
+      "passes": [
+        15,
+        27
+      ],
+      "tackles": [
+        22,
+        24
+      ],
+      "completedPasses": [
+        13,
+        21
+      ],
+      "possession": [
+        1473,
+        1998
+      ],
+      "interceptions": [
+        1,
+        1
+      ],
+      "firstTouchLosses": [
+        2,
+        2
+      ],
+      "directTurnovers": 78,
+      "spells": 176,
+      "shortSpells": 119,
+      "meanPossessionTicks": 19.72159090909091,
+      "p50PossessionTicks": 17,
+      "p90PossessionTicks": 36,
+      "looseTicks": 3729,
+      "crowdedPairsPerSample": 0.01652892561983471,
+      "goalShotRatio": 0.2857142857142857,
+      "phase": "fulltime",
+      "ticks": 8390,
+      "hash": "a3ee2092"
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "seed": 19,
+      "teams": [
+        6,
+        3
+      ],
+      "reverse": true,
+      "score": [
+        0,
+        2
+      ],
+      "shots": [
+        8,
+        10
+      ],
+      "saves": [
+        9,
+        8
+      ],
+      "passes": [
+        19,
+        35
+      ],
+      "tackles": [
+        12,
+        14
+      ],
+      "completedPasses": [
+        16,
+        30
+      ],
+      "possession": [
+        1309,
+        1991
+      ],
+      "interceptions": [
+        2,
+        1
+      ],
+      "firstTouchLosses": [
+        4,
+        3
+      ],
+      "directTurnovers": 36,
+      "spells": 133,
+      "shortSpells": 80,
+      "meanPossessionTicks": 24.81203007518797,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 48,
+      "looseTicks": 3900,
+      "crowdedPairsPerSample": 0.024896265560165973,
+      "goalShotRatio": 0.1111111111111111,
+      "phase": "fulltime",
+      "ticks": 7950,
+      "hash": "f8d72c67"
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "seed": 2026,
+      "teams": [
+        4,
+        7
+      ],
+      "reverse": false,
+      "score": [
+        0,
+        3
+      ],
+      "shots": [
+        12,
+        8
+      ],
+      "saves": [
+        5,
+        12
+      ],
+      "passes": [
+        23,
+        13
+      ],
+      "tackles": [
+        18,
+        15
+      ],
+      "completedPasses": [
+        19,
+        11
+      ],
+      "possession": [
+        1771,
+        1476
+      ],
+      "interceptions": [
+        0,
+        2
+      ],
+      "firstTouchLosses": [
+        0,
+        2
+      ],
+      "directTurnovers": 69,
+      "spells": 155,
+      "shortSpells": 100,
+      "meanPossessionTicks": 20.948387096774194,
+      "p50PossessionTicks": 17,
+      "p90PossessionTicks": 47,
+      "looseTicks": 3953,
+      "crowdedPairsPerSample": 0.0375,
+      "goalShotRatio": 0.15,
+      "phase": "fulltime",
+      "ticks": 8170,
+      "hash": "55f1c97d"
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "seed": 2026,
+      "teams": [
+        7,
+        4
+      ],
+      "reverse": true,
+      "score": [
+        3,
+        3
+      ],
+      "shots": [
+        10,
+        10
+      ],
+      "saves": [
+        7,
+        8
+      ],
+      "passes": [
+        14,
+        18
+      ],
+      "tackles": [
+        26,
+        17
+      ],
+      "completedPasses": [
+        12,
+        12
+      ],
+      "possession": [
+        1540,
+        1722
+      ],
+      "interceptions": [
+        1,
+        0
+      ],
+      "firstTouchLosses": [
+        0,
+        2
+      ],
+      "directTurnovers": 67,
+      "spells": 157,
+      "shortSpells": 100,
+      "meanPossessionTicks": 20.777070063694268,
+      "p50PossessionTicks": 18,
+      "p90PossessionTicks": 38,
+      "looseTicks": 3938,
+      "crowdedPairsPerSample": 0.012448132780082987,
+      "goalShotRatio": 0.3,
+      "phase": "fulltime",
+      "ticks": 8830,
+      "hash": "f9f4c968"
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "seed": 805,
+      "teams": [
+        5,
+        0
+      ],
+      "reverse": false,
+      "score": [
+        1,
+        4
+      ],
+      "shots": [
+        12,
+        9
+      ],
+      "saves": [
+        5,
+        11
+      ],
+      "passes": [
+        25,
+        22
+      ],
+      "tackles": [
+        19,
+        14
+      ],
+      "completedPasses": [
+        20,
+        21
+      ],
+      "possession": [
+        1814,
+        1620
+      ],
+      "interceptions": [
+        0,
+        3
+      ],
+      "firstTouchLosses": [
+        2,
+        3
+      ],
+      "directTurnovers": 48,
+      "spells": 148,
+      "shortSpells": 84,
+      "meanPossessionTicks": 23.2027027027027,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 38,
+      "looseTicks": 3766,
+      "crowdedPairsPerSample": 0.016736401673640166,
+      "goalShotRatio": 0.23809523809523808,
+      "phase": "fulltime",
+      "ticks": 8610,
+      "hash": "d94cfd83"
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "seed": 805,
+      "teams": [
+        0,
+        5
+      ],
+      "reverse": true,
+      "score": [
+        2,
+        1
+      ],
+      "shots": [
+        11,
+        9
+      ],
+      "saves": [
+        8,
+        9
+      ],
+      "passes": [
+        22,
+        23
+      ],
+      "tackles": [
+        19,
+        17
+      ],
+      "completedPasses": [
+        19,
+        17
+      ],
+      "possession": [
+        1543,
+        1725
+      ],
+      "interceptions": [
+        3,
+        3
+      ],
+      "firstTouchLosses": [
+        0,
+        3
+      ],
+      "directTurnovers": 58,
+      "spells": 157,
+      "shortSpells": 104,
+      "meanPossessionTicks": 20.81528662420382,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 35,
+      "looseTicks": 3932,
+      "crowdedPairsPerSample": 0.01652892561983471,
+      "goalShotRatio": 0.15,
+      "phase": "fulltime",
+      "ticks": 8170,
+      "hash": "1cf4dd65"
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "seed": 99,
+      "teams": [
+        6,
+        1
+      ],
+      "reverse": false,
+      "score": [
+        2,
+        2
+      ],
+      "shots": [
+        9,
+        12
+      ],
+      "saves": [
+        10,
+        7
+      ],
+      "passes": [
+        11,
+        25
+      ],
+      "tackles": [
+        18,
+        15
+      ],
+      "completedPasses": [
+        10,
+        20
+      ],
+      "possession": [
+        1123,
+        1894
+      ],
+      "interceptions": [
+        0,
+        0
+      ],
+      "firstTouchLosses": [
+        0,
+        5
+      ],
+      "directTurnovers": 65,
+      "spells": 150,
+      "shortSpells": 100,
+      "meanPossessionTicks": 20.113333333333333,
+      "p50PossessionTicks": 18,
+      "p90PossessionTicks": 38,
+      "looseTicks": 4183,
+      "crowdedPairsPerSample": 0.012448132780082987,
+      "goalShotRatio": 0.19047619047619047,
+      "phase": "fulltime",
+      "ticks": 8390,
+      "hash": "0a8d8451"
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "seed": 99,
+      "teams": [
+        1,
+        6
+      ],
+      "reverse": true,
+      "score": [
+        2,
+        4
+      ],
+      "shots": [
+        5,
+        12
+      ],
+      "saves": [
+        8,
+        3
+      ],
+      "passes": [
+        13,
+        30
+      ],
+      "tackles": [
+        19,
+        25
+      ],
+      "completedPasses": [
+        11,
+        23
+      ],
+      "possession": [
+        1486,
+        2113
+      ],
+      "interceptions": [
+        2,
+        0
+      ],
+      "firstTouchLosses": [
+        3,
+        2
+      ],
+      "directTurnovers": 75,
+      "spells": 173,
+      "shortSpells": 116,
+      "meanPossessionTicks": 20.803468208092486,
+      "p50PossessionTicks": 18,
+      "p90PossessionTicks": 46,
+      "looseTicks": 3601,
+      "crowdedPairsPerSample": 0.008264462809917356,
+      "goalShotRatio": 0.35294117647058826,
+      "phase": "fulltime",
+      "ticks": 8830,
+      "hash": "7c217fa2"
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "seed": 31415,
+      "teams": [
+        7,
+        2
+      ],
+      "reverse": false,
+      "score": [
+        5,
+        2
+      ],
+      "shots": [
+        11,
+        10
+      ],
+      "saves": [
+        8,
+        6
+      ],
+      "passes": [
+        8,
+        29
+      ],
+      "tackles": [
+        21,
+        20
+      ],
+      "completedPasses": [
+        5,
+        20
+      ],
+      "possession": [
+        1267,
+        2007
+      ],
+      "interceptions": [
+        3,
+        1
+      ],
+      "firstTouchLosses": [
+        1,
+        4
+      ],
+      "directTurnovers": 81,
+      "spells": 173,
+      "shortSpells": 129,
+      "meanPossessionTicks": 18.92485549132948,
+      "p50PossessionTicks": 16,
+      "p90PossessionTicks": 39,
+      "looseTicks": 3926,
+      "crowdedPairsPerSample": 0.020833333333333332,
+      "goalShotRatio": 0.3333333333333333,
+      "phase": "fulltime",
+      "ticks": 9050,
+      "hash": "65171296"
+    },
+    {
+      "indoor": true,
+      "difficulty": 3,
+      "seed": 31415,
+      "teams": [
+        2,
+        7
+      ],
+      "reverse": true,
+      "score": [
+        0,
+        4
+      ],
+      "shots": [
+        12,
+        10
+      ],
+      "saves": [
+        6,
+        12
+      ],
+      "passes": [
+        20,
+        17
+      ],
+      "tackles": [
+        15,
+        20
+      ],
+      "completedPasses": [
+        18,
+        17
+      ],
+      "possession": [
+        1767,
+        1479
+      ],
+      "interceptions": [
+        0,
+        0
+      ],
+      "firstTouchLosses": [
+        0,
+        2
+      ],
+      "directTurnovers": 45,
+      "spells": 136,
+      "shortSpells": 84,
+      "meanPossessionTicks": 23.86764705882353,
+      "p50PossessionTicks": 19,
+      "p90PossessionTicks": 49,
+      "looseTicks": 3954,
+      "crowdedPairsPerSample": 0.004132231404958678,
+      "goalShotRatio": 0.18181818181818182,
+      "phase": "fulltime",
+      "ticks": 8390,
+      "hash": "152bdaf8"
+    }
+  ]
+}

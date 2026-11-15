@@ -1,0 +1,270 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "wallSeconds": 3.628750377999978,
+  "sampling": "priority flags + SHA256-ranked controls v1",
+  "journalSHA256": "adb57a3fb90187817d80bad9be04b8edb99dc995cb914429e4c7ff47523f768a",
+  "frames": [
+    {
+      "tick": 1675,
+      "activeSeconds": 19.5,
+      "hash": "68dfc3e1",
+      "score": [
+        0,
+        0
+      ],
+      "phase": "play",
+      "events": [],
+      "canvas": [
+        1280,
+        900
+      ],
+      "camera": {
+        "x": 360,
+        "y": 647.0914841259854,
+        "scale": 1.0824,
+        "vw": 1182.5572801182557,
+        "vh": 831.4855875831486
+      },
+      "ballScreen": {
+        "x": 586.3028125,
+        "y": 464.0440557070334
+      },
+      "cv": {
+        "sampledColors": 1028,
+        "variance": 860.7252465294796,
+        "nonblank": true,
+        "changedChannelsFraction": null
+      },
+      "renderContract": "Production Canvas; inspection page has no app HUD/audio/RAF. No authored state or score injection. 120-tick camera warmup.",
+      "image": "f0-t1675.png",
+      "sha256": "7f11ebfc151607b117b3e756c65eb9d6589c710516dcd6f0fc124bda159af31a",
+      "bytes": 376505,
+      "fixtureId": 0,
+      "source": {
+        "sha": "32c2f715688274f7e5b9e31b87f54856809fd06a",
+        "dirty": false,
+        "codeSHA256": "c49207c0a69e03d01c9ee1cb045a7658506f529ce9f43a5b2a470d850bd3934a"
+      },
+      "fixtureChecksum": "d5f63a3405169b27b5f65fa934cf1a64c3971b46f0d7e22b5670ba47efb6d92b",
+      "reason": "f0-scoreless",
+      "browser": "chromium",
+      "browserVersion": "141.0.7390.37",
+      "viewport": [
+        1280,
+        900
+      ],
+      "dpr": 1
+    },
+    {
+      "tick": 1705,
+      "activeSeconds": 20,
+      "hash": "6b49a99b",
+      "score": [
+        0,
+        0
+      ],
+      "phase": "fulltime",
+      "events": [
+        {
+          "type": "whistle"
+        }
+      ],
+      "canvas": [
+        1280,
+        900
+      ],
+      "camera": {
+        "x": 360,
+        "y": 735.5738823959244,
+        "scale": 1.0824,
+        "vw": 1182.5572801182557,
+        "vh": 831.4855875831486
+      },
+      "ballScreen": {
+        "x": 600.505084375,
+        "y": 463.48385469465137
+      },
+      "cv": {
+        "sampledColors": 1197,
+        "variance": 990.495480410852,
+        "nonblank": true,
+        "changedChannelsFraction": 0.5210069444444444
+      },
+      "renderContract": "Production Canvas; inspection page has no app HUD/audio/RAF. No authored state or score injection. 120-tick camera warmup.",
+      "image": "f0-t1705.png",
+      "sha256": "21c92c849d05e23b7b21314da98367ec2565403d3d91e416355f06617016599b",
+      "bytes": 381185,
+      "fixtureId": 0,
+      "source": {
+        "sha": "32c2f715688274f7e5b9e31b87f54856809fd06a",
+        "dirty": false,
+        "codeSHA256": "c49207c0a69e03d01c9ee1cb045a7658506f529ce9f43a5b2a470d850bd3934a"
+      },
+      "fixtureChecksum": "d5f63a3405169b27b5f65fa934cf1a64c3971b46f0d7e22b5670ba47efb6d92b",
+      "reason": "f0-scoreless",
+      "browser": "chromium",
+      "browserVersion": "141.0.7390.37",
+      "viewport": [
+        1280,
+        900
+      ],
+      "dpr": 1
+    },
+    {
+      "tick": 1059,
+      "activeSeconds": 10.316666666666666,
+      "hash": "ee0434e3",
+      "score": [
+        0,
+        0
+      ],
+      "phase": "play",
+      "events": [],
+      "canvas": [
+        1280,
+        900
+      ],
+      "camera": {
+        "x": 360,
+        "y": 497.9872706802014,
+        "scale": 1.0824,
+        "vw": 1182.5572801182557,
+        "vh": 831.4855875831486
+      },
+      "ballScreen": {
+        "x": 640,
+        "y": 461.95823134075
+      },
+      "cv": {
+        "sampledColors": 1061,
+        "variance": 865.2752265107974,
+        "nonblank": true,
+        "changedChannelsFraction": null
+      },
+      "renderContract": "Production Canvas; inspection page has no app HUD/audio/RAF. No authored state or score injection. 120-tick camera warmup.",
+      "image": "f4-t1059.png",
+      "sha256": "1c7755e6b5aa7f04af13e24aaaa1ae4e11b1c494283fe737d16e15c12af0e146",
+      "bytes": 363848,
+      "fixtureId": 4,
+      "source": {
+        "sha": "32c2f715688274f7e5b9e31b87f54856809fd06a",
+        "dirty": false,
+        "codeSHA256": "c49207c0a69e03d01c9ee1cb045a7658506f529ce9f43a5b2a470d850bd3934a"
+      },
+      "fixtureChecksum": "76d8a654683add40b06c78cc2bf9cd194c4891b69259c312840a9c882f33873e",
+      "reason": "pseudorandom-control",
+      "browser": "chromium",
+      "browserVersion": "141.0.7390.37",
+      "viewport": [
+        1280,
+        900
+      ],
+      "dpr": 1
+    },
+    {
+      "tick": 1089,
+      "activeSeconds": 10.816666666666666,
+      "hash": "836a8546",
+      "score": [
+        0,
+        0
+      ],
+      "phase": "play",
+      "events": [],
+      "canvas": [
+        1280,
+        900
+      ],
+      "camera": {
+        "x": 360,
+        "y": 441.56799706476727,
+        "scale": 1.0824,
+        "vw": 1182.5572801182557,
+        "vh": 831.4855875831486
+      },
+      "ballScreen": {
+        "x": 708.8888406250001,
+        "y": 447.0808718520959
+      },
+      "cv": {
+        "sampledColors": 990,
+        "variance": 877.915350125716,
+        "nonblank": true,
+        "changedChannelsFraction": 0.5104166666666666
+      },
+      "renderContract": "Production Canvas; inspection page has no app HUD/audio/RAF. No authored state or score injection. 120-tick camera warmup.",
+      "image": "f4-t1089.png",
+      "sha256": "085be163c45d228bacade9620d18a349b585ab38ea90c22ee8b6a7ebb4c5d9f5",
+      "bytes": 360282,
+      "fixtureId": 4,
+      "source": {
+        "sha": "32c2f715688274f7e5b9e31b87f54856809fd06a",
+        "dirty": false,
+        "codeSHA256": "c49207c0a69e03d01c9ee1cb045a7658506f529ce9f43a5b2a470d850bd3934a"
+      },
+      "fixtureChecksum": "76d8a654683add40b06c78cc2bf9cd194c4891b69259c312840a9c882f33873e",
+      "reason": "pseudorandom-control",
+      "browser": "chromium",
+      "browserVersion": "141.0.7390.37",
+      "viewport": [
+        1280,
+        900
+      ],
+      "dpr": 1
+    },
+    {
+      "tick": 1119,
+      "activeSeconds": 11.316666666666666,
+      "hash": "05545376",
+      "score": [
+        0,
+        0
+      ],
+      "phase": "play",
+      "events": [],
+      "canvas": [
+        1280,
+        900
+      ],
+      "camera": {
+        "x": 360,
+        "y": 478.1710772954827,
+        "scale": 1.0824,
+        "vw": 1182.5572801182557,
+        "vh": 831.4855875831486
+      },
+      "ballScreen": {
+        "x": 884.017778125,
+        "y": 430.39081968536954
+      },
+      "cv": {
+        "sampledColors": 1041,
+        "variance": 876.2774298481309,
+        "nonblank": true,
+        "changedChannelsFraction": 0.40225694444444443
+      },
+      "renderContract": "Production Canvas; inspection page has no app HUD/audio/RAF. No authored state or score injection. 120-tick camera warmup.",
+      "image": "f4-t1119.png",
+      "sha256": "f7990972f074f7acf3f0c55fbca86a1690dc3b35b298f56b8166ce79a3aeb4de",
+      "bytes": 362173,
+      "fixtureId": 4,
+      "source": {
+        "sha": "32c2f715688274f7e5b9e31b87f54856809fd06a",
+        "dirty": false,
+        "codeSHA256": "c49207c0a69e03d01c9ee1cb045a7658506f529ce9f43a5b2a470d850bd3934a"
+      },
+      "fixtureChecksum": "76d8a654683add40b06c78cc2bf9cd194c4891b69259c312840a9c882f33873e",
+      "reason": "pseudorandom-control",
+      "browser": "chromium",
+      "browserVersion": "141.0.7390.37",
+      "viewport": [
+        1280,
+        900
+      ],
+      "dpr": 1
+    }
+  ],
+  "pageErrors": [],
+  "scope": "Genuine Canvas frames from deterministic AI re-simulation. No app HUD, audio, human inputs, physical display or frame-pacing claims. VLM NOT RUN."
+}

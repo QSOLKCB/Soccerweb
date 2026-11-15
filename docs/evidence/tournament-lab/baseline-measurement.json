@@ -1,0 +1,10 @@
+{
+  "command": "node tests/season_report.mjs",
+  "source": "4d67655ce6b5dcb1f071118b03f7e6d80d7ba10b",
+  "exitCode": 0,
+  "wallSeconds": 40.07577347999904,
+  "cpuSeconds": 41.165155000000006,
+  "peakRSSKiB": 73524,
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "cpu": 5
+}

@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "source": {
+    "sha": "65c7bc52dbb6edc1dd078e700939e3d85823ee67",
+    "dirty": true,
+    "codeSHA256": "dfec44b88ae03f4168ab92d9b0839fc99b962f004dbf816a98d06bb57e2e21c3"
+  },
+  "command": "node --test tests/*.test.mjs",
+  "tests": 132,
+  "failed": 0,
+  "exitCode": 0,
+  "testRunnerDurationMs": 9182.493398,
+  "node": "v24.22.1",
+  "platform": "linux",
+  "release": "6.18.57",
+  "notes": "Working tree verification before committing the three review fixes. Code digest identifies the tested executable files."
+}

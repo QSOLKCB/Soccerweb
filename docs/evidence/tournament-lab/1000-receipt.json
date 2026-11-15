@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "source": {
+    "sha": "99a60c73a614a4ca82df5d65bd915da9c835d5aa",
+    "dirty": false,
+    "codeSHA256": "c49207c0a69e03d01c9ee1cb045a7658506f529ce9f43a5b2a470d850bd3934a"
+  },
+  "fixtures": 1000,
+  "expected": 1000,
+  "diagnostic": null,
+  "verification": [
+    {
+      "id": 0,
+      "hash": "62dc8520",
+      "status": "PASS"
+    },
+    {
+      "id": 16,
+      "hash": "35eebd37",
+      "status": "PASS"
+    },
+    {
+      "id": 32,
+      "hash": "e096cec6",
+      "status": "PASS"
+    },
+    {
+      "id": 48,
+      "hash": "77859f8d",
+      "status": "PASS"
+    },
+    {
+      "id": 64,
+      "hash": "1e5d731b",
+      "status": "PASS"
+    },
+    {
+      "id": 80,
+      "hash": "86fc8cff",
+      "status": "PASS"
+    },
+    {
+      "id": 96,
+      "hash": "ded2e276",
+      "status": "PASS"
+    },
+    {
+      "id": 112,
+      "hash": "caa9a05f",
+      "status": "PASS"
+    },
+    {
+      "id": 128,
+      "hash": "0878bb54",
+      "status": "PASS"
+    },
+    {
+      "id": 144,
+      "hash": "10d6140c",
+      "status": "PASS"
+    },
+    {
+      "id": 160,
+      "hash": "78dec028",
+      "status": "PASS"
+    },
+    {
+      "id": 176,
+      "hash": "0a04b880",
+      "status": "PASS"
+    }
+  ],
+  "invocation": [
+    "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "/workspace/soccerweb/tools/tournament_lab.mjs",
+    "--preset",
+    "medium",
+    "--out",
+    "work/tournament-1000",
+    "--budget-seconds",
+    "1200",
+    "--verify"
+  ],
+  "environment": {
+    "node": "v24.22.1",
+    "platform": "linux",
+    "release": "6.18.57",
+    "arch": "x64",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "logicalCPUs": 5,
+    "ramBytes": 18882662400,
+    "runner": "local",
+    "gpu": "NOT USED"
+  },
+  "sessions": [
+    {
+      "wallSeconds": 431.91851137799995,
+      "cpuSeconds": 431.870679,
+      "peakRSSKiB": 96752,
+      "fixtures": 1000,
+      "ticks": 8879500,
+      "matchesPerSecond": 2.3152515431894396,
+      "ticksPerSecond": 20558.27607775063
+    }
+  ],
+  "journalSHA256": "bf7f2fcbedb042324cd8a850de0192b5b6a55a2a492e928e5467b0a0b64f46dc"
+}

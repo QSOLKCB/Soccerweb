@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "simulationVersion": 5,
+  "source": {
+    "sha": "99a60c73a614a4ca82df5d65bd915da9c835d5aa",
+    "dirty": false,
+    "codeSHA256": "c49207c0a69e03d01c9ee1cb045a7658506f529ce9f43a5b2a470d850bd3934a"
+  },
+  "options": {
+    "preset": "medium",
+    "count": 1000,
+    "seeds": [
+      42,
+      1988,
+      731,
+      19,
+      2026,
+      805,
+      99,
+      31415
+    ],
+    "mode": "both",
+    "seconds": 120
+  },
+  "shard": {
+    "index": 0,
+    "count": 1
+  },
+  "scheduleSHA256": "32a03ce82d1eab07885e453ce5c23a51e9c431e0f2d6a9300fa5f7311fc448f5",
+  "verificationRequired": true,
+  "metricDefinitions": "season_report.mjs; schema 1 extensions documented in docs/TOURNAMENT-LAB-001.md"
+}
