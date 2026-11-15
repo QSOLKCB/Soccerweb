@@ -115,3 +115,14 @@ test('airborne contact supports volleys and overheads',()=>{
   assert.ok(kick(a.s,a.p,'shot',40));assert.equal(a.s.events.at(-1).kind,'volley');
   assert.ok(kick(b.s,b.p,'overhead',40));assert.equal(b.s.events.at(-1).kind,'overhead');assert.ok(b.s.ball.vy<0);
 });
+test('charged long passes loft the ball while short passes stay low',()=>{
+  const a=possession(),b=possession();kick(a.s,a.p,'pass',5);kick(b.s,b.p,'pass',55);
+  assert.ok(b.s.ball.vz>a.s.ball.vz);assert.equal(b.s.stats.passes[0],1);
+});
+test('halftime swaps ends and knockout draws continue until a genuine goal',()=>{
+  const s=isolated({seconds:20,knockout:true});s.elapsed=599;step(s);assert.equal(s.phase,'halftime');
+  const oldFacing=s.players[0].fy;for(let i=0;i<150;i++)step(s);assert.equal(s.half,2);assert.equal(s.players[0].fy,-oldFacing);
+  s.phase='play';s.elapsed=1199;step(s);assert.equal(s.sudden,true);assert.equal(s.phase,'play');
+  s.players.forEach(p=>{p.x=25*Q;p.y=250*Q;});Object.assign(s.ball,{owner:-1,x:s.w/2,y:s.h-Q,vx:0,vy:5*Q,z:0,vz:0});ballPhysics(s);
+  assert.deepEqual(s.score,[1,0]);for(let i=0;i<150;i++)step(s);assert.equal(s.phase,'fulltime');
+});

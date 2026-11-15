@@ -13,7 +13,7 @@ if(!saved||typeof saved!=='object')saved={};if(!validCompetition(competition))co
 let mode='quick',state=null,previous=null,recorder=null,playing=false,paused=false,finished=false,activeCompetition=null;
 let demo=createState({humans:[false,false],seed:1988,seconds:120,difficulty:2}),demoPrev=demo;
 let accumulator=0,last=0,demoAccumulator=0,goalFrames=[],goalPlayback=null,verifiedReplay=null,playback=null,playbackIndex=0,toastTimer;
-let muted=true,importWorker=null;
+let muted=saved.muted===true,importWorker=null;
 const optionIDs=['home-team','away-team','ground','difficulty','duration','weather','master-volume','music-volume','sfx-volume','aftertouch','selection','visual','seed'];
 for(const id of ['home-team','away-team'])for(let i=0;i<TEAMS.length;i++){
   const option=document.createElement('option');option.value=i;option.textContent=TEAMS[i].name;$(id).append(option);
@@ -26,16 +26,17 @@ if(saved.maps&&Array.isArray(saved.maps)&&saved.maps.length===2){
   if(codes.every(c=>typeof c==='string'&&/^[A-Za-z0-9]+$/.test(c)&&!['Escape','KeyP'].includes(c))&&new Set(codes).size===20)controls.maps=structuredClone(saved.maps);
 }
 function toast(message){$('toast').textContent=message;$('toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').hidden=true,5000);}
-function savePreferences(){const prefs={maps:controls.maps};for(const id of optionIDs)prefs[id]=$(id).value;if(!save('soccerweb.preferences.v1',prefs))toast('Browser storage is unavailable. Settings last for this session.');applyOptions();}
+function savePreferences(){const prefs={maps:controls.maps,muted};for(const id of optionIDs)prefs[id]=$(id).value;if(!save('soccerweb.preferences.v1',prefs))toast('Browser storage is unavailable. Settings last for this session.');applyOptions();}
 function applyOptions(){
   audio.volumes(muted?0:Number($('master-volume').value)/100,Number($('music-volume').value)/100,Number($('sfx-volume').value)/100);
   for(const r of [renderer,preview]){r.retro=$('visual').value==='crt';r.palette=$('visual').value==='mint'?'mint':'classic';}
   $('weather').disabled=$('ground').value==='indoor';
 }
 function updateTeams(){
+  if($('home-team').value===$('away-team').value)$('away-team').value=String((Number($('home-team').value)+1)%TEAMS.length);
   for(const [prefix,id] of [['home','home-team'],['away','away-team']]){const t=TEAMS[Number($(id).value)];const b=$(prefix+'-badge');b.style.setProperty('--kit',t.color);b.replaceChildren(document.createTextNode(t.short[0]));const n=document.createElement('span');n.textContent=String(Number($(id).value)+1).padStart(2,'0');b.append(n);$(prefix+'-style').textContent=t.style;}
 }
-for(const id of optionIDs)$(id).addEventListener('change',()=>{savePreferences();updateTeams();});
+for(const id of optionIDs)$(id).addEventListener('change',()=>{updateTeams();savePreferences();});
 for(const id of ['master-volume','music-volume','sfx-volume'])$(id).addEventListener('input',()=>{muted=false;audio.start();savePreferences();$('sound-toggle').innerHTML='♫ <span>SOUND ON</span>';});
 function setMode(next){mode=next;document.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===mode));
   $('mode-description').textContent={quick:'Your club. Your moment. Take on the computer.',local:'One screen. Two rivals. Settle it on the pitch.',cup:'Eight clubs. Three rounds. One trophy. Golden goal breaks ties.',challenge:'Seven opponents. A rising challenge. Win to keep your run alive.'}[mode];
@@ -43,14 +44,14 @@ function setMode(next){mode=next;document.querySelectorAll('[data-mode]').forEac
 }
 document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
 $('swap-teams').onclick=()=>{const a=$('home-team').value;$('home-team').value=$('away-team').value;$('away-team').value=a;updateTeams();savePreferences();audio.event({type:'menu'});};
-$('sound-toggle').onclick=async()=>{muted=!muted;await audio.start();applyOptions();$('sound-toggle').innerHTML=muted?'♫ <span>SOUND OFF</span>':'♫ <span>SOUND ON</span>';};
+$('sound-toggle').onclick=async()=>{if(!audio.ctx){muted=false;await audio.start();}else muted=!muted;savePreferences();$('sound-toggle').innerHTML=muted?'♫ <span>SOUND OFF</span>':'♫ <span>SOUND ON</span>';};
 function matchConfig(){return {seed:Number($('seed').value),indoor:$('ground').value==='indoor',weather:$('weather').value,seconds:Number($('duration').value),difficulty:Number($('difficulty').value),teams:[Number($('home-team').value),Number($('away-team').value)],humans:[true,mode==='local'],aftertouch:Number($('aftertouch').value),auto:$('selection').value==='auto'};}
 function updateContinue(){ $('continue').hidden=!competition||competition.complete; }
 function enterMatch(s,label){
   state=s;previous=structuredClone(s);recorder=new Recorder(s);playing=true;paused=false;finished=false;controls.clear();controls.active=true;
   accumulator=0;goalFrames=[];goalPlayback=null;renderer.reset();$('menu').hidden=true;$('match').hidden=false;$('pause-overlay').hidden=true;$('result-overlay').hidden=true;$('replay-tag').hidden=true;
   $('match-kind').textContent=label;$('record-status').textContent=playback?'▶ VERIFIED PLAYBACK':'● RECORDING';
-  $('game').focus();audio.start();if(muted){muted=false;applyOptions();$('sound-toggle').innerHTML='♫ <span>SOUND ON</span>';}
+  $('game').focus();audio.start();applyOptions();$('sound-toggle').innerHTML=muted?'♫ <span>SOUND OFF</span>':'♫ <span>SOUND ON</span>';
   audio.setMode('match',s.config.weather==='rain'&&!s.config.indoor);audio.event({type:'whistle'});updateHUD();window.scrollTo({top:0});
 }
 function startMatch({continueCup=false,demoMode=false}={}){
