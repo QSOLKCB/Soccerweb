@@ -35,12 +35,14 @@ The controls can be remapped independently in **Settings**. Turn before releasin
 - Outdoor 11-versus-11 with throw-ins, corners, goal kicks, two halves and full time.
 - Indoor 6-versus-6 with a smaller pitch, faster movement and rebounding walls.
 - Quick Match, independent local two-player controls and AI-versus-AI attract mode.
+- Six Practice / Skills drills and the optional three-stage outdoor GOALPOSTS challenge.
+- Standard and common USB SNES controller profiles, live calibration, local remapping and menu navigation.
 - Eight fictional clubs with different colours and tactical tendencies; three AI difficulties.
 - Eight-team knockout Cup and seven-opponent International Challenge. Ties use golden goal. Other cup fixtures run the same simulation; they are not random score generators.
 - Acceleration, physical dribbling, interceptions, charging, short/long passes, straight/curved shots, chips, volleys, overhead attempts, tackles and goalkeeper saves/rebounds.
 - Rain alters traction, rolling resistance and seeded slip chances.
 - Articulated procedural footballers, distinct outdoor/indoor stadiums, ball shading/trails, three camera views, minimap, CRT/mint/pixel styles and reduced-motion support.
-- Five original layered music themes and impact-sensitive synthesized effects, with independent volume controls.
+- Six original layered music themes and impact-sensitive synthesized effects, with independent volume controls.
 - Automatic slow-motion goal replays and export/import of complete tick-indexed input replays.
 - Local settings and competition progress; service-worker caching for offline use after the first successful load.
 
@@ -58,8 +60,10 @@ The real Chromium/Firefox smoke suite is a **development-only** Python dependenc
 ```sh
 python3 -m venv work/test-env
 work/test-env/bin/pip install playwright==1.56.0
-work/test-env/bin/python -m playwright install chromium
+work/test-env/bin/python -m playwright install chromium firefox
 work/test-env/bin/python tests/browser_smoke.py
+work/test-env/bin/python tests/goalposts_browser.py
+BROWSER=firefox work/test-env/bin/python tests/goalposts_browser.py
 ```
 
 Linux hosts may also need `python -m playwright install --with-deps chromium firefox`. CI uses Ubuntu 24.04. The browser suite serves the game under a repository subpath and checks real keyboard movement, shooting, pause/resume, full time, replay export/import/playback, indoor P2 input, saved settings and an offline reload/match. Screenshots, RAF timings, seeded gameplay reports, audio event traces/reference WAVs and the actual match replay are uploaded as CI artifacts. High DPI, reduced motion, display options and live audio pause/resume are also checked. The matchday suite also uses sustained human-control inputs, virtual Gamepad API devices, all practice drills, separate CPU stage measurements and captured live Web Audio. See [verification evidence and limits](docs/VERIFICATION.md).
@@ -74,6 +78,6 @@ The worker precaches only local runtime assets, retains a coherent app version, 
 
 ## Engineering and release status
 
-Read [architecture and numeric rules](docs/ARCHITECTURE.md), [release notes](docs/RELEASE-NOTES.md), and [verification](docs/VERIFICATION.md). Phase 3 fixes action/possession edge cases, adds training and tunes indoor defending. See the [Phase 3 evidence](docs/PHASE-3.md) and [owner acceptance script](docs/MANUAL-QA.md). Historical Phase 2 evidence remains available. Manual multi-browser, physical gamepad, audio listening and extended balance reviews remain part of the next engineering pass. Rules intentionally omit offside, fouls, cards, substitutions and penalty shootouts. Replay hashes detect accidental divergence, not adversarial tampering.
+Read [architecture and numeric rules](docs/ARCHITECTURE.md), [release notes](docs/RELEASE-NOTES.md), and [verification](docs/VERIFICATION.md). Version 3.1 adds [GOALPOSTS](docs/GOALPOSTS.md) and [controller calibration](docs/CONTROLLERS.md), preserving the Phase 3 action/possession, training and indoor improvements. See the [Phase 3 evidence](docs/PHASE-3.md) and [owner acceptance script](docs/MANUAL-QA.md). Historical Phase 2 evidence remains available. Manual multi-browser, physical gamepad, audio listening and extended balance reviews remain part of the next engineering pass. Rules intentionally omit offside, fouls, cards, substitutions and penalty shootouts. Replay hashes detect accidental divergence, not adversarial tampering.
 
 Historical references: [MicroProse Soccer overview](https://en.wikipedia.org/wiki/MicroProse_Soccer) and [C64 Wiki mechanics](https://www.c64-wiki.com/wiki/Microprose_Soccer). This is independent software: no original source, sprites, team data, recordings, melodies or branding are included.

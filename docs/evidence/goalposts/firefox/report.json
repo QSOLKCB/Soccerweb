@@ -74,7 +74,7 @@
         },
         {
           "stage": 1,
-          "ticks": 52,
+          "ticks": 53,
           "points": 1,
           "conceded": 0
         }
@@ -83,7 +83,7 @@
         2,
         0
       ],
-      "hash": "1e12f398"
+      "hash": "b16bb227"
     },
     {
       "stage": 2,
@@ -118,13 +118,13 @@
         },
         {
           "stage": 1,
-          "ticks": 52,
+          "ticks": 53,
           "points": 1,
           "conceded": 0
         },
         {
           "stage": 2,
-          "ticks": 52,
+          "ticks": 53,
           "points": 2,
           "conceded": 0
         }
@@ -133,11 +133,11 @@
         3,
         0
       ],
-      "hash": "bd9a8674"
+      "hash": "288c322d"
     }
   ],
-  "replayHash": "bd9a8674",
-  "replayTicks": 1083,
+  "replayHash": "288c322d",
+  "replayTicks": 1085,
   "failureRetry": true,
   "offline": true,
   "physicalGamepad": "NOT RUN",

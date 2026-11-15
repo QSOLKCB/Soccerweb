@@ -58,6 +58,6 @@ Settings offers Follow, Wide tactical and Close cameras; Clean, CRT, Mint and Lo
 
 ## Replays, sound and offline use
 
-Pause or finish a match to export its replay JSON. Open **Replay studio**, import the file and wait for verification. A matching hash enables playback. This works for partial as well as complete v4 recordings. Earlier v1/v2/v3 files are rejected because the simulation changed. A goal automatically triggers a slower visual replay of recent recorded states.
+Pause or finish a match to export its replay JSON. Open **Replay studio**, import the file and wait for verification. A matching hash enables playback. This works for partial as well as complete v5 recordings. Earlier v1/v2/v3/v4 files are rejected because the simulation changed. A goal automatically triggers a slower visual replay of recent recorded states.
 
 Audio requires a click or kickoff to satisfy browser autoplay rules. Menu, outdoor, indoor, goal and victory have separate original themes. Adjust master, music and effects volumes independently; pausing suspends audio, and resuming restarts it. Offline play becomes available after successful asset caching, indicated in the footer. Installation is optional; an offline browser reload also works after caching. Close old tabs and reopen after an update to activate the new cached release.
