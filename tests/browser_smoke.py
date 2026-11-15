@@ -44,10 +44,14 @@ try:
         page.wait_for_function("async () => (await import('./app.mjs')).diagnostics()?.state.phase === 'play'")
         before = snapshot(page)
         selected = before['state']['selected'][0]
+        page.bring_to_front()
+        page.locator('#game').focus()
         page.keyboard.down('w')
         page.wait_for_timeout(500)
         page.keyboard.up('w')
         after = snapshot(page)
+        print('Movement evidence:', json.dumps({'before':before,'after':after}), flush=True)
+        page.screenshot(path=str(artifacts / 'movement.png'), full_page=True)
         assert after['state']['players'][selected]['y'] < before['state']['players'][selected]['y'] - 256
         page.keyboard.down('Space')
         page.wait_for_timeout(650)
