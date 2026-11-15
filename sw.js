@@ -1,5 +1,5 @@
 // Bump VERSION when any app asset changes. A new worker waits for all old tabs to close.
-const VERSION='soccerweb-v3.1.0-3';
+const VERSION='soccerweb-v3.1.0-4';
 const ROOT=new URL('./',self.location).href;
 const CACHE=VERSION+'-'+ROOT;
 const ASSETS=['./','./index.html','./style.css','./app.mjs','./icon.svg','./manifest.webmanifest',

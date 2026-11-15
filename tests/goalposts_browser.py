@@ -56,6 +56,8 @@ try:
    if stage==2:p.evaluate('testPads[0].axes[1]=0')
    else:p.keyboard.up('w')
    p.screenshot(path=str(OUT/f'stage-{stage+1}.png'),full_page=True)
+   if stage==0:
+    p.wait_for_function("soccerDiagnostics().state.phase==='goal'");p.keyboard.down('Space')
    if stage<2:p.wait_for_selector('#stage-overlay:not([hidden])',timeout=25000)
    else:p.wait_for_selector('#result-overlay:not([hidden])',timeout=25000)
    p.keyboard.up('q');p.evaluate('testPads=[]');s=snap(p);geometry=p.evaluate('goalGeometry(soccerDiagnostics().state,0)')
@@ -65,9 +67,12 @@ try:
    if stage==0:assert geometry['center']!=initial['center']
    stages.append({'stage':stage,'geometryBefore':initial,'geometryAfter':geometry,'history':s['state']['goalposts']['history'],'score':s['state']['score'],'hash':s['hash']})
    if stage<2:
+    if stage==0:assert s['state']['previous'][0]['fire'], 'hold kick through the celebration'
     assert p.evaluate('document.activeElement.id')=='stage-next'
     p.keyboard.press('Tab');assert p.evaluate('document.activeElement.id')=='stage-retry';p.keyboard.press('Tab');assert p.evaluate('document.activeElement.id')=='stage-export'
     p.click('#stage-next')
+    p.wait_for_function('(stage)=>soccerDiagnostics().state.goalposts.stage===stage+1',arg=stage)
+    if stage==0:p.keyboard.up('Space')
   assert snap(p)['state']['goalposts']['status']=='won';p.screenshot(path=str(OUT/'victory.png'),full_page=True)
   best=p.evaluate("localStorage.getItem('soccerweb.goalposts.v1')");assert json.loads(best)['runs'][0]['difficulty']==1
   with p.expect_download() as dl:p.click('#result-export')

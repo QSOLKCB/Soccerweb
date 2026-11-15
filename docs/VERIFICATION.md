@@ -1,9 +1,10 @@
 # GOALPOSTS / USB SNES verification
 
-Local native suite: **111 passed, 0 failed**. Packaging: **29 local runtime files plus `.nojekyll`**. Python compilation and whitespace checks pass. These are separate from browser execution.
+Local native suite: **113 passed, 0 failed**. Packaging: **29 local runtime files plus `.nojekyll`**. Python compilation and whitespace checks pass. These are separate from browser execution.
 
 - Normal football: twelve 4,000-input paired runs, both grounds × three difficulties × seeds 42/731, match merged `b086c70` at every checkpoint after normalizing only the declared version. Normal replay v5 fixture: **`541d73f5`**, 4,000 ticks / 13 checkpoints; v1–v4 rejected explicitly.
 - GOALPOSTS: six genuine input-driven three-stage victories (seeds 731/42 × three difficulties), each exported and independently replay-verified. Seed-731 hashes: **`c5a03750` / `fa343d42` / `f29f2fc2`**. Tests assert goal geometry, bounds, swept crossings, frame precedence, keeper target, stopped clocks, failure/progression and isolation.
+- Host stage-advance regression: holding kick through celebration records a neutral tick then a rising-edge press without reopening the stage overlay; the exported recording verifies. Already-released kick advances in one tick. Both real-browser mode routes also hold kick through celebration.
 - Controller coverage: SNES and standard layouts, two-player independence, digital axes/buttons, conflicting-button swaps, validation/persistence, menu edges, held-confirm suppression and existing pause/resume/disconnect regressions.
 - Audio: original six theme traces and bounded recipes; old themes/PCM pin unchanged. Browser capture includes the running GOALPOSTS theme separately from integer reference WAVs.
 

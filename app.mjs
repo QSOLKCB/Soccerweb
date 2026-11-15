@@ -166,9 +166,12 @@ async function showResult(replayEnd=false){
 function tick(){
   previous=structuredClone(state);const inputs=playback?playback.frames[playbackIndex].map(unpack):controls.sample();
   if(paused)return;
-  if(advanceStage&&!playback){inputs[0]={...EMPTY,fire:true};advanceStage=false;}
+  if(advanceStage&&!playback){
+    // A held kick needs a recorded release before the stage's rising-edge press.
+    const release=state.previous[0].fire;inputs[0]={...EMPTY,fire:!release};advanceStage=release;
+  }
   step(state,inputs);if(!playback)recorder?.record(state,inputs);else playbackIndex++;
-  if(state.phase==='stageclear'&&!playback){
+  if(state.phase==='stageclear'&&!playback&&!advanceStage){
     stageWaiting=true;controls.setGameplayEnabled(false);$('stage-overlay').hidden=false;$('stage-title').textContent=STAGES[state.goalposts.stage]+' — cleared!';$('stage-next').textContent=`NEXT: ${STAGES[state.goalposts.stage+1]} →`;$('stage-next').focus();
   }
   if(practice&&observePractice(practice)){togglePause(true);$('practice-next').focus();}

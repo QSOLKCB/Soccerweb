@@ -2,6 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import vm from 'node:vm';
+import {EMPTY} from '../game/state.mjs';
+import {routeInput} from './goalposts_route.mjs';
+import {verifyReplay,stateHash} from '../replay/replay.mjs';
 
 // Execute the actual browser host with a small DOM boundary and deferred fixture work.
 // Only test code exposes lifecycle entry points; no mutable test hooks ship in the app.
@@ -49,6 +52,9 @@ async function host() {
     .replace('export function diagnostics', 'function diagnostics');
   vm.runInContext(source + `\nglobalThis.testHost = {
     startMatch, startPractice, startGoalposts, diagnostics, home, setMode, showResult, togglePause, controls,
+    // Drive the actual host tick/record path, omitting only cosmetic replay wall-time delays.
+    runTick(input) { if(paused||stageWaiting||finished)return false;controls.sample=()=>input;tick();return true; },
+    replay() { return recorder.export(state); },
     finish() { state.phase='fulltime'; state.score=[2,1]; return showResult(); },
     read() { return structuredClone({competition, activeCompetition, playing, finished, paused}); }
   };`, context, {filename:'app.mjs'});
@@ -124,4 +130,27 @@ test('GOALPOSTS invalidates pending cup results and leaves preferences, cup and 
  h.app.startGoalposts({difficulty:1});assert.equal(h.app.diagnostics().state.config.mode,'goalposts');assert.equal(h.app.read().activeCompetition,null);assert.equal(h.app.diagnostics().practice,null);
  h.pending[0].resolve(nextRound(h.pending[0]));await completion;assert.deepEqual([...h.storage],saved);
  h.app.home();h.app.startPractice(2);assert.equal(h.app.diagnostics().state.goalposts,undefined);assert.deepEqual([...h.storage],saved);
+});
+
+for(const held of [false,true])test(`Next Stage records a rising edge when kick ends the celebration ${held?'held':'released'}`,async()=>{
+ const h=await host();h.app.startGoalposts({difficulty:1,aftertouch:2,seed:731});
+ while(h.app.diagnostics().state.phase!=='stageclear'){
+  const s=h.app.diagnostics().state;assert.ok(s.tick<1000);
+  const input=s.phase==='goal'?[{...EMPTY,fire:held},{...EMPTY}]:routeInput(s);
+  assert.equal(h.app.runTick(input),true);
+ }
+ const before=h.app.diagnostics();assert.equal(before.state.previous[0].fire,held);
+ h.elements.get('stage-next').onclick();
+ const physical=[{...EMPTY,fire:held},{...EMPTY}];
+ assert.equal(h.app.runTick(physical),true);
+ if(held){
+  const released=h.app.diagnostics();assert.equal(released.state.phase,'stageclear');assert.equal(released.state.previous[0].fire,false);
+  assert.equal(h.elements.get('stage-overlay').hidden,true,'neutral tick must not reopen the overlay');
+  assert.equal(h.app.runTick(physical),true,'queued press must receive a second tick');
+ }
+ const after=h.app.diagnostics();assert.equal(after.state.goalposts.stage,1);assert.equal(after.state.phase,'kickoff');
+ assert.equal(after.recordedTicks-before.recordedTicks,held?2:1);
+ const replay=JSON.parse(JSON.stringify(h.app.replay()));
+ assert.equal(replay.frames.at(-1)[0][2],1);if(held)assert.equal(replay.frames.at(-2)[0][2],0);
+ assert.equal(stateHash(verifyReplay(replay)),after.hash,'release and press must both replay deterministically');
 });
