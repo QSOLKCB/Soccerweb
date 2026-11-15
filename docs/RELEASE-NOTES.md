@@ -4,6 +4,7 @@
 - **CURRENT STANDARD** stays above the actual opening in all stages, with modest contrast/legibility improvements and smooth geometry interpolation. The huge pitch, tiny players and existing camera remain intact.
 - Short procedural revision/relocation/narrowing/post/award cues; bounded deterministic cosmetic scheduling, polite announcements, reduced-motion and minimal-effects support.
 - Physics, AI, controls, competition isolation and replay **v5** are unchanged. Exact pre-polish fixtures/checkpoints are retained. Offline inventory includes the presentation module.
+- Partial GOALPOSTS replays end neutrally with their recorded progress; failure explanations require an actually failed run.
 
 See [scope, evidence and limits](GOALPOSTS-POLISH-001.md). Physical hardware and human playtesting/listening remain **NOT RUN**.
 

@@ -13,6 +13,10 @@ Initial browser attempt: [run 43702343462](https://github.com/QSOLKCB/Soccerweb/
 
 The committed `native-before.json` is the exact merged-main reference; native tests require the new source to match it without version normalization. Browser probes and full live gameplay captures are separate, labelled evidence. See [implementation and reproduction](../../GOALPOSTS-POLISH-001.md).
 
+Follow-up repeat: [run 43704145178](https://github.com/QSOLKCB/Soccerweb/actions/runs/43704145178), source `f9a469c91c1665842a71e7aedcd72d09dc34591a`, **FAIL** in Chromium stage two; [diagnostic artifact](https://github.com/QSOLKCB/Soccerweb/actions/runs/43704145178/artifacts/14158350447). Stage one cleared correctly. The failure replay verifies as `281cd847`: stage two charged for 45 ticks versus 44 in the saved passing run, producing a different shot position. Paired captures still passed in both browsers. The final harness synchronizes all scoring-stage controls at sampling, and separately checks trusted keyboard movement/charge/shooting plus partial replay export/import. It does not extend the timeout or retry until a shot happens to score.
+
+Review also identified partial replay completion incorrectly showing timeout text for `playing`/`cleared` statuses. The host now uses neutral recording-complete copy for those statuses and reserves failure explanations for `failed`. Three additional native cases cover a verified 150-tick partial, a stage-cleared partial and a genuinely failed recording. The archived winning screenshots/replay below predate that UI-only fix and remain valid; final-head results are linked from the PR. Native test count after this fix is **146**.
+
 ## Successful browser evidence
 
 [Run 43703287983](https://github.com/QSOLKCB/Soccerweb/actions/runs/43703287983), GOALPOSTS job **PASS**, feature source **`ff90756fecf1794463a51ff62a98c2d76a531d8a`**, tested merge **`d7c9b04ae7ac2dfe4381bd97c931395ed1f51d8c`**. The subsequent evidence commit changes documentation only. See [PR #11 checks](https://github.com/QSOLKCB/Soccerweb/pull/11/checks) for the final head's full regression gate.

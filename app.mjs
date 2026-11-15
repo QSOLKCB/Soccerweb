@@ -153,12 +153,12 @@ async function showResult(replayEnd=false){
   const next=$('result-next');next.disabled=false;next.textContent=replayEnd?'RETURN TO CLUBHOUSE →':'PLAY AGAIN →';next.onclick=replayEnd?home:()=>startMatch();
   $('result-review').hidden=true;$('result-standards').hidden=true;
   if(state.goalposts){
-    const won=state.goalposts.status==='won';audio.setMode(won?'victory':'goalposts');$('result-label').textContent=(replayEnd?'VERIFIED REPLAY / ':'GOALPOSTS / ')+(won?'ALL THREE STANDARDS MET':'RUN ENDED');
-    $('result-title').textContent=won?STANDARD_VICTORY:'THE STANDARD SURVIVES.';
-    $('result-review').hidden=false;$('result-review').textContent=won?STANDARD_REVIEW:'A FRESH SUBMISSION IS ALWAYS WELCOME.';
+    const won=state.goalposts.status==='won',failed=state.goalposts.status==='failed';audio.setMode(won?'victory':'goalposts');$('result-label').textContent=(replayEnd?'VERIFIED REPLAY / ':'GOALPOSTS / ')+(won?'ALL THREE STANDARDS MET':failed?'RUN ENDED':'RECORDING ENDED');
+    $('result-title').textContent=won?STANDARD_VICTORY:failed?'THE STANDARD SURVIVES.':'REPLAY COMPLETE.';
+    $('result-review').hidden=false;$('result-review').textContent=won?STANDARD_REVIEW:failed?'A FRESH SUBMISSION IS ALWAYS WELCOME.':'THIS RECORDING ENDS BEFORE THE RUN IS FINISHED.';
     $('result-standards').hidden=false;$('result-standards').replaceChildren();
     for(const record of state.goalposts.history){const line=document.createElement('li');line.textContent=`STANDARD ${record.stage+1} · APPROVED · ${record.points} ${record.points===1?'point':'points'} · ${(record.ticks/60).toFixed(1)}s`;$('result-standards').append(line);}
-    $('result-score').textContent=`${state.goalposts.total} points · ${(state.goalposts.spent/60).toFixed(1)} active seconds · ${won?'Every valid goal remains on the record.':state.goalposts.conceded>=2?'Two goals conceded in this stage. Try again.':'The active-time allowance expired. Try again.'}`;
+    $('result-score').textContent=`${state.goalposts.total} points · ${(state.goalposts.spent/60).toFixed(1)} active seconds · ${won?'Every valid goal remains on the record.':!failed?'Recorded progress only; the run had not ended.':state.goalposts.conceded>=2?'Two goals conceded in this stage. Try again.':'The active-time allowance expired. Try again.'}`;
     next.textContent=replayEnd?'RETURN TO CLUBHOUSE →':'RETRY THREE-STAGE RUN →';next.onclick=replayEnd?home:()=>startGoalposts(state.config);
     if(won&&!replayEnd){if(!save(BEST_KEY,updateBest(readSaved(BEST_KEY,null),state)))toast('Best time could not be saved.');}
     next.focus();return;

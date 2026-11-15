@@ -34,12 +34,12 @@ try:
  p.reload();install(p);assert p.evaluate("localStorage.getItem('soccerweb.controllers.v1')")==profile
  p.evaluate("""window.testPads=[];window.padShot=null;navigator.getGamepads=()=>{
   if(padShot){
-   const s=soccerDiagnostics().state,t=s.goalposts.clock,pad=padShot;
+   const s=soccerDiagnostics().state,t=s.goalposts.clock,pad=padShot,wait=s.goalposts.stage===0?90:0,release=wait+(s.goalposts.stage===0?60:45);
    // A virtual device delivers simultaneous D-pad/button changes at input sampling,
    // avoiding separate host round trips between aim, curve and kick release.
-   pad.axes=[s.phase==='play'&&t>=90&&t<150?1:0,s.phase==='play'&&t>=90&&t<=150?-1:0];
-   pad.buttons[2].pressed=s.phase==='goal'||s.phase==='play'&&t>=90&&t<150;
-   pad.buttons[4].pressed=s.phase==='play'&&t>=150;
+   pad.axes=[s.phase==='play'&&t>=wait&&t<release?1:0,s.phase==='play'&&t>=wait&&t<=release?-1:0];
+   pad.buttons[2].pressed=s.phase==='goal'&&s.goalposts.stage===0||s.phase==='play'&&t>=wait&&t<release;
+   pad.buttons[4].pressed=s.phase==='play'&&t>=release;
    return [pad];
   }
   return testPads;
@@ -48,35 +48,46 @@ try:
  p.click('[data-mode="cup"]');p.click('#kickoff');p.keyboard.press('Escape');p.click('#pause-quit')
  cup=p.evaluate("localStorage.getItem('soccerweb.competition.v1')");prefs=p.evaluate("localStorage.getItem('soccerweb.preferences.v1')")
  p.click('#goalposts-button');assert 'Outdoor' in p.locator('#goalposts-dialog').inner_text();p.screenshot(path=str(OUT/'menu.png'),full_page=True);p.click('#goalposts-start')
+ # Trusted browser keyboard input: movement, charge and a real shot. Scoring is not
+ # assumed: exact simultaneous release/aim timing belongs to the separate device route.
+ p.wait_for_function("soccerDiagnostics().state.phase==='play'");keyboard_start=snap(p)['state'];selected=keyboard_start['selected'][0]
+ p.keyboard.down('w');p.keyboard.down('d');p.keyboard.down('Space');clock(p,keyboard_start['goalposts']['clock']+35)
+ charged=snap(p)['state'];assert charged['players'][selected]['charge']>0
+ assert (charged['players'][selected]['x'],charged['players'][selected]['y'])!=(keyboard_start['players'][selected]['x'],keyboard_start['players'][selected]['y'])
+ p.keyboard.up('d');p.keyboard.down('q');p.keyboard.up('Space');p.wait_for_function('soccerDiagnostics().state.stats.shots[0]>0');p.keyboard.up('w');p.keyboard.up('q')
+ p.keyboard.press('Escape')
+ with p.expect_download() as dl:p.click('#pause-save')
+ partial_path=OUT/'partial-replay.json';dl.value.save_as(str(partial_path));partial_best=p.evaluate("localStorage.getItem('soccerweb.goalposts.v1')")
+ p.click('#pause-quit');p.click('#replays-button');p.set_input_files('#replay-file',str(partial_path));p.wait_for_selector('#watch-replay:not([hidden])',timeout=30000);p.click('#watch-replay')
+ p.wait_for_selector('#result-overlay:not([hidden])',timeout=30000)
+ assert snap(p)['state']['goalposts']['status'] in ['playing','cleared']
+ assert p.locator('#result-title').inner_text()=='REPLAY COMPLETE.'
+ assert 'Recorded progress only' in p.locator('#result-score').inner_text()
+ assert p.evaluate("localStorage.getItem('soccerweb.goalposts.v1')")==partial_best
+ shot(p,'partial-replay-complete.png');p.click('#result-next');p.click('#goalposts-button');p.click('#goalposts-start')
  # The actual mode supports the same keyboard and virtual standard-gamepad pause semantics.
  p.keyboard.press('Escape');frozen=snap(p)['hash'];p.wait_for_timeout(120);assert snap(p)['hash']==frozen
  p.keyboard.press('Tab');assert p.evaluate('document.activeElement.id')=='pause-save';p.keyboard.press('Escape')
  p.evaluate("window.testPads=[{axes:[0,0],buttons:Array.from({length:16},()=>({pressed:false}))}];testPads[0].buttons[9].pressed=true")
  p.wait_for_function('soccerDiagnostics().paused');p.evaluate('testPads[0].buttons[9].pressed=false');p.wait_for_timeout(80);p.evaluate('testPads[0].buttons[9].pressed=true');p.wait_for_function('!soccerDiagnostics().paused');p.evaluate('testPads=[]')
+ # Complete all stages with a sampled virtual SNES route. This feeds the production
+ # Gamepad API/control path and changes no match state, clock, physics or scoring.
+ p.evaluate("padShot={axes:[0,0],buttons:Array.from({length:16},()=>({pressed:false}))}")
  stages=[]
  for stage in range(3):
   p.wait_for_function('(stage)=>soccerDiagnostics().state.goalposts.stage===stage&&soccerDiagnostics().state.phase==="play"',arg=stage)
   p.wait_for_function("soccerDiagnostics().audio.state==='running'");assert snap(p)['audio']['mode']=='goalposts';assert snap(p)['audio']['voices']<=64
   initial=p.evaluate('goalGeometry(soccerDiagnostics().state,0)')
-  if stage==0:p.evaluate("padShot={axes:[0,0],buttons:Array.from({length:16},()=>({pressed:false}))}")
-  elif stage==2:p.evaluate("testPads=[{axes:[1,-1],buttons:Array.from({length:16},(_,i)=>({pressed:i===2}))}]")
-  else:p.keyboard.down('w');p.keyboard.down('d');p.keyboard.down('Space')
-  # Read-only active clock determines when to release real keys; no simulation mutation.
+  # Wait for the real device-driven shot before taking a live screenshot.
   release=150 if stage==0 else 45
   clock(p,release)
-  if stage==2:p.evaluate('testPads[0].axes[0]=0;testPads[0].buttons[4].pressed=true;testPads[0].buttons[2].pressed=false')
-  elif stage==1:p.keyboard.up('d');p.keyboard.down('q');p.keyboard.up('Space')
-  # Keep up through one real tick so aiming follows the same control path as a person.
-  p.wait_for_timeout(35)
-  if stage==2:p.evaluate('testPads[0].axes[1]=0')
-  elif stage==1:p.keyboard.up('w')
   assert p.locator('#goalposts-announcement').get_attribute('aria-live')=='polite'
   assert p.locator('#goalposts-revision').inner_text().startswith(f'STANDARD 0{stage+1}')
   shot(p,f'stage-{stage+1}.png')
   if stage==0:p.wait_for_function("soccerDiagnostics().state.phase==='goal'&&soccerDiagnostics().state.score[0]===1")
   if stage<2:p.wait_for_selector('#stage-overlay:not([hidden])',timeout=25000)
   else:p.wait_for_selector('#result-overlay:not([hidden])',timeout=25000)
-  p.keyboard.up('q');p.evaluate('testPads=[];padShot=null');s=snap(p);geometry=p.evaluate('goalGeometry(soccerDiagnostics().state,0)')
+  s=snap(p);geometry=p.evaluate('goalGeometry(soccerDiagnostics().state,0)')
   assert s['state']['score'][0]==stage+1,s
   assert p.evaluate("localStorage.getItem('soccerweb.competition.v1')")==cup
   assert p.evaluate("localStorage.getItem('soccerweb.preferences.v1')")==prefs
@@ -88,7 +99,7 @@ try:
    p.keyboard.press('Tab');assert p.evaluate('document.activeElement.id')=='stage-retry';p.keyboard.press('Tab');assert p.evaluate('document.activeElement.id')=='stage-export'
    p.click('#stage-next')
    p.wait_for_function('(stage)=>soccerDiagnostics().state.goalposts.stage===stage+1',arg=stage)
- assert snap(p)['state']['goalposts']['status']=='won'
+ p.evaluate('testPads=[];padShot=null');assert snap(p)['state']['goalposts']['status']=='won'
  assert p.locator('#result-title').inner_text()=='YOU HAVE SUCCESSFULLY MET EVERY STANDARD.'
  assert p.locator('#result-review').inner_text()=='A NEW STANDARD IS NOW UNDER REVIEW.'
  assert p.locator('#result-standards li').count()==3
@@ -117,7 +128,7 @@ try:
  p.click('#goalposts-button');p.click('#goalposts-start');p.wait_for_function("soccerDiagnostics().state.phase==='play'")
  clock(p,180);assert p.evaluate('goalGeometry(soccerDiagnostics().state,0).center')!=snap(p)['state']['w']/2
  p.screenshot(path=str(OUT/'offline.png'),full_page=True);assert not errors,errors
- (OUT/'report.json').write_text(json.dumps({'status':'PASS','source':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'browser':os.environ.get('BROWSER','chromium'),'userAgent':p.evaluate('navigator.userAgent'),'captures':captures,'captureTiming':'Live inputs and RAF: screenshots occur between tickBefore and tickAfter; browser runs can differ. Paired deterministic comparisons are separate.','stages':stages,'replayHash':replay['finalHash'],'replayTicks':len(replay['frames']),'failureRetry':True,'offline':True,'physicalGamepad':'NOT RUN','manualPlaytesting':'NOT RUN','manualListening':'NOT RUN'},indent=2))
+ (OUT/'report.json').write_text(json.dumps({'status':'PASS','source':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'browser':os.environ.get('BROWSER','chromium'),'userAgent':p.evaluate('navigator.userAgent'),'captures':captures,'captureTiming':'Live inputs and RAF: screenshots occur between tickBefore and tickAfter; browser runs can differ. Paired deterministic comparisons are separate.','stages':stages,'replayHash':replay['finalHash'],'replayTicks':len(replay['frames']),'trustedKeyboardMoveChargeShot':True,'partialReplayNeutral':True,'scoringRoute':'Virtual SNES controls scheduled at input sampling; no state injection','failureRetry':True,'offline':True,'physicalGamepad':'NOT RUN','manualPlaytesting':'NOT RUN','manualListening':'NOT RUN'},indent=2))
  print('GOALPOSTS PASS',os.environ.get('BROWSER','chromium'),replay['finalHash'],flush=True);browser.close()
 except Exception:
  # Preserve the actual failure, including the recorded input stream, before rethrowing.
