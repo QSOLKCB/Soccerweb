@@ -67,7 +67,7 @@ export async function execute(o){
   fs.mkdirSync(o.out,{recursive:false});atomic(path.join(o.out,'manifest.json'),manifest);
   atomic(path.join(o.out,'fixtures.ndjson'),rows.map(r=>JSON.stringify(r)+'\n').join(''));
   writeReport(o.out,manifest,rows,receipt.status);
-  atomic(path.join(o.out,'receipt.json'),{...receipt,report:{source:source(),inputJournalSHA256:receipt.journalSHA256}});
+  atomic(path.join(o.out,'receipt.json'),{...receipt,journalSHA256:digest(fs.readFileSync(path.join(o.out,'fixtures.ndjson'))),report:{source:source(),inputJournalSHA256:receipt.journalSHA256}});
   return receipt.status==='PASS'?0:receipt.status==='FAIL'?1:2;
  }
  if(o.command==='merge'){

@@ -135,6 +135,20 @@ test('regenerating a completed individual shard report preserves assignment and 
  const result=spawnSync(process.execPath,['tools/tournament_lab.mjs','report','--inputs',input,'--out',out],{encoding:'utf8'});assert.equal(result.status,0,result.stderr);
  assert.deepEqual(readJSON(path.join(out,'manifest.json')),manifest);assert.equal(loadReceipt(out).status,'PASS');assert.match(fs.readFileSync(path.join(out,'index.html'),'utf8'),/2\/2 assigned fixtures completed \(4 scheduled overall; shard 2\/2\)/);
 });
+test('regenerated reports checksum the normalized journal and preserve CRLF input provenance',t=>{
+ const dir=temp(t),input=path.join(dir,'input'),out=path.join(dir,'report');
+ assert.equal(spawnSync(process.execPath,['tools/tournament_lab.mjs','--out',input,'--max-fixtures','2','--seconds','20','--verify']).status,0);
+ const journal=path.join(input,'fixtures.ndjson'),receiptFile=path.join(input,'receipt.json');
+ const lf=fs.readFileSync(journal,'utf8'),crlf=lf.replaceAll('\n','\r\n');fs.writeFileSync(journal,crlf);
+ const receipt=readJSON(receiptFile);receipt.journalSHA256=digest(crlf);atomic(receiptFile,receipt);
+ assert.equal(loadReceipt(input).status,'PASS');
+ const result=spawnSync(process.execPath,['tools/tournament_lab.mjs','report','--inputs',input,'--out',out],{encoding:'utf8'});assert.equal(result.status,0,result.stderr);
+ assert.equal(fs.readFileSync(path.join(out,'fixtures.ndjson'),'utf8'),lf);
+ const outputReceipt=loadReceipt(out);assert.equal(outputReceipt.status,'PASS');assert.equal(outputReceipt.journalSHA256,digest(lf));
+ assert.equal(outputReceipt.report.inputJournalSHA256,digest(crlf));assert.notEqual(outputReceipt.journalSHA256,outputReceipt.report.inputJournalSHA256);
+ assert.equal(fs.readFileSync(journal,'utf8'),crlf);assert.equal(loadReceipt(input).status,'PASS');
+ const capture=spawnSync(process.execPath,['tools/tournament_capture_plan.mjs',out,'1','1'],{encoding:'utf8'});assert.equal(capture.status,0,capture.stderr);assert.equal(JSON.parse(capture.stdout).captures.length,1);
+});
 test('capture planning rejects missing, partial and failed native verification receipts',t=>{
  const dir=temp(t),out=path.join(dir,'run');
  assert.equal(spawnSync(process.execPath,['tools/tournament_lab.mjs','--out',out,'--max-fixtures','4','--seconds','20','--verify']).status,0);
