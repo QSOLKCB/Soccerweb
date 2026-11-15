@@ -22,6 +22,21 @@ url = f'http://127.0.0.1:{server.server_port}/{ROOT.name}/'
 artifacts = ROOT / 'work' / 'browser'
 artifacts.mkdir(parents=True, exist_ok=True)
 
+def frame_sample(page):
+    # RAF intervals in the CI browser, not a claim about ordinary laptop performance.
+    return page.evaluate("""() => new Promise(resolve => {
+      const intervals=[]; let previous;
+      function sample(now) {
+        if(previous !== undefined) intervals.push(now-previous);
+        previous=now;
+        if(intervals.length < 120) requestAnimationFrame(sample);
+        else { intervals.sort((a,b)=>a-b); resolve({frames:120,
+          meanMs:intervals.reduce((a,b)=>a+b,0)/120,p95Ms:intervals[113],maxMs:intervals[119],
+          dpr:devicePixelRatio,width:innerWidth,height:innerHeight}); }
+      }
+      requestAnimationFrame(sample);
+    })""")
+
 def snapshot(page):
     return page.evaluate("async () => (await import('./app.mjs')).diagnostics()")
 
@@ -78,6 +93,8 @@ try:
         page.keyboard.press('Space')
         assert not snapshot(page)['paused']
         page.screenshot(path=str(artifacts / 'match.png'), full_page=True)
+        page.screenshot(path=str(artifacts / 'outdoor-match.png'), full_page=True)
+        performance = {'outdoor': frame_sample(page)}
         # Complete a live 60-second match with the normal animation/input loop.
         page.wait_for_selector('#result-overlay:not([hidden])', timeout=240000)
         result = snapshot(page)
@@ -118,6 +135,9 @@ try:
         page.wait_for_timeout(400)
         page.keyboard.up('ArrowRight')
         assert snapshot(page)['state']['players'][p2]['x'] > before['state']['players'][p2]['x'] + 256
+        page.screenshot(path=str(artifacts / 'indoor-match.png'), full_page=True)
+        performance['indoor'] = frame_sample(page)
+        (artifacts / 'frame-timings.json').write_text(json.dumps(performance, indent=2))
         page.keyboard.press('Escape')
         page.click('#pause-quit')
         page.click('#options-button')

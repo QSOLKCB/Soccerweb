@@ -24,6 +24,10 @@ jobs:
           python-version: '3.12'
       - name: Native deterministic regression suite
         run: node --test tests/*.test.mjs
+      - name: Seeded gameplay measurements
+        run: |
+          mkdir -p work/browser
+          node tests/gameplay_report.mjs > work/browser/gameplay-report.json
       - name: Install browser test tooling (not shipped with the game)
         run: |
           python -m pip install playwright==1.56.0
