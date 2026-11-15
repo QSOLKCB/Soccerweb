@@ -155,7 +155,7 @@ function controlsTable(remap=false){
   }return table;
 }
 function renderMappings(){$('key-mappings').replaceChildren(controlsTable(true));$('help-controls').replaceChildren(controlsTable());}
-for(const [button,dialog] of [['help-button','help-dialog'],['options-button','options-dialog'],['replays-button','replays-dialog']])$(button).onclick=()=>{if(dialog==='replays-dialog')renderRecord();$(dialog).showModal();audio.start();audio.event({type:'menu'});};
+for(const [button,dialog] of [['help-button','help-dialog'],['options-button','options-dialog'],['replays-button','replays-dialog']])$(button).onclick=()=>{if(dialog==='replays-dialog')renderRecord();$(dialog).showModal();audio.start();$('sound-toggle').innerHTML=muted?'♫ <span>SOUND OFF</span>':'♫ <span>SOUND ON</span>';audio.event({type:'menu'});};
 document.querySelectorAll('dialog .close').forEach(b=>b.onclick=()=>b.closest('dialog').close());
 document.querySelectorAll('dialog').forEach(d=>d.addEventListener('close',()=>{controls.capture=null;renderMappings();}));
 $('reset-keys').onclick=()=>{controls.maps=structuredClone(DEFAULT_MAPS);savePreferences();renderMappings();};

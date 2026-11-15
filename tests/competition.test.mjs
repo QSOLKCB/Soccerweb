@@ -18,3 +18,8 @@ test('competition state survives JSON serialization and ties cannot advance',asy
   const c=createCompetition('cup',2);assert.ok(validCompetition(JSON.parse(JSON.stringify(c))));assert.equal(validCompetition({}),false);
   await assert.rejects(()=>finishFixture(c,[1,1]));
 });
+test('corrupt saved rounds and missing opponents are rejected before menu use',()=>{
+  const c=createCompetition('challenge',0);assert.equal(validCompetition({...c,round:7,complete:false}),false);
+  assert.equal(validCompetition({...c,field:[0]}),false);assert.equal(validCompetition({...c,seed:'bad'}),false);
+  const cup=createCompetition('cup',0);assert.equal(validCompetition({...cup,round:2}),false);
+});
