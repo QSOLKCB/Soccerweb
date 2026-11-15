@@ -1,0 +1,38 @@
+{
+  "source": "Live AudioEngine -> MediaStreamDestination -> MediaRecorder Opus -> decoded PCM WAV",
+  "mime": "audio/webm;codecs=opus",
+  "transitions": [
+    {
+      "mode": "menu",
+      "at": 0.020317460317460317
+    },
+    {
+      "mode": "outdoor",
+      "at": 1.2045351473922903
+    },
+    {
+      "mode": "indoor",
+      "at": 2.411972789115646
+    },
+    {
+      "mode": "goal",
+      "at": 3.6165079365079364
+    },
+    {
+      "mode": "victory",
+      "at": 4.821043083900227
+    }
+  ],
+  "sampleRate": 44100,
+  "channels": 2,
+  "samples": 284600,
+  "peak": 0.06842779368162155,
+  "rms": 0.005194738667244556,
+  "clippedSamples": 0,
+  "maxSampleDelta": 0.014552616514265537,
+  "peakVoices": 19,
+  "pause": "suspended",
+  "resume": "running",
+  "listening": "NOT RUN",
+  "userAgent": "Mozilla/5.0 (X11; Linux x86_64; rv:142.0) Gecko/20100101 Firefox/142.0"
+}

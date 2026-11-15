@@ -15,7 +15,7 @@
     "possession": "Consecutive active ticks with the same player owning the ball; stopped play closes a spell.",
     "short": "Spell <20 ticks.",
     "firstTouchLoss": "Spell <3 ticks, including kicks and losses; not necessarily a turnover.",
-    "interception": "Pass changes last-touch team, including deflections.",
+    "interception": "During continuous play, a pass changes last-touch team, including deflections; restart assignment excluded.",
     "blowout": "Absolute final goal margin >=5.",
     "conversion": "Goals / shot attempts; descriptive, not shot-level xG."
   },
@@ -29,7 +29,7 @@
       "passes": 923,
       "completedPasses": 418,
       "saves": 76,
-      "interceptions": 659,
+      "interceptions": 425,
       "firstTouchLosses": 115,
       "shortPossessionPercent": 31.661092530657747,
       "meanPossessionTicks": 31.594760312151617,
@@ -73,7 +73,7 @@
       "passes": 1194,
       "completedPasses": 1081,
       "saves": 85,
-      "interceptions": 60,
+      "interceptions": 59,
       "firstTouchLosses": 96,
       "shortPossessionPercent": 59.36482084690554,
       "meanPossessionTicks": 26.368078175895764,
@@ -192,8 +192,8 @@
         1599
       ],
       "interceptions": [
-        22,
-        19
+        18,
+        11
       ],
       "firstTouchLosses": [
         17,
@@ -250,8 +250,8 @@
         1878
       ],
       "interceptions": [
-        21,
-        21
+        18,
+        10
       ],
       "firstTouchLosses": [
         2,
@@ -308,8 +308,8 @@
         1382
       ],
       "interceptions": [
-        25,
-        28
+        22,
+        15
       ],
       "firstTouchLosses": [
         2,
@@ -366,8 +366,8 @@
         1837
       ],
       "interceptions": [
-        22,
-        16
+        15,
+        11
       ],
       "firstTouchLosses": [
         8,
@@ -424,8 +424,8 @@
         1705
       ],
       "interceptions": [
-        15,
-        17
+        14,
+        7
       ],
       "firstTouchLosses": [
         3,
@@ -482,8 +482,8 @@
         1715
       ],
       "interceptions": [
-        22,
-        21
+        14,
+        14
       ],
       "firstTouchLosses": [
         3,
@@ -540,8 +540,8 @@
         1597
       ],
       "interceptions": [
-        17,
-        15
+        10,
+        11
       ],
       "firstTouchLosses": [
         1,
@@ -598,8 +598,8 @@
         1682
       ],
       "interceptions": [
-        22,
-        21
+        12,
+        15
       ],
       "firstTouchLosses": [
         2,
@@ -656,8 +656,8 @@
         1458
       ],
       "interceptions": [
-        25,
-        20
+        19,
+        11
       ],
       "firstTouchLosses": [
         4,
@@ -714,8 +714,8 @@
         1957
       ],
       "interceptions": [
-        19,
-        16
+        15,
+        7
       ],
       "firstTouchLosses": [
         3,
@@ -772,8 +772,8 @@
         1644
       ],
       "interceptions": [
-        29,
-        24
+        25,
+        5
       ],
       "firstTouchLosses": [
         1,
@@ -830,8 +830,8 @@
         1816
       ],
       "interceptions": [
-        26,
-        22
+        19,
+        11
       ],
       "firstTouchLosses": [
         1,
@@ -888,8 +888,8 @@
         1726
       ],
       "interceptions": [
-        23,
-        24
+        14,
+        16
       ],
       "firstTouchLosses": [
         0,
@@ -946,8 +946,8 @@
         1680
       ],
       "interceptions": [
-        21,
-        21
+        15,
+        12
       ],
       "firstTouchLosses": [
         3,
@@ -1004,8 +1004,8 @@
         1359
       ],
       "interceptions": [
-        19,
-        17
+        14,
+        9
       ],
       "firstTouchLosses": [
         2,
@@ -1062,8 +1062,8 @@
         1494
       ],
       "interceptions": [
-        14,
-        15
+        9,
+        7
       ],
       "firstTouchLosses": [
         2,
@@ -2281,7 +2281,7 @@
       ],
       "interceptions": [
         3,
-        4
+        3
       ],
       "firstTouchLosses": [
         2,

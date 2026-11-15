@@ -1,3 +1,30 @@
+# Verification record — Phase 3
+
+## Executed locally
+
+- `node --test tests/*.test.mjs`: **92 passed, 0 failed**. All Phase 2 regressions remain. New coverage includes tap buffering, gesture consumption, possession-change/switch cancellation, nearby first-time expiry, keeper-held protection, first-touch damping, passive steal geometry, all six drills on both grounds, real curved goal vs frame-hit/miss/save, host cup/practice isolation and portable audio envelope release.
+- `node tests/season_report.mjs`: all **96 paired 120-second fixtures** reached full time. Seeds/clubs/definitions and every hash are inspectable in [Phase 3 evidence](PHASE-3.md).
+- `python3 tests/package.py`: **27 local runtime files plus `.nojekyll`**.
+- Python compilation and `git diff --check`: passed. Compilation is not browser execution.
+- Replay v4 seed-731 rain fixture: 4,000 input frames, 13 checkpoints, **`c3d201a0`**. Earlier v1/v2/v3 files are rejected.
+- Integer music PCM: 32,000 mono samples at 16 kHz, **`7787ba01`**, unchanged from Phase 2. Live graph capture is a separate artifact with browser-dependent output.
+
+## Browser evidence and methodology
+
+[Baseline record](evidence/phase3-before/README.md): Chromium full match and six sustained input routes passed; Firefox failed its audio-resume check. [After record](evidence/phase3-after/README.md): exact implementation SHA, final executed checks, screenshots, live audio reports and artifacts. The PR links its final-head CI separately from the capture commit.
+
+The full smoke suite checks actual outdoor match completion, independent indoor P2, all difficulty selections, keyboard overlays, replay worker verification/playback, persistence/offline, live audio state, high DPI and reduced motion. The matchday suite adds sustained inputs at both grounds/all difficulties, simultaneous P1/P2, remapping, six practice completions, virtual standard-gamepad input/disconnection, and production live-synth recording through MediaRecorder. No production state-mutation hooks or prescribed match scores are used.
+
+Performance probes time the actual simulation step, snapshot and Canvas command submission separately over 300 samples after warm-up, at the documented viewport/DPR/weather/camera cases. They exclude app HUD/audio/replay-history overhead and do not measure GPU completion. Coarse heap snapshots do not establish allocation pressure. See [methodology and raw reports](PHASE-3.md).
+
+**NOT RUN:** human playtesting/listening, physical controllers, Safari/WebKit, real device background-tab behavior, and laptop/GPU profiling. Browser blur/disconnection events and virtual pads are test boundaries, not physical hardware certification. Use [MANUAL-QA.md](MANUAL-QA.md) before owner acceptance.
+
+PR verification has read-only repository permissions and cannot deploy. Only verified main after owner merge can publish Pages.
+
+---
+
+## Historical Phase 2 record
+
 # Verification record — Phase 2
 
 Date: 15 November 2026. Automated Chromium execution and screenshot inspection are distinguished from unperformed human playtesting/listening.

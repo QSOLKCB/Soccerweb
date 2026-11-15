@@ -27,7 +27,7 @@ test('all five themes have stable distinct traces with rhythm, bass, lead and ha
 });
 test('SFX recipes are deterministic, strength-sensitive, bounded and do not consume game RNG',()=>{
   const game={rng:42},before=JSON.stringify(game);
-  for(const type of ['kick','slide','slip','post','save','bounce','wall','whistle','goal','crowd','rain','menu']){
+  for(const type of ['receive','intercept','tackle','kick','slide','slip','post','save','bounce','wall','whistle','goal','crowd','rain','menu']){
     const e={type,kind:'shot',speed:12,power:45,player:9,caught:true},r=effectRecipe(e,1988);
     assert.ok(r.length);assert.deepEqual(r,effectRecipe(e,1988));assert.ok(r.every(n=>n.duration>0&&n.duration<3&&n.gain<=.3&&n.at>=0));
   }

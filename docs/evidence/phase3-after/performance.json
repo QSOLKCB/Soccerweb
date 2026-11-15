@@ -1,0 +1,178 @@
+[
+  {
+    "options": {
+      "camera": "wide",
+      "weather": "clear"
+    },
+    "viewport": [
+      1365,
+      1000
+    ],
+    "dpr": 1,
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+    "logicalCPUs": 4,
+    "stages": {
+      "update": {
+        "samples": 300,
+        "meanMs": 0.20399999999809856,
+        "p95Ms": 0.40000000002328306,
+        "maxMs": 7.7000000000116415
+      },
+      "snapshot": {
+        "samples": 300,
+        "meanMs": 0.1306666666684517,
+        "p95Ms": 0.20000000001164153,
+        "maxMs": 2.2000000000116415
+      },
+      "render": {
+        "samples": 300,
+        "meanMs": 0.6780000000014358,
+        "p95Ms": 0.9000000000232831,
+        "maxMs": 3
+      },
+      "raf": {
+        "samples": 300,
+        "meanMs": 25.49866666666665,
+        "p95Ms": 33.40000000000009,
+        "maxMs": 50.100000000000364
+      }
+    },
+    "longRAF": 31,
+    "heap": {
+      "usedBytes": 10000000,
+      "totalBytes": 10000000
+    }
+  },
+  {
+    "options": {
+      "camera": "close",
+      "weather": "rain"
+    },
+    "viewport": [
+      1365,
+      1000
+    ],
+    "dpr": 1,
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+    "logicalCPUs": 4,
+    "stages": {
+      "update": {
+        "samples": 300,
+        "meanMs": 0.1903333333338378,
+        "p95Ms": 0.40000000002328306,
+        "maxMs": 3.2999999999883585
+      },
+      "snapshot": {
+        "samples": 300,
+        "meanMs": 0.1163333333322468,
+        "p95Ms": 0.20000000001164153,
+        "maxMs": 0.40000000002328306
+      },
+      "render": {
+        "samples": 300,
+        "meanMs": 0.7076666666662398,
+        "p95Ms": 0.9000000000232831,
+        "maxMs": 2.8999999999650754
+      },
+      "raf": {
+        "samples": 300,
+        "meanMs": 25.33266666666665,
+        "p95Ms": 33.400000000000546,
+        "maxMs": 50
+      }
+    },
+    "longRAF": 36,
+    "heap": {
+      "usedBytes": 10000000,
+      "totalBytes": 10000000
+    }
+  },
+  {
+    "options": {
+      "camera": "wide",
+      "indoor": true
+    },
+    "viewport": [
+      1365,
+      1000
+    ],
+    "dpr": 1,
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+    "logicalCPUs": 4,
+    "stages": {
+      "update": {
+        "samples": 300,
+        "meanMs": 0.10766666666837409,
+        "p95Ms": 0.20000000001164153,
+        "maxMs": 1.6000000000349246
+      },
+      "snapshot": {
+        "samples": 300,
+        "meanMs": 0.11033333333325572,
+        "p95Ms": 0.20000000001164153,
+        "maxMs": 1.5
+      },
+      "render": {
+        "samples": 300,
+        "meanMs": 0.5139999999996507,
+        "p95Ms": 0.6000000000349246,
+        "maxMs": 0.8999999999650754
+      },
+      "raf": {
+        "samples": 300,
+        "meanMs": 25.887999999999987,
+        "p95Ms": 33.400000000000546,
+        "maxMs": 66.59999999999991
+      }
+    },
+    "longRAF": 36,
+    "heap": {
+      "usedBytes": 10000000,
+      "totalBytes": 10000000
+    }
+  },
+  {
+    "options": {
+      "camera": "close",
+      "indoor": true
+    },
+    "viewport": [
+      900,
+      900
+    ],
+    "dpr": 2,
+    "userAgent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/141.0.7390.37 Safari/537.36",
+    "logicalCPUs": 4,
+    "stages": {
+      "update": {
+        "samples": 300,
+        "meanMs": 0.09566666666515326,
+        "p95Ms": 0.20000000001164153,
+        "maxMs": 1.5
+      },
+      "snapshot": {
+        "samples": 300,
+        "meanMs": 0.10166666666608459,
+        "p95Ms": 0.20000000001164153,
+        "maxMs": 2.199999999953434
+      },
+      "render": {
+        "samples": 300,
+        "meanMs": 0.4460000000028716,
+        "p95Ms": 0.6000000000349246,
+        "maxMs": 2.6000000000349246
+      },
+      "raf": {
+        "samples": 300,
+        "meanMs": 29.832333333333313,
+        "p95Ms": 50,
+        "maxMs": 83.29999999999973
+      }
+    },
+    "longRAF": 64,
+    "heap": {
+      "usedBytes": 10000000,
+      "totalBytes": 10000000
+    }
+  }
+]
