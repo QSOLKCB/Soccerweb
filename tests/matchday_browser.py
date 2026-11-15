@@ -38,9 +38,13 @@ try:
           for k in keys-held:page.keyboard.down(k)
           held=keys;page.wait_for_timeout(160);events.extend(snapshot(page)['state']['events'])
         for k in held:page.keyboard.up(k)
-        end=snapshot(page);assert end['state']['tick']>start['state']['tick']+300
+        end=snapshot(page)
+        # Goal replays intentionally suspend simulation; wall time is not active ticks.
+        assert end['state']['tick']>start['state']['tick']+90
+        assert sum(end['state']['stats']['passes'])+sum(end['state']['stats']['shots'])>0
         routes.append({'ground':ground,'difficulty':difficulty,'ticks':end['state']['tick'],'stats':end['state']['stats'],'score':end['state']['score'],'observedEvents':events,'hash':end['hash']})
         page.screenshot(path=str(OUT/f'{ground}-{difficulty}.png'),full_page=True)
+        (OUT/'routes.json').write_text(json.dumps(routes,indent=2))
     (OUT/'routes.json').write_text(json.dumps(routes,indent=2))
     # Separate P1/P2 key holds and focus loss on actual host.
     page.keyboard.press('Escape');page.click('#pause-quit');page.click('[data-mode="local"]');page.click('#kickoff')
