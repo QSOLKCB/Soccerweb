@@ -1,3 +1,4 @@
+import {goalGeometry} from '../modes/goalposts.mjs';
 // Static world layer is drawn once per ground/weather/palette change, not once per frame.
 export function drawStadium(c,s,palette='classic') {
   const w=s.w/256,h=s.h/256,indoor=s.config.indoor,wet=s.config.weather==='rain'&&!indoor;
@@ -35,6 +36,7 @@ export function drawStadium(c,s,palette='classic') {
     c.strokeRect((w-bw)/2,top?0:h-d,bw,d);c.strokeRect(w/2-99,top?0:h-56,198,56);
     c.beginPath();c.arc(w/2,top?114:h-114,64,top?.3:Math.PI+.3,top?Math.PI-.3:2*Math.PI-.3);c.stroke();
     c.fillRect(w/2-2,top?113:h-115,4,4);
+    if(s.goalposts)continue; // Moving mode draws both frames outside the cached layer.
     const gy=top?-31:h,gw=s.goal/256;
     c.fillStyle='#061a2a75';c.fillRect(w/2-gw/2+6,gy+4,gw,30);
     c.fillStyle='#cce9e91b';c.fillRect(w/2-gw/2,gy,gw,31);
@@ -65,7 +67,7 @@ export function drawStadiumMotion(c,s,reduced,effects) {
   if(s.phase==='goal'&&!reduced){
     const t=150-s.timer,atTop=s.ball.y<s.h/2,gy=atTop?-25:h+5;
     c.strokeStyle='#eefcff99';c.lineWidth=1;
-    for(let i=0;i<8;i++){const x=w/2-70+i*20;const sway=Math.sin(t*.6+i)*Math.max(0,1-t/100)*6;c.beginPath();c.moveTo(x,gy);c.quadraticCurveTo(x+sway,gy+15,x,gy+28);c.stroke();}
+    for(let i=0;i<(s.goalposts?0:8);i++){const x=w/2-70+i*20;const sway=Math.sin(t*.6+i)*Math.max(0,1-t/100)*6;c.beginPath();c.moveTo(x,gy);c.quadraticCurveTo(x+sway,gy+15,x,gy+28);c.stroke();}
     for(let i=0;i<65;i++){const x=(i*83+t*(i%3-1))%(w+60)-30,y=(i*79+t*3)%(h+60)-30;c.fillStyle=['#f0ca58','#f6f2d9','#91ddcb','#ef839a'][i%4];c.fillRect(x,y,3,5);}
     for(let i=0;i<35;i++){const x=(i*23)%w,hop=Math.sin(t*.4+i)*3;c.fillStyle='#f0c58c';c.fillRect(x,atTop?-70+hop:h+64+hop,3,6);}
   }
@@ -73,4 +75,20 @@ export function drawStadiumMotion(c,s,reduced,effects) {
     c.strokeStyle='#c1e0de35';c.lineWidth=1;
     for(let i=0;i<18;i++){const x=(i*131+27)%w,y=(i*239+71)%h;c.beginPath();c.ellipse(x,y,reduced?4:((s.tick+i*3)%28)/4,2,0,0,Math.PI*2);c.stroke();}
   }
+}
+
+// Actual frame geometry remains visible even with minimal effects / reduced motion.
+export function drawGoalposts(c,s){
+ if(!s.goalposts)return;
+ for(const end of [0,s.h]){
+  const g=goalGeometry(s,end),l=g.left/256,r=g.right/256,y=end/256,h=g.height/256,depth=end===0?-22:22;
+  c.fillStyle='#b9eee426';c.strokeStyle='#a7e5dc88';c.lineWidth=1;
+  c.beginPath();c.moveTo(l,y);c.lineTo(l,y-h);c.lineTo(r,y-h);c.lineTo(r,y);c.closePath();c.fill();
+  for(let x=l;x<=r;x+=10){c.beginPath();c.moveTo(x,y);c.lineTo(x,y-h);c.lineTo(x,y-h+depth);c.stroke();}
+  for(let z=0;z<=h;z+=8){c.beginPath();c.moveTo(l,y-z);c.lineTo(r,y-z);c.stroke();}
+  c.strokeStyle=end===0?'#ffe074':'#f4f1df';c.lineWidth=4;
+  c.beginPath();c.moveTo(l,y);c.lineTo(l,y-h);c.lineTo(r,y-h);c.lineTo(r,y);c.stroke();
+  c.lineWidth=2;c.strokeStyle='#f4ce6577';c.beginPath();c.moveTo(l,y);c.lineTo(r,y);c.stroke();
+  if(end===0){c.fillStyle='#ffe074';c.font='bold 11px monospace';c.textAlign='center';c.fillText(s.goalposts.stage===2?'GOAL = 1 · CURVED SHOT = 2':'CURRENT STANDARD',g.center/256,y-h-12);}
+ }
 }

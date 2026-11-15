@@ -14,8 +14,8 @@ test('integer reference PCM has repeatable non-silent bounded output',()=>{
 
 import { effectRecipe, AudioEngine } from '../audio/synth.mjs';
 import { THEMES } from '../audio/score.mjs';
-test('all five themes have stable distinct traces with rhythm, bass, lead and harmony',()=>{
-  const hashes=new Set(),expected={menu:'8a3060ba',outdoor:'ea10d607',indoor:'0016a47e',goal:'fab6f8a6',victory:'3ee0c6e0'};
+test('all six themes have stable distinct traces with rhythm, bass, lead and harmony',()=>{
+  const hashes=new Set(),expected={goalposts:'cd8a4a4e',menu:'8a3060ba',outdoor:'ea10d607',indoor:'0016a47e',goal:'fab6f8a6',victory:'3ee0c6e0'};
   for(const mode of Object.keys(THEMES)){
     const events=musicEvents(1988,32,mode);assert.deepEqual(events,musicEvents(1988,32,mode));hashes.add(hash(events));assert.equal(hash(events),expected[mode]);
     for(const voice of ['lead','bass','harmony','kick','hat'])assert.ok(events.some(e=>e.voice===voice));
@@ -23,11 +23,11 @@ test('all five themes have stable distinct traces with rhythm, bass, lead and ha
     const bar=THEMES[mode].bar;const intro=events.filter(e=>e.tick<bar*2),lift=events.filter(e=>e.tick>=bar*16&&e.tick<bar*18);
     assert.ok(lift.length>intro.length);
   }
-  assert.equal(hashes.size,5);
+  assert.equal(hashes.size,6);
 });
 test('SFX recipes are deterministic, strength-sensitive, bounded and do not consume game RNG',()=>{
   const game={rng:42},before=JSON.stringify(game);
-  for(const type of ['receive','intercept','tackle','kick','slide','slip','post','save','bounce','wall','whistle','goal','crowd','rain','menu']){
+  for(const type of ['shift','revision','nearmiss','challengewin','receive','intercept','tackle','kick','slide','slip','post','save','bounce','wall','whistle','goal','crowd','rain','menu']){
     const e={type,kind:'shot',speed:12,power:45,player:9,caught:true},r=effectRecipe(e,1988);
     assert.ok(r.length);assert.deepEqual(r,effectRecipe(e,1988));assert.ok(r.every(n=>n.duration>0&&n.duration<3&&n.gain<=.3&&n.at>=0));
   }

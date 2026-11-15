@@ -1,0 +1,614 @@
+[
+  {
+    "indoor": false,
+    "difficulty": 1,
+    "seed": 42,
+    "score": [
+      0,
+      4
+    ],
+    "stats": {
+      "shots": [
+        5,
+        5
+      ],
+      "saves": [
+        1,
+        0
+      ],
+      "passes": [
+        1,
+        9
+      ],
+      "tackles": [
+        0,
+        2
+      ],
+      "completedPasses": [
+        1,
+        7
+      ],
+      "possession": [
+        558,
+        1083
+      ]
+    },
+    "checkpoints": [
+      "a64bb6cd",
+      "dab0d81d",
+      "127ed5d4",
+      "77f97034",
+      "90b86698",
+      "82ac1259",
+      "d81e42b3",
+      "a70320d6",
+      "f4778fc5",
+      "d31982b5",
+      "7b7022be",
+      "2f2d5ec0",
+      "3676398b"
+    ],
+    "normalizedHash": "75f83730"
+  },
+  {
+    "indoor": false,
+    "difficulty": 1,
+    "seed": 731,
+    "score": [
+      0,
+      3
+    ],
+    "stats": {
+      "shots": [
+        5,
+        7
+      ],
+      "saves": [
+        4,
+        0
+      ],
+      "passes": [
+        0,
+        10
+      ],
+      "tackles": [
+        1,
+        2
+      ],
+      "completedPasses": [
+        0,
+        7
+      ],
+      "possession": [
+        389,
+        1140
+      ]
+    },
+    "checkpoints": [
+      "852a93a5",
+      "59d2c172",
+      "7d0c8ebf",
+      "15597973",
+      "3326eee3",
+      "75b72951",
+      "2bd79711",
+      "6c3753bf",
+      "c058c941",
+      "c7e626b9",
+      "86efb63d",
+      "e482d537",
+      "ec7c90f3"
+    ],
+    "normalizedHash": "1f171c27"
+  },
+  {
+    "indoor": false,
+    "difficulty": 2,
+    "seed": 42,
+    "score": [
+      0,
+      4
+    ],
+    "stats": {
+      "shots": [
+        3,
+        3
+      ],
+      "saves": [
+        0,
+        0
+      ],
+      "passes": [
+        1,
+        12
+      ],
+      "tackles": [
+        5,
+        2
+      ],
+      "completedPasses": [
+        1,
+        11
+      ],
+      "possession": [
+        341,
+        1147
+      ]
+    },
+    "checkpoints": [
+      "ac878247",
+      "3e3feb7d",
+      "b7279a43",
+      "e66587bf",
+      "52d4f56b",
+      "c6081133",
+      "a78103ac",
+      "a82584b9",
+      "43c68b83",
+      "e0db69ee",
+      "d4d5be27",
+      "d9a5cd7b",
+      "f715addc"
+    ],
+    "normalizedHash": "dd95928c"
+  },
+  {
+    "indoor": false,
+    "difficulty": 2,
+    "seed": 731,
+    "score": [
+      0,
+      4
+    ],
+    "stats": {
+      "shots": [
+        5,
+        5
+      ],
+      "saves": [
+        2,
+        0
+      ],
+      "passes": [
+        0,
+        7
+      ],
+      "tackles": [
+        0,
+        4
+      ],
+      "completedPasses": [
+        0,
+        6
+      ],
+      "possession": [
+        596,
+        885
+      ]
+    },
+    "checkpoints": [
+      "e71f2002",
+      "12d163d5",
+      "8bee8189",
+      "ef92aa05",
+      "96e3708d",
+      "a13dbc02",
+      "d23bd9bd",
+      "01ece72c",
+      "11f49da8",
+      "c7d55af4",
+      "c5a9ad5d",
+      "32ccf377",
+      "e0af569c"
+    ],
+    "normalizedHash": "628c7825"
+  },
+  {
+    "indoor": false,
+    "difficulty": 3,
+    "seed": 42,
+    "score": [
+      0,
+      3
+    ],
+    "stats": {
+      "shots": [
+        4,
+        3
+      ],
+      "saves": [
+        1,
+        0
+      ],
+      "passes": [
+        1,
+        15
+      ],
+      "tackles": [
+        3,
+        2
+      ],
+      "completedPasses": [
+        1,
+        15
+      ],
+      "possession": [
+        584,
+        959
+      ]
+    },
+    "checkpoints": [
+      "32131524",
+      "36a2cdfb",
+      "e06f2a8f",
+      "c7cae982",
+      "61002911",
+      "6f9e5587",
+      "1cf2fd58",
+      "512a57f0",
+      "7b82e323",
+      "c8882d5f",
+      "1ca809fb",
+      "b69a9f89",
+      "9bedaf58"
+    ],
+    "normalizedHash": "98114ffd"
+  },
+  {
+    "indoor": false,
+    "difficulty": 3,
+    "seed": 731,
+    "score": [
+      0,
+      2
+    ],
+    "stats": {
+      "shots": [
+        3,
+        4
+      ],
+      "saves": [
+        3,
+        0
+      ],
+      "passes": [
+        1,
+        15
+      ],
+      "tackles": [
+        3,
+        2
+      ],
+      "completedPasses": [
+        0,
+        13
+      ],
+      "possession": [
+        455,
+        1055
+      ]
+    },
+    "checkpoints": [
+      "bf56ed45",
+      "636bdadd",
+      "1591f8f0",
+      "72f8f030",
+      "9c0dc28b",
+      "71ae65d3",
+      "08eb8dc5",
+      "7d17126f",
+      "3c0a1c88",
+      "fea4e74b",
+      "1c2a1b40",
+      "1fc90ebd",
+      "2549d77d"
+    ],
+    "normalizedHash": "af8c02dd"
+  },
+  {
+    "indoor": true,
+    "difficulty": 1,
+    "seed": 42,
+    "score": [
+      0,
+      3
+    ],
+    "stats": {
+      "shots": [
+        3,
+        14
+      ],
+      "saves": [
+        12,
+        1
+      ],
+      "passes": [
+        1,
+        2
+      ],
+      "tackles": [
+        1,
+        2
+      ],
+      "completedPasses": [
+        1,
+        2
+      ],
+      "possession": [
+        668,
+        971
+      ]
+    },
+    "checkpoints": [
+      "336cec79",
+      "a6ca21b7",
+      "1916f1cb",
+      "4e041ed6",
+      "848d5f78",
+      "838709b6",
+      "26f88703",
+      "203b2d78",
+      "e356769b",
+      "68dc6e11",
+      "4b19b30a",
+      "268cac4b",
+      "11cd9a82"
+    ],
+    "normalizedHash": "65f52726"
+  },
+  {
+    "indoor": true,
+    "difficulty": 1,
+    "seed": 731,
+    "score": [
+      0,
+      2
+    ],
+    "stats": {
+      "shots": [
+        5,
+        9
+      ],
+      "saves": [
+        8,
+        1
+      ],
+      "passes": [
+        1,
+        4
+      ],
+      "tackles": [
+        1,
+        3
+      ],
+      "completedPasses": [
+        1,
+        4
+      ],
+      "possession": [
+        647,
+        961
+      ]
+    },
+    "checkpoints": [
+      "63bea86b",
+      "46a59000",
+      "bb637f23",
+      "6e11b313",
+      "f044fc0e",
+      "6242f948",
+      "0e33efde",
+      "480f879e",
+      "837e4566",
+      "c33a7c5e",
+      "a2a87f9f",
+      "70aabbd8",
+      "0e9d119a"
+    ],
+    "normalizedHash": "b85d13a4"
+  },
+  {
+    "indoor": true,
+    "difficulty": 2,
+    "seed": 42,
+    "score": [
+      0,
+      2
+    ],
+    "stats": {
+      "shots": [
+        2,
+        14
+      ],
+      "saves": [
+        11,
+        1
+      ],
+      "passes": [
+        2,
+        7
+      ],
+      "tackles": [
+        0,
+        7
+      ],
+      "completedPasses": [
+        1,
+        6
+      ],
+      "possession": [
+        496,
+        1088
+      ]
+    },
+    "checkpoints": [
+      "ce573c81",
+      "edaa4443",
+      "938315e9",
+      "a301a732",
+      "136398d8",
+      "b4505a85",
+      "5d4cb4a7",
+      "610e8833",
+      "4b2b9277",
+      "793a1071",
+      "803840df",
+      "ced38b78",
+      "646103a2"
+    ],
+    "normalizedHash": "f64cdd92"
+  },
+  {
+    "indoor": true,
+    "difficulty": 2,
+    "seed": 731,
+    "score": [
+      0,
+      3
+    ],
+    "stats": {
+      "shots": [
+        3,
+        11
+      ],
+      "saves": [
+        7,
+        2
+      ],
+      "passes": [
+        1,
+        8
+      ],
+      "tackles": [
+        3,
+        10
+      ],
+      "completedPasses": [
+        1,
+        7
+      ],
+      "possession": [
+        634,
+        943
+      ]
+    },
+    "checkpoints": [
+      "a0508d61",
+      "374de38b",
+      "9531dc36",
+      "187f4114",
+      "16928508",
+      "09673476",
+      "76d36061",
+      "cd6763eb",
+      "532f89d6",
+      "6a9d906f",
+      "42cdf53a",
+      "73e0b5de",
+      "7756298f"
+    ],
+    "normalizedHash": "b8140014"
+  },
+  {
+    "indoor": true,
+    "difficulty": 3,
+    "seed": 42,
+    "score": [
+      0,
+      5
+    ],
+    "stats": {
+      "shots": [
+        5,
+        7
+      ],
+      "saves": [
+        3,
+        1
+      ],
+      "passes": [
+        6,
+        3
+      ],
+      "tackles": [
+        7,
+        10
+      ],
+      "completedPasses": [
+        3,
+        2
+      ],
+      "possession": [
+        1046,
+        603
+      ]
+    },
+    "checkpoints": [
+      "97896c5b",
+      "aa5616ff",
+      "e82d2668",
+      "b89887ba",
+      "f9e1d610",
+      "0eb8ff10",
+      "2b774721",
+      "eb6a67d2",
+      "4b06a6bc",
+      "83efb5cf",
+      "87884a16",
+      "d6ae8dca",
+      "eadfd241"
+    ],
+    "normalizedHash": "8962effe"
+  },
+  {
+    "indoor": true,
+    "difficulty": 3,
+    "seed": 731,
+    "score": [
+      0,
+      2
+    ],
+    "stats": {
+      "shots": [
+        6,
+        10
+      ],
+      "saves": [
+        8,
+        2
+      ],
+      "passes": [
+        5,
+        6
+      ],
+      "tackles": [
+        8,
+        6
+      ],
+      "completedPasses": [
+        2,
+        6
+      ],
+      "possession": [
+        700,
+        1011
+      ]
+    },
+    "checkpoints": [
+      "f82773bd",
+      "470e7e33",
+      "67f41c41",
+      "fa6221de",
+      "c11c1133",
+      "493a850d",
+      "12338aef",
+      "ef4dd2ba",
+      "793c466b",
+      "d9264f6c",
+      "0f0f244e",
+      "b1b1c3f2",
+      "c008706f"
+    ],
+    "normalizedHash": "b1bd2051"
+  }
+]

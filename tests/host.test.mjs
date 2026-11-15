@@ -48,7 +48,7 @@ async function host() {
   source = source.replace(/^import .*;\n/gm, '').replaceAll('import.meta.url', JSON.stringify(appURL.href))
     .replace('export function diagnostics', 'function diagnostics');
   vm.runInContext(source + `\nglobalThis.testHost = {
-    startMatch, startPractice, diagnostics, home, setMode, showResult, togglePause, controls,
+    startMatch, startPractice, startGoalposts, diagnostics, home, setMode, showResult, togglePause, controls,
     finish() { state.phase='fulltime'; state.score=[2,1]; return showResult(); },
     read() { return structuredClone({competition, activeCompetition, playing, finished, paused}); }
   };`, context, {filename:'app.mjs'});
@@ -117,4 +117,11 @@ test('practice invalidates an old cup result and never records or persists a fix
  assert.equal(h.elements.get('pause-save').hidden,true);assert.equal(h.app.read().activeCompetition,null);
  h.pending[0].resolve(nextRound(h.pending[0]));await completion;assert.deepEqual([...h.storage],saved);
  h.app.home();h.app.setMode('quick');h.app.startMatch();assert.equal(h.app.diagnostics().practice,null);assert.equal(h.elements.get('pause-save').hidden,false);
+});
+
+test('GOALPOSTS invalidates pending cup results and leaves preferences, cup and practice isolated',async()=>{
+ const h=await host();h.app.setMode('cup');h.app.startMatch();const completion=h.app.finish(),saved=structuredClone([...h.storage]);
+ h.app.startGoalposts({difficulty:1});assert.equal(h.app.diagnostics().state.config.mode,'goalposts');assert.equal(h.app.read().activeCompetition,null);assert.equal(h.app.diagnostics().practice,null);
+ h.pending[0].resolve(nextRound(h.pending[0]));await completion;assert.deepEqual([...h.storage],saved);
+ h.app.home();h.app.startPractice(2);assert.equal(h.app.diagnostics().state.goalposts,undefined);assert.deepEqual([...h.storage],saved);
 });

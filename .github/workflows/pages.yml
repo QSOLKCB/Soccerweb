@@ -64,10 +64,36 @@ jobs:
       - uses: actions/upload-pages-artifact@v3
         with:
           path: work/site
+  goalposts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install browser tooling and virtual audio output
+        run: |
+          python -m pip install playwright==1.56.0
+          python -m playwright install --with-deps chromium firefox
+          sudo apt-get install -y pulseaudio
+          pulseaudio --start --exit-idle-time=-1
+          pactl load-module module-null-sink sink_name=goalposts_ci
+          pactl set-default-sink goalposts_ci
+      - name: Play all stages, replay, failure, retry and offline (Chromium)
+        run: python tests/goalposts_browser.py
+      - name: Play all stages, replay, failure, retry and offline (Firefox)
+        run: BROWSER=firefox python tests/goalposts_browser.py
+      - name: Save GOALPOSTS evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: goalposts-evidence
+          path: work/goalposts-browser/
   deploy:
     # PRs and manual feature-branch runs can never deploy to production.
     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    needs: verify
+    needs: [verify, goalposts]
     runs-on: ubuntu-24.04
     permissions:
       pages: write

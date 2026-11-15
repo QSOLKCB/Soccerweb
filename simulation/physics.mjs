@@ -1,3 +1,4 @@
+import {goalGeometry,goalpostsGoal} from '../modes/goalposts.mjs';
 import { Q, clamp, mul, distance, vector, length } from './math.mjs';
 import { attack, goalY } from '../game/state.mjs';
 import { passTarget } from '../ai/team.mjs';
@@ -16,7 +17,8 @@ export function kick(s, p, kind = 'shot', power = 30, aim = null, curve = 0) {
   const speed = kind === 'pass' ? (Math.trunc(5.5 * Q) + Math.min(4 * Q, Math.trunc((target ? distance(p, target) : 0) / 85))) : (7 * Q + Math.trunc(clamp(power, 0, 60) * Q / 7));
   [b.vx, b.vy] = vector(dx, dy, speed + (aerial ? Q : 0));
   b.vz = kind === 'chip' ? 5 * Q + Math.trunc(power * Q / 30) : kind === 'pass' ? (power > 42 ? 4 * Q : Q / 4) : Q + Math.trunc(power * Q / 65);
-  if (kind === 'overhead') { [b.vx, b.vy] = vector(s.w / 2 - b.x, goalY(s, p.team) - b.y, 13 * Q); b.vz = 3 * Q; }
+  if (kind === 'overhead') { [b.vx, b.vy] = vector(goalGeometry(s,goalY(s,p.team)).center - b.x, goalY(s, p.team) - b.y, 13 * Q); b.vz = 3 * Q; }
+  if(s.goalposts)s.goalposts.curved=p.team===0&&kind!=='pass'&&curve!==0;
   b.kind = kind; b.receiver = kind === 'pass' && target && Number.isInteger(target.id) ? target.id : -1;
   b.spin = clamp(curve * 6, -18, 18); b.owner = -1; b.last = p.team; b.kicker = p.id; b.immunity = 14; b.flight = 65;
   p.cooldown = 18; p.charge = 0;
@@ -49,14 +51,16 @@ export function ballPhysics(s) {
     const end = b.y < 0 ? 0 : s.h, den = b.y - old.y;
     const crossX = old.x + Math.trunc((b.x - old.x) * (end - old.y) / den);
     const crossZ = old.z + Math.trunc((b.z - old.z) * (end - old.y) / den);
+    const geometry=goalGeometry(s,end,end-old.y,den),center=geometry.center,width=geometry.width;
     // Resolve frame contact before scoring: the inner post/crossbar regions overlap the goal opening.
-    if (Math.abs(Math.abs(crossX - s.w / 2) - s.goal / 2) < 8 * Q && crossZ < 40 * Q || Math.abs(crossX - s.w / 2) < s.goal / 2 && Math.abs(crossZ - 36 * Q) < 5 * Q) {
+    if (Math.abs(Math.abs(crossX - center) - width / 2) < 8 * Q && crossZ < 40 * Q || Math.abs(crossX - center) < width / 2 && Math.abs(crossZ - 36 * Q) < 5 * Q) {
       b.y = clamp(b.y, 2 * Q, s.h - 2 * Q); b.vy = -mul(b.vy, 205); b.owner = -1;
       s.events.push({ type: 'post', speed:Math.trunc(length(b.vx,b.vy)/Q) }); return;
     }
-    if (Math.abs(crossX - s.w / 2) < s.goal / 2 - 4 * Q && crossZ < 36 * Q) {
+    if (Math.abs(crossX - center) < width / 2 - 4 * Q && crossZ < 36 * Q) {
       const scoring = goalY(s, 0) === end ? 0 : 1;
       s.score[scoring]++; s.phase = 'goal'; s.timer = 150; s.restartTeam = 1 - scoring;
+      if(s.goalposts)goalpostsGoal(s,scoring);
       s.events.push({ type: 'goal', team: scoring }); return;
     }
   }
@@ -64,11 +68,12 @@ export function ballPhysics(s) {
     if (b.x < 4 * Q || b.x > s.w - 4 * Q) { b.x = clamp(b.x, 4 * Q, s.w - 4 * Q); b.vx = -mul(b.vx, 224); b.owner = -1; s.events.push({ type: 'wall', speed:Math.trunc(length(b.vx,b.vy)/Q) }); }
     if (b.y < 0 || b.y > s.h) { b.y = clamp(b.y, 2 * Q, s.h - 2 * Q); b.vy = -mul(b.vy, 224); b.owner = -1; s.events.push({ type: 'wall', speed:Math.trunc(length(b.vx,b.vy)/Q) }); }
   } else if (b.x < 0 || b.x > s.w || b.y < 0 || b.y > s.h) {
+    if(s.goalposts&& (b.y<0||b.y>s.h))s.events.push({type:'nearmiss'});
     let team = 1 - b.last, type = 'THROW IN';
     if (b.y < 0 || b.y > s.h) {
       const end = b.y < 0 ? 0 : s.h, defending = goalY(s, 0) === end ? 1 : 0;
       if (b.last === defending) { type = 'CORNER'; b.x = b.x < s.w / 2 ? 6 * Q : s.w - 6 * Q; b.y = end === 0 ? 6 * Q : s.h - 6 * Q; }
-      else { type = 'GOAL KICK'; team = defending; b.x = s.w / 2; b.y = end === 0 ? 60 * Q : s.h - 60 * Q; }
+      else { type = 'GOAL KICK'; team = defending; b.x = goalGeometry(s,end).center; b.y = end === 0 ? 60 * Q : s.h - 60 * Q; }
     } else { b.x = clamp(b.x, 6 * Q, s.w - 6 * Q); b.y = clamp(b.y, 15 * Q, s.h - 15 * Q); }
     b.vx = b.vy = b.vz = b.z = b.spin = 0; b.owner = -1;
     s.phase = 'restart'; s.timer = 65; s.restartTeam = team; s.restartType = type;
@@ -95,18 +100,18 @@ export function ballPhysics(s) {
         b.vy = attack(s, p.team) * Math.abs(mul(b.vy, 155)); b.vx += Math.trunc((b.x - p.x) / 6); b.vz = 2 * Q;
         b.last = p.team; b.kicker = p.id; b.immunity = 14; b.owner = -1; b.kind='rebound'; break;
       }
-      b.vx = b.vy = b.vz = 0; b.z = 0; b.owner = p.id; b.last = p.team; b.kind='caught'; p.control=0; break;
+      b.vx = b.vy = b.vz = 0; b.z = 0; b.owner = p.id; b.last = p.team; b.kind='caught'; p.control=0; if(s.goalposts)s.goalposts.curved=false; break;
     } else if (p.slide && b.owner !== p.id) {
       b.owner = -1; b.vx = p.vx + mul(p.fx, 4 * Q); b.vy = p.vy + mul(p.fy, 4 * Q);
-      b.last = p.team; b.kicker = p.id; b.immunity = 10; s.stats.tackles[p.team]++; b.kind='loose'; s.events.push({type:'tackle',team:p.team,player:p.id});break;
+      b.last = p.team; b.kicker = p.id; b.immunity = 10; s.stats.tackles[p.team]++; if(s.goalposts)s.goalposts.curved=false; b.kind='loose'; s.events.push({type:'tackle',team:p.team,player:p.id});break;
     } else if (b.owner < 0 && (speed < 9 * Q || keeper)) {
       const passed=b.kind==='pass' && b.last===p.team && b.kicker!==p.id;
       if(passed)s.stats.completedPasses[p.team]++;
-      b.owner = p.id; b.last = p.team; b.kind=keeper?'caught':'held'; p.control=0;
+      b.owner = p.id; b.last = p.team; b.kind=keeper?'caught':'held'; p.control=0; if(s.goalposts)s.goalposts.curved=false;
       b.vx=Math.trunc((b.vx+p.vx)/3);b.vy=Math.trunc((b.vy+p.vy)/3);
       s.events.push({type:'receive',team:p.team,player:p.id,passed});break;
     }
-    else if (b.owner >= 0 && s.players[b.owner].team !== p.team && d < 9 * Q && d+3*Q<distance(s.players[b.owner],b)) { b.owner = p.id; b.last = p.team; b.kind='held'; p.control=0; s.events.push({type:'intercept',team:p.team,player:p.id});break; }
+    else if (b.owner >= 0 && s.players[b.owner].team !== p.team && d < 9 * Q && d+3*Q<distance(s.players[b.owner],b)) { b.owner = p.id; b.last = p.team; b.kind='held'; p.control=0; if(s.goalposts)s.goalposts.curved=false; s.events.push({type:'intercept',team:p.team,player:p.id});break; }
     else if (b.owner < 0 && d < 10 * Q) {
       const [nx, ny] = vector(b.x - p.x || Q, b.y - p.y, Q);
       const dot = mul(b.vx, nx) + mul(b.vy, ny);

@@ -1,14 +1,17 @@
+import {initGoalposts} from '../modes/goalposts.mjs';
 import { Q, clamp, distance } from '../simulation/math.mjs';
 export const EMPTY = Object.freeze({ x: 0, y: 0, fire: false, pass: false, chip: false, switch: false, curve: 0, cancel: false });
-// v4 changes action gestures, first touch, contested possession and indoor defensive decisions.
-export const VERSION = 4;
+// v5 adds isolated GOALPOSTS configuration/state; ordinary football rules are unchanged.
+export const VERSION = 5;
 export function config(options = {}) {
-  return { seed: (Number(options.seed) >>> 0) || 1988, indoor: !!options.indoor,
+  const c = { seed: (Number(options.seed) >>> 0) || 1988, indoor: !!options.indoor,
     weather: options.weather === 'rain' ? 'rain' : 'clear', seconds: clamp(Math.trunc(Number(options.seconds) || 120), 20, 720),
     difficulty: clamp(Math.trunc(Number(options.difficulty) || 1), 1, 3),
     teams: [clamp(Math.trunc(options.teams?.[0] || 0), 0, 7), clamp(Math.trunc(options.teams?.[1] ?? 1), 0, 7)],
     humans: [options.humans?.[0] !== false, !!options.humans?.[1]], auto: options.auto !== false,
     aftertouch: clamp(Math.trunc(Number(options.aftertouch) || 0), 0, 3), knockout: !!options.knockout };
+  if(options.mode==='goalposts')Object.assign(c,{mode:'goalposts',indoor:false,humans:[true,false],knockout:false,seconds:720});
+  return c;
 }
 export const attack = (s, team) => (team === 0 ? -1 : 1) * (s.half === 1 ? 1 : -1);
 export const goalY = (s, team) => attack(s, team) < 0 ? 0 : s.h;
@@ -18,7 +21,7 @@ export function createState(options = {}) {
     phase: 'kickoff', timer: 90, restartTeam: 0, restartType: 'KICK OFF', score: [0, 0],
     players: [], selected: [1, 1], previous: [{...EMPTY}, {...EMPTY}], ball: {}, events: [],
     stats: { shots: [0, 0], saves: [0, 0], passes: [0, 0], tackles: [0, 0], completedPasses: [0, 0], possession: [0, 0] }, sudden: false };
-  const count = c.indoor ? 6 : 11;
+  const count = c.mode==='goalposts'?5:c.indoor ? 6 : 11;
   for (let t = 0; t < 2; t++) for (let i = 0; i < count; i++) {
     const row = c.indoor ? (i <= 2 ? .25 : .43) : (i <= 4 ? .23 : i <= 8 ? .37 : .46);
     const col = c.indoor ? (i <= 2 ? (i - 1) / 1 : (i - 3) / 2) : i <= 4 ? (i - 1) / 3 : i <= 8 ? (i - 5) / 3 : (i - 9);
@@ -27,7 +30,7 @@ export function createState(options = {}) {
       x: 0, y: 0, vx: 0, vy: 0, fx: 0, fy: attack(s, t) * Q,
       fireMode: 'idle', pending: null, charge: 0, cooldown: 0, slide: 0, slip: 0, dive: 0, control: 0, think: 0, tx: 0, ty: 0, intent: 'shape' });
   }
-  s.selected = [1, count + 1]; resetPositions(s, 0); return s;
+  s.selected = [1, count + 1]; if(c.mode==='goalposts')initGoalposts(s);else resetPositions(s, 0); return s;
 }
 export function resetPositions(s, team) {
   for (const p of s.players) {

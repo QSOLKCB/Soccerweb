@@ -124,7 +124,7 @@ try:
     # Trusted click starts a separate instance of the production live synth for auditable capture.
     p=context.new_page();p.on('pageerror',lambda e:errors.append(str(e)));p.goto(url+'tests/probe.html')
     fixed=p.evaluate("async()=>(await import('./performance_probe.mjs')).fixedReplayProbe()")
-    assert fixed['hash']==fixed['verifiedHash']=='c3d201a0',fixed
+    assert fixed['hash']==fixed['verifiedHash']=='541d73f5',fixed
     (OUT/'fixed-replay.json').write_text(json.dumps(fixed,indent=2))
     p.evaluate("async()=>{const {captureLive}=await import('./live_audio_probe.mjs');document.body.onclick=()=>{document.body.onclick=null;captureLive().then(r=>window.captureResult=r).catch(e=>window.captureError=String(e))}}")
     p.locator('p').click();p.wait_for_function('window.captureResult||window.captureError',timeout=30000)
